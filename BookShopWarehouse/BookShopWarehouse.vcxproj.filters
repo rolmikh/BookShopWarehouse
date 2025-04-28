@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\Class">
+      <UniqueIdentifier>{fa4bb02d-ef18-4704-80ba-7f85a5dd1681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Database">
+      <UniqueIdentifier>{141453e5-768b-4f29-8d1a-cb7a125949e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Design">
+      <UniqueIdentifier>{10580570-abbf-4068-8ba5-779c96c83dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Class">
+      <UniqueIdentifier>{085e5b7d-8a5d-4b0b-bd47-f74fa58b9860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Database">
+      <UniqueIdentifier>{14764cd1-172a-4891-8baa-855ad1a694fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Design">
+      <UniqueIdentifier>{ea1d55d6-a8b0-4ff8-a3c6-6b3449e2def3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BookShopWarehouse.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Contract.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Counterparty.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Delivery.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="DeliveryNote.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="DeliveryPosition.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Employee.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Post.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Product.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductOrderRequest.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="RequisitionPosition.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeOfCounterparty.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeOfProduct.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Warehouse.cpp">
+      <Filter>Исходные файлы\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseConnection.cpp">
+      <Filter>Исходные файлы\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="PostWindow.cpp">
+      <Filter>Исходные файлы\Design</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DatabaseConnection.h">
+      <Filter>Файлы заголовков\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Contract.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Counterparty.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Delivery.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="DeliveryNote.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="DeliveryPosition.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Employee.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Post.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Product.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductOrderRequest.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="RequisitionPosition.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeOfCounterparty.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeOfProduct.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Warehouse.h">
+      <Filter>Файлы заголовков\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="PostWindow.h">
+      <Filter>Файлы заголовков\Design</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

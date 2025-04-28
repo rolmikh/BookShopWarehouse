@@ -3,11 +3,20 @@
 #include <sql.h>
 #include <sqlext.h>
 
+
+// Конструктор
+DatabaseConnection::DatabaseConnection(HWND hDbStatusLabel) {
+    ConnectToDatabase(hDbStatusLabel);
+}
+
+// Деструктор
+DatabaseConnection::~DatabaseConnection() {
+    DisconnectFromDatabase();
+}
+
 // Функция подключения к базе данных
 void DatabaseConnection::ConnectToDatabase(HWND hDbStatusLabel) {
-    SQLHENV hODbcEnvironment;
-    SQLHDBC hDatabaseConnection;
-    SQLHSTMT hQueryStatement;
+   
     SQLRETURN returnCode;
 
     returnCode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &hODbcEnvironment);
@@ -64,9 +73,18 @@ void DatabaseConnection::ConnectToDatabase(HWND hDbStatusLabel) {
     }
 
     SQLFreeHandle(SQL_HANDLE_STMT, hQueryStatement);
-    SQLFreeHandle(SQL_HANDLE_DBC, hDatabaseConnection);
-    SQLFreeHandle(SQL_HANDLE_ENV, hODbcEnvironment);
 
+}
 
+void DatabaseConnection::DisconnectFromDatabase() {
 
+    if (hQueryStatement) {
+        SQLFreeHandle(SQL_HANDLE_STMT, hQueryStatement);
+    }
+    if (hDatabaseConnection) {
+        SQLFreeHandle(SQL_HANDLE_DBC, hDatabaseConnection);
+    }
+    if (hODbcEnvironment) {
+        SQLFreeHandle(SQL_HANDLE_ENV, hODbcEnvironment);
+    }
 }

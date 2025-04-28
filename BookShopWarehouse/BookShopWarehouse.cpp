@@ -30,7 +30,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
     case WM_LBUTTONDOWN: {
 
-        DatabaseConnection dbCon;
+        DatabaseConnection dbCon(hDbStatusLabel);
         // Вызов функции подключения к БД при щелчке мышью
         dbCon.ConnectToDatabase(hDbStatusLabel);
         break;

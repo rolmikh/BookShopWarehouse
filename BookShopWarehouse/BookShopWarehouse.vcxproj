@@ -128,10 +128,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="BookShopWarehouse.cpp" />
     <ClCompile Include="Contract.cpp" />
     <ClCompile Include="Counterparty.cpp" />
     <ClCompile Include="DatabaseConnection.cpp" />
+    <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="Delivery.cpp" />
     <ClCompile Include="DeliveryNote.cpp" />
     <ClCompile Include="DeliveryPosition.cpp" />
@@ -147,9 +149,11 @@
     <ClCompile Include="Warehouse.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="Contract.h" />
     <ClInclude Include="Counterparty.h" />
     <ClInclude Include="DatabaseConnection.h" />
+    <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="Delivery.h" />
     <ClInclude Include="DeliveryNote.h" />
     <ClInclude Include="DeliveryPosition.h" />

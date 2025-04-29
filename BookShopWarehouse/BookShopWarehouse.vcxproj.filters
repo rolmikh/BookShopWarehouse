@@ -84,6 +84,12 @@
     <ClCompile Include="PostWindow.cpp">
       <Filter>Исходные файлы\Design</Filter>
     </ClCompile>
+    <ClCompile Include="BaseWindow.cpp">
+      <Filter>Исходные файлы\Design</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseManager.cpp">
+      <Filter>Исходные файлы\Database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseConnection.h">
@@ -133,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="PostWindow.h">
       <Filter>Файлы заголовков\Design</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseWindow.h">
+      <Filter>Файлы заголовков\Design</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseManager.h">
+      <Filter>Файлы заголовков\Database</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

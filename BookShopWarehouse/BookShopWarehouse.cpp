@@ -1,6 +1,8 @@
 ﻿#include <windows.h>
 #include <stdio.h>
 #include "DatabaseConnection.h"
+#include "DatabaseManager.h"
+#include "PostWindow.h"
 #include <tchar.h>
 
 
@@ -10,6 +12,10 @@
 // Основная функция обработки окна
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     static HWND hDbStatusLabel;
+    static DatabaseConnection* dbConn = nullptr;
+    static DatabaseManager* dbManager = nullptr;
+    static PostWindow* postWindow = nullptr;
+
 
     switch (uMsg) {
     case WM_CREATE: {
@@ -29,14 +35,28 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     }
 
     case WM_LBUTTONDOWN: {
+        if (!dbConn) {
+            dbConn = new DatabaseConnection(hDbStatusLabel);
+            dbConn->ConnectToDatabase(hDbStatusLabel);
+        }
+        
+        if (!dbManager && dbConn) {
+            dbManager = new DatabaseManager(*dbConn);
+        }
 
-        DatabaseConnection dbCon(hDbStatusLabel);
-        // Вызов функции подключения к БД при щелчке мышью
-        dbCon.ConnectToDatabase(hDbStatusLabel);
+        if (!postWindow && dbManager) {
+            postWindow = new PostWindow(*dbManager);
+            postWindow->CreatePostWindow(hwnd, L"Должность", GetModuleHandle(NULL));
+            postWindow->DrawTable();
+        }
+
         break;
     }
 
     case WM_DESTROY:
+        delete postWindow;
+        delete dbManager;
+        delete dbConn;
         PostQuitMessage(0);
         break;
 

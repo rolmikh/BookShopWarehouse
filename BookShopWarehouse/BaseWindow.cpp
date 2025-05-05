@@ -1,4 +1,6 @@
 #include "BaseWindow.h"
+#pragma comment(lib, "comctl32.lib")
+
 
 BaseWindow::BaseWindow() {
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -27,22 +29,33 @@ void BaseWindow::CreateBaseWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE
 
 		);
 
+		if (hWnd) {
+			ShowWindow(hWnd, SW_SHOW);
+			UpdateWindow(hWnd);
+		}
+
 	
 }
 
-void BaseWindow::CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance) {
-	hWndListView = CreateWindowEx(
+HWND BaseWindow::CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance) {
+	
+	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_LISTVIEW_CLASSES };
+	InitCommonControlsEx(&icex);
+	
+	HWND listView = CreateWindowEx(
 		0,
 		WC_LISTVIEW,
 		L"",
-		WS_CHILD | WS_VISIBLE | LVS_REPORT,
+		WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_SINGLESEL | WS_BORDER,
 		10, 10, screenWidth - 20, screenHeight - 20,
-		hWnd,
+		parentHWnd,
 		nullptr,
 		hInstance,
 		nullptr
 
 	);
+
+	return listView;
 }
 
 HWND BaseWindow::GetHandle() const {

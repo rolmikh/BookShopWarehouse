@@ -13,6 +13,8 @@ public:
 	void ConnectToDatabase(HWND hDbStatusLabel);
 	void DisconnectFromDatabase();
 
+	SQLHDBC GetDatabaseConnection() const { return hDatabaseConnection; }
+
 private:
 	SQLHENV hODbcEnvironment;
 	SQLHDBC hDatabaseConnection;

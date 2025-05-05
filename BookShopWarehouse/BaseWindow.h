@@ -8,11 +8,11 @@ public:
 	BaseWindow();
 	virtual ~BaseWindow();
 
-	virtual void CreateBaseWindow(HWND parentHWnd = nullptr, LPCWSTR windowName, HINSTANCE hInstance);
+	virtual void CreateBaseWindow(HWND parentHWnd = nullptr, LPCWSTR windowName = L"", HINSTANCE hInstance = nullptr);
 	HWND GetHandle() const;
 	virtual void DrawTable(HWND hWnd);
 
-	virtual void CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance);
+	virtual HWND CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance);
 
 
 protected:

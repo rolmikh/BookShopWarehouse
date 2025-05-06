@@ -1,5 +1,9 @@
 #include "PostWindow.h"
 #include <commctrl.h>
+#include "BaseTable.h"
+#include <string>
+
+using namespace std;
 
 PostWindow::PostWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 	hWnd = nullptr;
@@ -18,6 +22,7 @@ void PostWindow::CreatePostWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE
 	hWndListView = CreateBaseListView(hWnd, hInstance);
 
 	
+	
 
 
 }
@@ -31,9 +36,9 @@ void PostWindow::DrawTable() {
 		return;
 	}
 
-	vector<wstring> headers = { L"id",L"name" };
+	vector<wstring> headers = { L"Код должности",L"Название" };
 
-	wstring query = L"select * from Post";
+	wstring query = L"select ID_Post as 'Код должности', Name_Post as 'Название'  from Post";
 	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
 
 	if (tableData.empty()) {
@@ -41,35 +46,23 @@ void PostWindow::DrawTable() {
 		return;
 	}
 
-	ListView_DeleteAllItems(hWndListView);
-	int colCount = Header_GetItemCount(ListView_GetHeader(hWndListView));
-	for (int i = colCount - 1; i >= 0; --i) {
-		ListView_DeleteColumn(hWndListView, i);
+	if (headers.size() != tableData[0].size()) {
+		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
+		return;
 	}
 
-	for (int i = 0; i < headers.size(); i++) {
-		LVCOLUMN lvc = {};
-		lvc.mask = LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-		lvc.cx = 100;
-		lvc.pszText = (LPWSTR)headers[i].c_str();
-		lvc.iSubItem = i;
-		ListView_InsertColumn(hWndListView, i, &lvc);
-	}
+	BaseTable::ClearListView(hWndListView);
+	BaseTable::SetHeaders(hWndListView, headers);
+	BaseTable::SetData(hWndListView, tableData);
+	BaseTable::AutoResizeColumns(hWndListView, headers, tableData);
 
-	for (size_t row = 0; row < tableData.size(); row++) {
-		LVITEM lvi = {};
-		lvi.mask = LVIF_TEXT;
-		lvi.iItem = static_cast<int>(row);
-		lvi.iSubItem = 0;
-		lvi.pszText = (LPWSTR)tableData[row][0].c_str();
-		ListView_InsertItem(hWndListView, &lvi);
+	
 
-		for (int col = 1; col < tableData[row].size(); col++) {
-			ListView_SetItemText(hWndListView, static_cast<int>(row), col, (LPWSTR)tableData[row][col].c_str());
-		}
+	
 
-	}
+	
 }
+
 
 
 

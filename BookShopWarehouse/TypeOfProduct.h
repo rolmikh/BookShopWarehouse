@@ -1,16 +1,15 @@
 #pragma once
 #include <string>
 
-using namespace std;
 
 class TypeOfProduct
 {
 private:
 	int idTypeOfProduct;
-	wstring nameTypeOfProduct;
+	std::wstring nameTypeOfProduct;
 
 public: 
-	TypeOfProduct(int idTypeOfProduct, wstring nameTypeOfProduct);
+	TypeOfProduct(int idTypeOfProduct, std::wstring nameTypeOfProduct);
 
 
 

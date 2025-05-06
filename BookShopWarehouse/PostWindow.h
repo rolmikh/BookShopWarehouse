@@ -5,7 +5,6 @@
 #include "BaseWindow.h"
 #include "DatabaseManager.h"
 
-using namespace std;
 
 class PostWindow : public BaseWindow
 {

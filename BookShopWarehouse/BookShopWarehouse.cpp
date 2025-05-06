@@ -45,9 +45,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         }
 
         if (!postWindow && dbManager) {
+            
             postWindow = new PostWindow(*dbManager);
             postWindow->CreatePostWindow(hwnd, L"Должность", GetModuleHandle(NULL));
             postWindow->DrawTable();
+            
         }
 
         break;
@@ -58,6 +60,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         delete dbManager;
         delete dbConn;
         PostQuitMessage(0);
+        break;
+
+    case WM_CLOSE:
+        DestroyWindow(hwnd);
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
         break;
 
     default:

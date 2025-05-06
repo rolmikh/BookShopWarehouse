@@ -90,6 +90,9 @@
     <ClCompile Include="DatabaseManager.cpp">
       <Filter>Исходные файлы\Database</Filter>
     </ClCompile>
+    <ClCompile Include="BaseTable.cpp">
+      <Filter>Исходные файлы\Design</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseConnection.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="DatabaseManager.h">
       <Filter>Файлы заголовков\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseTable.h">
+      <Filter>Файлы заголовков\Design</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

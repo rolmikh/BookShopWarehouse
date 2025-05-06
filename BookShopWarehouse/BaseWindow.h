@@ -5,6 +5,8 @@
 class BaseWindow
 {
 public:
+	static const LPCWSTR CLASS_NAME;
+
 	BaseWindow();
 	virtual ~BaseWindow();
 
@@ -13,6 +15,10 @@ public:
 	virtual void DrawTable(HWND hWnd);
 
 	virtual HWND CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance);
+
+	virtual HWND CreateBaseButton(HWND parentHWnd, LPCWSTR buttonName, HINSTANCE hInstance);
+
+	//virtual void CloseWindow();
 
 
 protected:

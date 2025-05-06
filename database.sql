@@ -20,6 +20,8 @@ GO
 SELECT * FROM Post
 GO
 
+select ID_Post as 'Код должности', Name_Post as 'Название'  from Post
+
 CREATE TABLE Status_ (
 	ID_Status INTEGER PRIMARY KEY IDENTITY(1,1),
 	Name_Status NVARCHAR(50) NOT NULL UNIQUE

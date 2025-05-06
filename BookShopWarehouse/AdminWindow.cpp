@@ -1,19 +1,19 @@
-#include "PostWindow.h"
+#include "AdminWindow.h"
 #include <commctrl.h>
 #include "BaseTable.h"
 #include <string>
 
 using namespace std;
 
-PostWindow::PostWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
+AdminWindow::AdminWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 	hWnd = nullptr;
 	hWndListView = nullptr;
 }
 
 
-PostWindow::~PostWindow() {}
+AdminWindow::~AdminWindow() {}
 
-void PostWindow::CreatePostWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance) {
+void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance) {
 
 	CreateBaseWindow(parentHWnd, windowName, hInstance);
 
@@ -29,7 +29,7 @@ void PostWindow::CreatePostWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE
 
 
 
-void PostWindow::DrawTable() {
+void AdminWindow::DrawTable() {
 
 	if (!hWndListView) {
 		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
@@ -55,7 +55,7 @@ void PostWindow::DrawTable() {
 	BaseTable::SetHeaders(hWndListView, headers);
 	BaseTable::SetData(hWndListView, tableData);
 	BaseTable::AutoResizeColumns(hWndListView, headers, tableData);
-
+	BaseTable::ResizeListViewToFit(hWndListView, static_cast<int>(tableData.size()));
 	
 
 	

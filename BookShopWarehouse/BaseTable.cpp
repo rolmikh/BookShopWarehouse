@@ -78,3 +78,41 @@ void BaseTable::AutoResizeColumns(HWND hWndListView, const std::vector<std::wstr
 	}
 
 }
+
+void BaseTable::ResizeListViewToFit(HWND hWndLIstView, int rowCount) {
+	if (!hWndLIstView || rowCount <= 0) return;
+
+	RECT rect;
+	GetWindowRect(hWndLIstView, &rect);
+
+	HDC hdc = GetDC(hWndLIstView);
+	SIZE size;
+	GetTextExtentPoint32(hdc, L"Ag", 2, &size);
+	ReleaseDC(hWndLIstView, hdc);
+
+	int rowHeight = size.cy + 6;
+	int newHeight = rowHeight * rowCount;
+
+	if (newHeight < rowHeight * 4) {
+		newHeight = rowHeight * 4;
+	}
+
+	int totalColumnWidth = 0;
+	int columnCount = Header_GetItemCount(ListView_GetHeader(hWndLIstView));
+	for (int i = 0; i < columnCount; ++i) {
+		totalColumnWidth += ListView_GetColumnWidth(hWndLIstView, i);
+	}
+
+	SetWindowPos(
+		hWndLIstView,
+		nullptr,
+		0, 0,
+		totalColumnWidth + 50,
+		newHeight,
+		SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE
+	
+	);
+
+	
+
+}

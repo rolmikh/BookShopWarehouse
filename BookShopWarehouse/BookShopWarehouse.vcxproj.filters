@@ -81,7 +81,7 @@
     <ClCompile Include="DatabaseConnection.cpp">
       <Filter>Исходные файлы\Database</Filter>
     </ClCompile>
-    <ClCompile Include="PostWindow.cpp">
+    <ClCompile Include="AdminWindow.cpp">
       <Filter>Исходные файлы\Design</Filter>
     </ClCompile>
     <ClCompile Include="BaseWindow.cpp">
@@ -140,7 +140,7 @@
     <ClInclude Include="Warehouse.h">
       <Filter>Файлы заголовков\Class</Filter>
     </ClInclude>
-    <ClInclude Include="PostWindow.h">
+    <ClInclude Include="AdminWindow.h">
       <Filter>Файлы заголовков\Design</Filter>
     </ClInclude>
     <ClInclude Include="BaseWindow.h">

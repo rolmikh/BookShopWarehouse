@@ -140,7 +140,7 @@
     <ClCompile Include="DeliveryPosition.cpp" />
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="Post.cpp" />
-    <ClCompile Include="PostWindow.cpp" />
+    <ClCompile Include="AdminWindow.cpp" />
     <ClCompile Include="Product.cpp" />
     <ClCompile Include="ProductOrderRequest.cpp" />
     <ClCompile Include="RequisitionPosition.cpp" />
@@ -161,7 +161,7 @@
     <ClInclude Include="DeliveryPosition.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="Post.h" />
-    <ClInclude Include="PostWindow.h" />
+    <ClInclude Include="AdminWindow.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="ProductOrderRequest.h" />
     <ClInclude Include="RequisitionPosition.h" />

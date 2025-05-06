@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "DatabaseConnection.h"
 #include "DatabaseManager.h"
-#include "PostWindow.h"
+#include "AdminWindow.h"
 #include <tchar.h>
 
 
@@ -14,7 +14,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     static HWND hDbStatusLabel;
     static DatabaseConnection* dbConn = nullptr;
     static DatabaseManager* dbManager = nullptr;
-    static PostWindow* postWindow = nullptr;
+    static AdminWindow* adminWindow = nullptr;
 
 
     switch (uMsg) {
@@ -44,11 +44,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             dbManager = new DatabaseManager(*dbConn);
         }
 
-        if (!postWindow && dbManager) {
+        if (!adminWindow && dbManager) {
             
-            postWindow = new PostWindow(*dbManager);
-            postWindow->CreatePostWindow(hwnd, L"Должность", GetModuleHandle(NULL));
-            postWindow->DrawTable();
+            adminWindow = new AdminWindow(*dbManager);
+            adminWindow->CreateAdminWindow(hwnd, L"Должность", GetModuleHandle(NULL));
+            adminWindow->DrawTable();
             
         }
 
@@ -56,7 +56,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     }
 
     case WM_DESTROY:
-        delete postWindow;
+        delete adminWindow;
         delete dbManager;
         delete dbConn;
         PostQuitMessage(0);

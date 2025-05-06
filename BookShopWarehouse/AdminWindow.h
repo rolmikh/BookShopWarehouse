@@ -6,13 +6,13 @@
 #include "DatabaseManager.h"
 
 
-class PostWindow : public BaseWindow
+class AdminWindow : public BaseWindow
 {
 public:
-	PostWindow(DatabaseManager& dbManager);
-	~PostWindow();
+	AdminWindow(DatabaseManager& dbManager);
+	~AdminWindow();
 
-	void CreatePostWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
+	void CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
 	void DrawTable();
 	HWND GetHandleListView() const { return hWndListView; }
 

@@ -8,6 +8,10 @@ CREATE TABLE TypeOfCounterparty (
 	Name_Type_Of_Counterparty NVARCHAR(50) NOT NULL UNIQUE
 );
 
+INSERT INTO	TypeOfCounterparty (Name_Type_Of_Counterparty)
+VALUES(N'Издательство'),(N'Производитель')
+GO
+
 CREATE TABLE Post (
 	ID_Post INTEGER PRIMARY KEY IDENTITY(1,1),
 	Name_Post NVARCHAR(50) NOT NULL UNIQUE

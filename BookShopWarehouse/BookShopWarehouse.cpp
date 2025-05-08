@@ -48,7 +48,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             
             adminWindow = new AdminWindow(*dbManager);
             adminWindow->CreateAdminWindow(hwnd, L"Должность", GetModuleHandle(NULL));
-            adminWindow->DrawTable();
+           
             
         }
 

@@ -13,11 +13,39 @@ public:
 	~AdminWindow();
 
 	void CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
-	void DrawTable();
+	void DrawTablePost();
+	void DrawTableTypeOfCounterparty();
+
+
+	void UpdateCurrentTabPage(int selected) override;
+
 	HWND GetHandleListView() const { return hWndListView; }
 
 protected:
-	HWND hWndListView;
+	HWND hWndListViewPost;
+	HWND hWndListViewTypeOfCounterparty;
+
+	HWND hTabPagePost;
+	HWND hTabPageTypeOfCounterparty;
+
+	HINSTANCE hInstance;
+
+
 	DatabaseManager& dbManager;
+	HWND hTabCtrl;
+
+	HWND hBtnAddPost;
+	HWND hBtnEditPost;
+	HWND hBtnDeletePost;
+	HWND hEditNamePost;
+	HWND hFilterButtonPost;
+	HWND hSearchButtonPost;
+
+	HWND hBtnAddTypeOfCounterparty;
+	HWND hBtnEditTypeOfCounterparty;
+	HWND hBtnDeleteTypeOfCounterparty;
+	HWND hEditNameTypeOfCounterparty;
+	HWND hFilterButtonTypeOfCounterparty;
+	HWND hSearchButtonTypeOfCounterparty;
 };
 

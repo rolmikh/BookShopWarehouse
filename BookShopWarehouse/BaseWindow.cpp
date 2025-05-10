@@ -1,12 +1,16 @@
 #include "BaseWindow.h"
+#include "AdminWindow.h"
 #pragma comment(lib, "comctl32.lib")
+
+
+LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 const LPCWSTR BaseWindow::CLASS_NAME = L"MyBaseWindowClass";
 
 ATOM RegisterBaseWindowClass(HINSTANCE hInstance) {
 	WNDCLASS wc = {};
 	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = DefWindowProc;
+	wc.lpfnWndProc = BaseWindowWnd;
 	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.lpszClassName = BaseWindow::CLASS_NAME;
@@ -20,55 +24,53 @@ BaseWindow::BaseWindow() {
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	hWnd = nullptr;
 	hWndListView = nullptr;
-	hTabCtrl = nullptr;
-	//tabPages = nullptr;
 	hInstance = nullptr;
 }
 
 BaseWindow::~BaseWindow() {}
 
 void BaseWindow::CreateBaseWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance) {
-	
+
 	this->hInstance = hInstance;
-	
+
 	RegisterBaseWindowClass(hInstance);
 
-		hWnd = CreateWindowEx(
-			0,
-			CLASS_NAME,
-			windowName,
-			WS_OVERLAPPEDWINDOW,
-			0,
-			0,
-			screenWidth,
-			screenHeight,
-			parentHWnd,
-			nullptr,
-			hInstance,
-			nullptr
+	hWnd = CreateWindowEx(
+		0,
+		CLASS_NAME,
+		windowName,
+		WS_OVERLAPPEDWINDOW,
+		0,
+		0,
+		screenWidth,
+		screenHeight,
+		parentHWnd,
+		nullptr,
+		hInstance,
+		nullptr
 
-		);
+	);
 
-		if (hWnd) {
-			ShowWindow(hWnd, SW_SHOW);
-			UpdateWindow(hWnd);
-		}
+	if (hWnd) {
+		ShowWindow(hWnd, SW_SHOW);
+		UpdateWindow(hWnd);
+	}
 
-	
+
 }
 
 HWND BaseWindow::CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height) {
-	
+
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_LISTVIEW_CLASSES };
 	InitCommonControlsEx(&icex);
-	
+
 	HWND listView = CreateWindowEx(
 		0,
 		WC_LISTVIEW,
 		L"",
 		WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_SINGLESEL | WS_BORDER,
 		x, y, width, height,
-		hTabCtrl,
+		parentHWnd,
 		nullptr,
 		hInstance,
 		nullptr
@@ -78,20 +80,21 @@ HWND BaseWindow::CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance, int x,
 	return listView;
 }
 
-HWND BaseWindow::CreateBaseButton(HWND parentHWnd, LPCWSTR buttonName, HINSTANCE hInstance, int x, int y, int width, int height) {
+HWND BaseWindow::CreateBaseButton(HWND parentHWnd, LPCWSTR buttonName, HINSTANCE hInstance, int x, int y, int width, int height, HMENU id) {
 	HWND hWndButton = CreateWindow(
 		L"BUTTON",
 		buttonName,
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
 		x, y, width, height,
 		parentHWnd,
-		nullptr,
+		id,
 		hInstance,
 		nullptr
-	
+
 	);
 
 	return hWndButton;
+
 }
 
 HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height) {
@@ -104,60 +107,65 @@ HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int
 		nullptr,
 		hInstance,
 		nullptr
-	
+
 	);
 
-}
-
-HWND BaseWindow::CreateBaseTabControl(HWND parentHWnd, HINSTANCE hInstance) {
-	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_TAB_CLASSES };
-	InitCommonControlsEx(&icex);
-
-	return CreateWindow(
-		WC_TABCONTROL,
-		L"",
-		WS_CHILD | WS_VISIBLE,
-		50, 50,
-		screenWidth - 100,
-		screenHeight - 500,
-		parentHWnd,
-		nullptr,
-		hInstance,
-		nullptr
-	
-	);
-}
-
-void BaseWindow::AddTabPage(HWND hTabCtrl, LPCWSTR pageTitle) {
-	TCITEM tie = {};
-	tie.mask = TCIF_TEXT;
-	tie.pszText = const_cast<LPWSTR>(pageTitle);
-	SendMessage(hTabCtrl, TCM_INSERTITEM, TabCtrl_GetItemCount(hTabCtrl), (LPARAM)&tie);
-
-
 
 }
 
-HWND BaseWindow::CreateTabPage(HWND parentTabCtrl, int x, int y, int width, int height) {
-	HWND hTabPage = CreateWindowEx(
-		0,
-		WC_DIALOG,
-		L"",
-		WS_CHILD | WS_VISIBLE,
-		x, y, width, height,
-		parentTabCtrl,
-		nullptr,
-		hInstance,
-		nullptr
-	);
-
-	tabPages.push_back(hTabPage);
-
-	ShowWindow(hTabPage, SW_SHOW);
-	UpdateWindow(hTabPage);
-
-	return hTabPage;
-}
+//HWND BaseWindow::CreateBaseTabControl(HWND parentHWnd, HINSTANCE hInstance) {
+//	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_TAB_CLASSES };
+//	InitCommonControlsEx(&icex);
+//
+//	hTabCtrl = CreateWindow(
+//		WC_TABCONTROL,
+//		L"",
+//		WS_CHILD | WS_VISIBLE | TCS_TABS,
+//		50, 50,
+//		screenWidth - 100,
+//		screenHeight - 500,
+//		parentHWnd,
+//		nullptr,
+//		hInstance,
+//		nullptr
+//
+//	);
+//
+//	return hTabCtrl;
+//}
+//
+//
+//
+//HWND BaseWindow::CreateTabPage(HWND parentTabCtrl, int x, int y, int width, int height) {
+//	HWND hTabPage = CreateWindowEx(
+//		0,
+//		WC_DIALOG,
+//		L"",
+//		WS_CHILD | WS_VISIBLE,
+//		x, y, width, height,
+//		parentTabCtrl,
+//		nullptr,
+//		hInstance,
+//		nullptr
+//	);
+//
+//	tabPages.push_back(hTabPage);
+//
+//	ShowWindow(hTabPage, SW_SHOW);
+//	UpdateWindow(hTabPage);
+//
+//	return hTabPage;
+//}
+//
+//void BaseWindow::AddTabPage(HWND hTabCtrl, LPCWSTR pageTitle) {
+//	TCITEM tie = {};
+//	tie.mask = TCIF_TEXT;
+//	tie.pszText = const_cast<LPWSTR>(pageTitle);
+//	SendMessage(hTabCtrl, TCM_INSERTITEM, TabCtrl_GetItemCount(hTabCtrl), (LPARAM)&tie);
+//
+//
+//
+//}
 
 HWND BaseWindow::GetHandle() const {
 	return hWnd;
@@ -169,61 +177,65 @@ void BaseWindow::DrawTable(HWND hWnd) {
 
 LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	BaseWindow* window = reinterpret_cast<BaseWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-
-	if (window && uMsg == WM_CREATE) {
+	if (uMsg == WM_CREATE) {
 		CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lParam);
 		window = reinterpret_cast<BaseWindow*>(cs->lpCreateParams);
-		SetWindowLongPtrW(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
+		return 0;
 	}
 
-	/*if (window && uMsg == WM_COMMAND) {
-		switch (LOWORD(wParam))
-		{
-		case WM_CLOSE:
-			DestroyWindow(hwnd);
-			return 0;
+	if (!window) {
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
 
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			return 0;
-		case WM_NOTIFY:
-			if (((LPNMHDR)lParam)->code == TCN_SELCHANGE) {
-				HWND hTab = ((LPNMHDR)lParam)->hwndFrom;
-				int selected = TabCtrl_GetCurSel(hTab);
-				if (window) {
-					window->UpdateCurrentTabPage(selected);
-				}
-			}
-			break;
-
-		default:
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
-			break;
-		}
-	}*/
-
-	switch (uMsg)
+	switch (uMsg) {
+	case WM_COMMAND:
 	{
+		// Проверяем тип окна
+		wchar_t className[256];
+		GetClassName(hwnd, className, 256);
+
+		if (wcscmp(className, AdminWindow::CLASS_NAME) == 0) {
+			AdminWindow* adminWindow = static_cast<AdminWindow*>(window);
+			int controlId = LOWORD(wParam);
+
+			// Обработка кнопок-вкладок
+			if (controlId == AdminWindow::IDC_TAB_POST) {
+				adminWindow->UpdateCurrentTabPage(0); // Должность
+			}
+			else if (controlId == AdminWindow::IDC_TAB_TYPE_OF_COUNTERPARTY) {
+				adminWindow->UpdateCurrentTabPage(1); // Тип контрагента
+			}
+
+			// Обработка других кнопок
+			else if (controlId == AdminWindow::IDC_ADD) {
+				MessageBox(hwnd, L"Добавить", L"Debug", MB_OK);
+			}
+			else if (controlId == AdminWindow::IDC_EDIT) {
+				MessageBox(hwnd, L"Изменить", L"Debug", MB_OK);
+			}
+			else if (controlId == AdminWindow::IDC_DELETE) {
+				MessageBox(hwnd, L"Удалить", L"Debug", MB_OK);
+			}
+			else if (controlId == AdminWindow::IDC_SEARCH) {
+				MessageBox(hwnd, L"Поиск", L"Debug", MB_OK);
+			}
+			else if (controlId == AdminWindow::IDC_FILTER) {
+				MessageBox(hwnd, L"Фильтр", L"Debug", MB_OK);
+			}
+		}
+		break;
+	}
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
 		return 0;
-
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == TCN_SELCHANGE) {
-			HWND hTab = ((LPNMHDR)lParam)->hwndFrom;
-			int selected = TabCtrl_GetCurSel(hTab);
-			if (window) {
-				window->UpdateCurrentTabPage(selected);
-			}
-		}
-		break;
-
 	default:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
-		break;
 	}
-	
+	return 0;
 }
+
+

@@ -48,7 +48,6 @@ void BaseTable::SetData(HWND hWndListView, const std::vector<std::vector<std::ws
 	}
 }
 
-//точки выводятся можно исправить позже
 void BaseTable::AutoResizeColumns(HWND hWndListView, const std::vector<std::wstring>& headers, std::vector<std::vector<std::wstring>>& data) {
 	if (!hWndListView || headers.empty()) return;
 

@@ -3,20 +3,25 @@
 #include "BaseTable.h"
 #include <string>
 
+
 using namespace std;
 
 AdminWindow::AdminWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 	hWnd = nullptr;
 	hWndListViewPost = nullptr;
 	hWndListViewTypeOfCounterparty = nullptr;
-	hTabCtrl = nullptr;
-	
+	hBtnTabTypeOfCounterparty = nullptr;
+	hBtnTabPost = nullptr;
+	hBtnAdd = nullptr;
+	hBtnEdit = nullptr;
+	hBtnDelete = nullptr;
+	hEditName = nullptr;
+	hFilterButton = nullptr;
+	hSearchButton = nullptr;
+	currentTab = 0;
 }
 
-int tabHeight = 0;
-int listViewWidth = 0;
-int listViewHeight = 0;
-int padding = 0;
+
 
 AdminWindow::~AdminWindow() {}
 
@@ -24,38 +29,24 @@ void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTAN
 
 	CreateBaseWindow(parentHWnd, windowName, hInstance);
 
-	RECT rect;
-	GetClientRect(hTabCtrl, &rect);
-	MapWindowPoints(hTabCtrl, hWnd, (LPPOINT)&rect, 2);
-
-	
-
-
 	InitCommonControls();
 
-	hTabCtrl = CreateBaseTabControl(hWnd, hInstance);
 	this->hInstance = hInstance;
 
-	tabHeight = 30;
-	padding = 10;
-	listViewWidth = rect.right - rect.left - 2 * padding;
-	listViewHeight = rect.bottom - rect.top - tabHeight - 150;
-	
-	listViewHeight = screenHeight / 2 - tabHeight - 60;
-	
-	AddTabPage(hTabCtrl, L"Должность");
-	hTabPagePost = CreateTabPage(hTabCtrl, 4, tabHeight + 4, listViewWidth, listViewHeight);
+	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 120, 30, reinterpret_cast<HMENU>(IDC_TAB_POST));
 
-	AddTabPage(hTabCtrl, L"Тип контрагента");
-	hTabPageTypeOfCounterparty = CreateTabPage(hTabCtrl, 4, tabHeight + 4, listViewWidth, listViewHeight);
+	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 140, 10, 150, 30, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
 
-	
-	UpdateCurrentTabPage(0);
+	SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+	UpdateCurrentTabPage(currentTab);
 
 }
 
 
 void AdminWindow::UpdateCurrentTabPage(int selected) {
+
+	currentTab = selected;
 
 	if (hWndListViewPost) {
 		DestroyWindow(hWndListViewPost);
@@ -65,55 +56,82 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		DestroyWindow(hWndListViewTypeOfCounterparty);
 		hWndListViewTypeOfCounterparty = nullptr;
 	}
+	if (hBtnAdd) {
+		DestroyWindow(hBtnAdd);
+		hBtnAdd = nullptr;
+	}
+	if (hBtnDelete) {
+		DestroyWindow(hBtnDelete);
+		hBtnDelete = nullptr;
+	}
+	if (hEditName) {
+		DestroyWindow(hEditName);
+		hEditName = nullptr;
+	}
+	if (hFilterButton) {
+		DestroyWindow(hFilterButton);
+		hFilterButton = nullptr;
+	}
+	if (hSearchButton) {
+		DestroyWindow(hSearchButton);
+		hSearchButton = nullptr;
+	}
+	if (hBtnEdit) {
+		DestroyWindow(hBtnEdit);
+		hBtnEdit = nullptr;
+	}
 
-	
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	int topOffset = 50;
+	int padding = 10;
+	int listViewHeight = screenHeight / 2 - topOffset - 60;
+	int listViewWidth = screenWidth - 2 * padding;
+
 	switch (selected) {
 	case 0:
 	{
-
-		ShowWindow(hTabPagePost, SW_SHOW);
-		ShowWindow(hTabPageTypeOfCounterparty, SW_HIDE);
-
-		hWndListViewPost = CreateBaseListView(hTabPagePost, hInstance, padding, tabHeight + padding, listViewWidth, listViewHeight);
-		
+		hWndListViewPost = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
 		DrawTablePost();
+		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight + 10, 200, 25);
 
-		hEditNamePost = CreateBaseEdit(hTabCtrl, hInstance, padding, tabHeight + padding + listViewHeight + 10, 200, 25);
+		hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
+		hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
+		hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
+		hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
+		hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
 
-		CreateBaseButton(hTabCtrl, L"Добавить", hInstance, padding, tabHeight + padding + listViewHeight + 40, 100, 30);
-		CreateBaseButton(hTabCtrl, L"Изменить", hInstance, padding + 110, tabHeight + padding + listViewHeight + 40, 100, 30);
-		CreateBaseButton(hTabCtrl, L"Удалить", hInstance, padding + 220, tabHeight + padding + listViewHeight + 40, 100, 30);
+		ShowWindow(hWndListViewPost, SW_SHOW);
 
-		hSearchButtonPost = CreateBaseButton(hTabCtrl, L"П", hInstance, screenWidth - 150, 100, 30, 30);
-		hFilterButtonPost = CreateBaseButton(hTabCtrl, L"Ф", hInstance, screenWidth - 100, 100, 30, 30);
-
-		
 		break;
 	}
 	case 1:
 	{
-		ShowWindow(hTabPageTypeOfCounterparty, SW_SHOW);
-		ShowWindow(hTabPagePost, SW_HIDE);
-		
 
-		hWndListViewTypeOfCounterparty = CreateBaseListView(hTabPageTypeOfCounterparty, hInstance, padding, tabHeight + padding, listViewWidth, listViewHeight);
+		hWndListViewTypeOfCounterparty = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
 		DrawTableTypeOfCounterparty();
 
-		hEditNameTypeOfCounterparty = CreateBaseEdit(hTabCtrl, hInstance, padding, tabHeight + padding + listViewHeight + 10, 200, 25);
+		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight + 10, 200, 25);
 
-		CreateBaseButton(hTabCtrl, L"Добавить", hInstance, padding, tabHeight + padding + listViewHeight + 40, 100, 30);
-		CreateBaseButton(hTabCtrl, L"Изменить", hInstance, padding + 110, tabHeight + padding + listViewHeight + 40, 100, 30);
-		CreateBaseButton(hTabCtrl, L"Удалить", hInstance, padding + 220, tabHeight + padding + listViewHeight + 40, 100, 30);
+		hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
+		hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
+		hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
 
-		hSearchButtonTypeOfCounterparty = CreateBaseButton(hTabCtrl, L"П", hInstance, screenWidth - 150, 100, 30, 30);
-		hFilterButtonTypeOfCounterparty = CreateBaseButton(hTabCtrl, L"Ф", hInstance, screenWidth - 100, 100, 30, 30);
+		hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
+		hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
+
+		ShowWindow(hWndListViewTypeOfCounterparty, SW_SHOW);
 
 		break;
 	}
-		
+
 	}
+
+
+	InvalidateRect(hWnd, NULL, TRUE);
+	UpdateWindow(hWnd);
 
 }
 
@@ -122,7 +140,9 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 void AdminWindow::DrawTablePost() {
 
-	if (!hWndListViewPost) {
+	HWND targetListView = hWndListViewPost;
+
+	if (!targetListView) {
 		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
 		return;
 	}
@@ -141,17 +161,20 @@ void AdminWindow::DrawTablePost() {
 		return;
 	}
 
-	BaseTable::ClearListView(hWndListViewPost);
-	BaseTable::SetHeaders(hWndListViewPost, headers);
-	BaseTable::SetData(hWndListViewPost, tableData);
-	BaseTable::AutoResizeColumns(hWndListViewPost, headers, tableData);
-	BaseTable::ResizeListViewToFit(hWndListViewPost, static_cast<int>(tableData.size()));
+	BaseTable::ClearListView(targetListView);
+	BaseTable::SetHeaders(targetListView, headers);
+	BaseTable::SetData(targetListView, tableData);
+	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
+	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
 
 }
 
 void AdminWindow::DrawTableTypeOfCounterparty() {
 
-	if (!hWndListViewTypeOfCounterparty) {
+	HWND targetListView = hWndListViewTypeOfCounterparty;
+
+
+	if (!targetListView) {
 		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
 		return;
 	}
@@ -170,14 +193,10 @@ void AdminWindow::DrawTableTypeOfCounterparty() {
 		return;
 	}
 
-	BaseTable::ClearListView(hWndListViewTypeOfCounterparty);
-	BaseTable::SetHeaders(hWndListViewTypeOfCounterparty, headers);
-	BaseTable::SetData(hWndListViewTypeOfCounterparty, tableData);
-	BaseTable::AutoResizeColumns(hWndListViewTypeOfCounterparty, headers, tableData);
-	BaseTable::ResizeListViewToFit(hWndListViewTypeOfCounterparty, static_cast<int>(tableData.size()));
+	BaseTable::ClearListView(targetListView);
+	BaseTable::SetHeaders(targetListView, headers);
+	BaseTable::SetData(targetListView, tableData);
+	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
+	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
 
 }
-
-
-
-

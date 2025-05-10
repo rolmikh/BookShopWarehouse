@@ -9,6 +9,15 @@
 class AdminWindow : public BaseWindow
 {
 public:
+
+	static const int IDC_TAB_POST = 1001;
+	static const int IDC_TAB_TYPE_OF_COUNTERPARTY = 1002;
+	static const int IDC_ADD = 1003;
+	static const int IDC_EDIT = 1004;
+	static const int IDC_DELETE = 1005;
+	static const int IDC_FILTER = 1006;
+	static const int IDC_SEARCH = 1007;
+
 	AdminWindow(DatabaseManager& dbManager);
 	~AdminWindow();
 
@@ -21,31 +30,26 @@ public:
 
 	HWND GetHandleListView() const { return hWndListView; }
 
+	HWND hBtnTabPost;
+	HWND hBtnTabTypeOfCounterparty;
+	int currentTab = 0;
+
 protected:
 	HWND hWndListViewPost;
 	HWND hWndListViewTypeOfCounterparty;
 
-	HWND hTabPagePost;
-	HWND hTabPageTypeOfCounterparty;
-
 	HINSTANCE hInstance;
 
-
 	DatabaseManager& dbManager;
-	HWND hTabCtrl;
 
-	HWND hBtnAddPost;
-	HWND hBtnEditPost;
-	HWND hBtnDeletePost;
-	HWND hEditNamePost;
-	HWND hFilterButtonPost;
-	HWND hSearchButtonPost;
+	
 
-	HWND hBtnAddTypeOfCounterparty;
-	HWND hBtnEditTypeOfCounterparty;
-	HWND hBtnDeleteTypeOfCounterparty;
-	HWND hEditNameTypeOfCounterparty;
-	HWND hFilterButtonTypeOfCounterparty;
-	HWND hSearchButtonTypeOfCounterparty;
+	HWND hBtnAdd;
+	HWND hBtnEdit;
+	HWND hBtnDelete;
+	HWND hEditName;
+	HWND hFilterButton;
+	HWND hSearchButton;
+
 };
 

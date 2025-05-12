@@ -139,3 +139,5 @@ CREATE TABLE DeliveryPosition (
 	FOREIGN KEY (RequisitionPosition_ID) REFERENCES RequisitionPosition (ID_RequisitionPosition),
 	FOREIGN KEY (Delivery_ID) REFERENCES Delivery (ID_Delivery)
 );
+
+select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения', End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ inner join Status_ on Status_ID = Status_.ID_Status

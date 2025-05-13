@@ -29,27 +29,20 @@ public:
 	static const int IDC_FILTER = 1017;
 	static const int IDC_SEARCH = 1018;
 
+	int topOffset = 50;
+	int padding = 20;
+	int listViewHeight = screenHeight / 2 - topOffset - 60;
+	int listViewWidth = screenWidth - 2 * padding;
+
 	AdminWindow(DatabaseManager& dbManager);
 	~AdminWindow();
 
 	void CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
-	void DrawTableContract();
-	/*void DrawTableCounterparty();
-	void DrawTableDelivery();
-	void DrawTableDeliveryNote();
-	void DrawTableDeliveryPosition();
-	void DrawTableEmployee();*/
-	void DrawTablePost();
-	//void DrawTableProduct();
-	//void DrawTableProductOrderRequest();
-	//void DrawTableRequisitionPosition();
-	//void DrawTableStatus();
-	void DrawTableTypeOfCounterparty();
-	/*void DrawTableTypeOfProduct();
-	void DrawTableWarehouse();*/
-
-	//void DrawTable(HWND targetListView, vector<wstring> headers, wstring query);
 	
+
+	void DrawTable(HWND tableListView, std::vector<std::wstring> headers, std::wstring query);
+	
+	void CreateElementsView();
 	void DestroyElementsView();
 
 	void UpdateCurrentTabPage(int selected) override;
@@ -59,6 +52,7 @@ public:
 	void AddRecord(cwstring tableName, const std::vector<std::wstring>& columnNames, const std::vector<std::wstring>& values);
 	void UpdateRecord(cwstring tableName, const std::vector<std::wstring>& columnNames, const std::vector<std::wstring>& values, int id);
 	void DeleteRecord(cwstring tableName, int id);
+
 
 	HWND GetHandleListView() const { return hWndListView; }
 

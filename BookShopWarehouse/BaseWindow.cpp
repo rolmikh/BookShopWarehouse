@@ -206,6 +206,9 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			else if (controlId == AdminWindow::IDC_TAB_TYPE_OF_COUNTERPARTY) {
 				adminWindow->UpdateCurrentTabPage(1); // Тип контрагента
 			}
+			else if (controlId == AdminWindow::IDC_TAB_CONTRACT) {
+				adminWindow->UpdateCurrentTabPage(2); // Контракт
+			}
 
 			// Обработка других кнопок
 			else if (controlId == AdminWindow::IDC_ADD) {

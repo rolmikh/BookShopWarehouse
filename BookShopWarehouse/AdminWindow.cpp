@@ -34,8 +34,9 @@ void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTAN
 	this->hInstance = hInstance;
 
 	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 120, 30, reinterpret_cast<HMENU>(IDC_TAB_POST));
-
 	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 140, 10, 150, 30, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
+	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, 300, 10, 150, 30, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
+
 
 	SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
@@ -52,24 +53,21 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 	RECT rect;
 	GetClientRect(hWnd, &rect);
-	int topOffset = 50;
-	int padding = 20;
-	int listViewHeight = screenHeight / 2 - topOffset - 60;
-	int listViewWidth = screenWidth - 2 * padding;
+	
 
 	switch (selected) {
 	case 0:
 	{
 		hWndListViewPost = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
-		DrawTablePost();
-		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight + 50, 400, 30);
+		vector<wstring> headers = { L"Код должности",L"Название" };
+		wstring query = L"select ID_Post as 'Код должности', Name_Post as 'Название'  from Post";
 
-		hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
-		hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
-		hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
-		hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
-		hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
+		DrawTable(hWndListViewPost, headers, query);
+
+		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight - 20, 400, 30);
+
+		CreateElementsView();
 
 		ShowWindow(hWndListViewPost, SW_SHOW);
 
@@ -80,21 +78,38 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hWndListViewTypeOfCounterparty = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
-		DrawTableTypeOfCounterparty();
+		vector<wstring> headers = { L"Код типа контрагента", L"Название" };
+		wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
 
-		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight + 10, 200, 25);
+		DrawTable(hWndListViewTypeOfCounterparty, headers, query);
 
-		hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
-		hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
-		hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
+		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight - 20, 200, 25);
 
-		hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
-		hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
+		CreateElementsView();
 
 		ShowWindow(hWndListViewTypeOfCounterparty, SW_SHOW);
 
 		break;
 	}
+	case 2:
+	{
+		hWndListViewContract = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+		vector<wstring> headers = { L"Код договора", L"Номер договора", L"Дата заключения", L"Дата окончания", L"Условия договора", L"Статус договора" };
+		wstring query = L"select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения',";
+		query += L"End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ ";
+		query += L"inner join Status_ on Status_ID = Status_.ID_Status";
+
+
+		DrawTable(hWndListViewContract, headers, query);
+
+		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight - 20, 200, 25);
+
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewContract, SW_SHOW);
+	}
+		
 
 	}
 
@@ -104,13 +119,8 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 }
 
-//void AdminWindow::DrawTable(HWND targetListView, vector<wstring> headers, wstring query) {
-//
-//}
-
-void AdminWindow::DrawTableContract() {
-
-	HWND targetListView = hWndListViewContract;
+void AdminWindow::DrawTable(HWND tableListView, vector<wstring> headers, wstring query) {
+	HWND targetListView = tableListView;
 
 
 	if (!targetListView) {
@@ -118,8 +128,6 @@ void AdminWindow::DrawTableContract() {
 		return;
 	}
 
-	vector<wstring> headers = { L"Код договора", L"Номер договора", L"Дата заключения", L"Дата окончания", L"Условия договора", L"Статус договора"};
-	wstring query = L"select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения', End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ inner join Status_ on Status_ID = Status_.ID_Status";
 	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
 
 	if (tableData.empty()) {
@@ -140,424 +148,15 @@ void AdminWindow::DrawTableContract() {
 
 }
 
-void AdminWindow::DrawTableContract() {
 
-	HWND targetListView = hWndListViewTypeOfCounterparty;
+void AdminWindow::CreateElementsView() {
+	hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
+	hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
+	hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
 
-
-	if (!targetListView) {
-		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-
-	if (tableData.empty()) {
-		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-		return;
-	}
-
-	if (headers.size() != tableData[0].size()) {
-		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	BaseTable::ClearListView(targetListView);
-	BaseTable::SetHeaders(targetListView, headers);
-	BaseTable::SetData(targetListView, tableData);
-	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-
+	hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
+	hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
 }
-
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-
-void AdminWindow::DrawTablePost() {
-
-	HWND targetListView = hWndListViewPost;
-
-	if (!targetListView) {
-		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	vector<wstring> headers = { L"Код должности",L"Название" };
-	wstring query = L"select ID_Post as 'Код должности', Name_Post as 'Название'  from Post";
-	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-
-	if (tableData.empty()) {
-		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-		return;
-	}
-
-	if (headers.size() != tableData[0].size()) {
-		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	BaseTable::ClearListView(targetListView);
-	BaseTable::SetHeaders(targetListView, headers);
-	BaseTable::SetData(targetListView, tableData);
-	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-
-}
-
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-
-void AdminWindow::DrawTableTypeOfCounterparty() {
-
-	HWND targetListView = hWndListViewTypeOfCounterparty;
-
-
-	if (!targetListView) {
-		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-
-	if (tableData.empty()) {
-		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-		return;
-	}
-
-	if (headers.size() != tableData[0].size()) {
-		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	BaseTable::ClearListView(targetListView);
-	BaseTable::SetHeaders(targetListView, headers);
-	BaseTable::SetData(targetListView, tableData);
-	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-
-}
-
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
-//
-//
-//void AdminWindow::DrawTableContract() {
-//
-//	HWND targetListView = hWndListViewTypeOfCounterparty;
-//
-//
-//	if (!targetListView) {
-//		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-//	wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
-//	vector<vector<wstring>> tableData = dbManager.ExecuteQuery(query);
-//
-//	if (tableData.empty()) {
-//		MessageBox(NULL, L"Нет данных для отображения", L"Ошибка", MB_OK | MB_ICONWARNING);
-//		return;
-//	}
-//
-//	if (headers.size() != tableData[0].size()) {
-//		MessageBox(NULL, L"Несоответствие заголовков и данных", L"Ошибка", MB_OK | MB_ICONERROR);
-//		return;
-//	}
-//
-//	BaseTable::ClearListView(targetListView);
-//	BaseTable::SetHeaders(targetListView, headers);
-//	BaseTable::SetData(targetListView, tableData);
-//	BaseTable::AutoResizeColumns(targetListView, headers, tableData);
-//	BaseTable::ResizeListViewToFit(targetListView, static_cast<int>(tableData.size()));
-//
-//}
 
 
 

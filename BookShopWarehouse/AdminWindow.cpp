@@ -31,12 +31,26 @@ void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTAN
 
 	InitCommonControls();
 
+
+
 	this->hInstance = hInstance;
 
-	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 120, 30, reinterpret_cast<HMENU>(IDC_TAB_POST));
-	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 140, 10, 150, 30, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
-	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, 300, 10, 150, 30, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
 
+
+	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_POST));
+	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 190, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
+	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, 370, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
+	hBtnTabViewCounterparty = CreateBaseButton(hWnd, L"Контрагент", hInstance, 550, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_COUNTERPARTY));
+	hBtnTabViewDelivery = CreateBaseButton(hWnd, L"Поставка", hInstance, 730, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY));
+	hBtnTabViewDeliveryNote = CreateBaseButton(hWnd, L"Накладная", hInstance, 910, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY_NOTE));
+	hBtnTabViewDeliveryPosition = CreateBaseButton(hWnd, L"Позиция поставки", hInstance, 1090, 10, 170, 50, reinterpret_cast<HMENU>(IDC_DELIVERY_POSITION));
+	hBtnTabViewEmployee = CreateBaseButton(hWnd, L"Сотрудник", hInstance, 1270, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_EMPLOYEE));
+	hBtnTabViewProduct = CreateBaseButton(hWnd, L"Товар", hInstance, 10, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT));
+	hBtnTabViewProductOrderRequest = CreateBaseButton(hWnd, L"Заявка на заказ", hInstance, 190, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT_ORDER_REQUEST));
+	hBtnTabViewRequisitionPosition = CreateBaseButton(hWnd, L"Позиция заявки", hInstance, 370, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_REQUISITION_POSITION));
+	hBtnTabViewStatus = CreateBaseButton(hWnd, L"Статус", hInstance, 550, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_STATUS));
+	hBtnTabViewTypeOfProduct = CreateBaseButton(hWnd, L"Тип товара", hInstance, 730, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_PRODUCT));
+	hBtnTabViewWarehouse = CreateBaseButton(hWnd, L"Склад", hInstance, 910, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_WAREHOUSE));
 
 	SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
@@ -58,14 +72,16 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 	switch (selected) {
 	case 0:
 	{
+		DestroyElementsView();
+
 		hWndListViewPost = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
 		vector<wstring> headers = { L"Код должности",L"Название" };
 		wstring query = L"select ID_Post as 'Код должности', Name_Post as 'Название'  from Post";
 
 		DrawTable(hWndListViewPost, headers, query);
+		CreateInputFields(hWnd, headers);
 
-		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight - 20, 400, 30);
 
 		CreateElementsView();
 
@@ -83,7 +99,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		DrawTable(hWndListViewTypeOfCounterparty, headers, query);
 
-		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight - 20, 200, 25);
+		CreateInputFields(hWnd, headers);
 
 		CreateElementsView();
 
@@ -93,7 +109,9 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 	}
 	case 2:
 	{
+
 		hWndListViewContract = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
 		vector<wstring> headers = { L"Код договора", L"Номер договора", L"Дата заключения", L"Дата окончания", L"Условия договора", L"Статус договора" };
 		wstring query = L"select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения',";
 		query += L"End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ ";
@@ -102,12 +120,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		DrawTable(hWndListViewContract, headers, query);
 
-		hEditName = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + listViewHeight - 20, 200, 25);
+		CreateInputFields(hWnd, headers);
 
 
 		CreateElementsView();
 
 		ShowWindow(hWndListViewContract, SW_SHOW);
+
+		break;
 	}
 		
 
@@ -150,12 +170,13 @@ void AdminWindow::DrawTable(HWND tableListView, vector<wstring> headers, wstring
 
 
 void AdminWindow::CreateElementsView() {
-	hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
-	hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
-	hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
 
-	hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
-	hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
+	if (!hBtnAdd) hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
+	if(!hBtnEdit) hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
+	if(!hBtnDelete)	hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
+	if(!hSearchButton)	hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
+	if(!hFilterButton)	hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
+
 }
 
 
@@ -181,6 +202,17 @@ int AdminWindow::GetSelectedRowID(HWND hListView) {
 
 	int id = _wtoi(item.pszText);
 	return id;
+}
+
+vector<wstring> GetInputValues(HWND* editFields, size_t count) {
+	vector<wstring> values;
+	for (size_t i = 0; i < count; ++i) {
+		int len = GetWindowTextLength(editFields[i]);
+		wstring value(len, L'\0');
+		GetWindowText(editFields[i], value.data(), len + 1);
+		values.push_back(value);
+	}
+	return values;
 }
 
 bool AdminWindow::ExecuteSQL(LPCWSTR sql) {
@@ -224,6 +256,28 @@ void AdminWindow::AddRecord(cwstring tableName, const vector<wstring>& columnNam
 
 }
 
+void AdminWindow::CreateInputFields(HWND parent, const vector<wstring>& headers) {
+	DestroyInputFields();
+	int x = padding;
+	int y = topOffset + padding + listViewHeight - 20;
+	int fieldWidth = 200;
+	int fieldHeight = 30;
+	int spacing = 40;
+
+	editFields.resize(headers.size());
+
+	for (size_t i = 0; i < headers.size(); ++i) {
+		editFields[i] = CreateBaseEdit(parent, hInstance, x, y + i * spacing, fieldWidth, fieldHeight);
+	}
+}
+
+void AdminWindow::DestroyInputFields() {
+	for (HWND hWnd : editFields) {
+		if (hWnd) DestroyWindow(hWnd);
+	}
+	editFields.clear();
+}
+
 void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& columnNames, const vector<wstring>& values, int id) {
 
 	if (columnNames.size() != values.size()) {
@@ -250,7 +304,7 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 
 //Добавлю логическое удаление пока так
 void AdminWindow::DeleteRecord(cwstring tableName, int id) {
-	wstring sql = L"delete from " + tableName + L"Where ID_" + tableName + L" = " + to_wstring(id);
+	wstring sql = L"delete from " + tableName + L" Where ID_" + tableName + L" = " + to_wstring(id);
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK | MB_ICONERROR);
 		UpdateCurrentTabPage(currentTab);
@@ -258,37 +312,36 @@ void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 	}
 }
 
-void AdminWindow::DestroyElementsView() {
-	if (hWndListViewPost) {
-		DestroyWindow(hWndListViewPost);
-		hWndListViewPost = nullptr;
-	}
-	if (hWndListViewTypeOfCounterparty) {
-		DestroyWindow(hWndListViewTypeOfCounterparty);
-		hWndListViewTypeOfCounterparty = nullptr;
-	}
-	if (hBtnAdd) {
-		DestroyWindow(hBtnAdd);
-		hBtnAdd = nullptr;
-	}
-	if (hBtnDelete) {
-		DestroyWindow(hBtnDelete);
-		hBtnDelete = nullptr;
-	}
-	if (hEditName) {
-		DestroyWindow(hEditName);
-		hEditName = nullptr;
-	}
-	if (hFilterButton) {
-		DestroyWindow(hFilterButton);
-		hFilterButton = nullptr;
-	}
-	if (hSearchButton) {
-		DestroyWindow(hSearchButton);
-		hSearchButton = nullptr;
-	}
-	if (hBtnEdit) {
-		DestroyWindow(hBtnEdit);
-		hBtnEdit = nullptr;
+
+void AdminWindow::hWndForDestroy(HWND hWndElement) {
+	if (hWndElement) {
+		DestroyWindow(hWndElement);
+		hWndElement = nullptr;
 	}
 }
+
+void AdminWindow::DestroyElementsView() {
+
+	
+	hWndForDestroy(hWndListViewContract);
+	hWndForDestroy(hWndListViewCounterparty);
+	hWndForDestroy(hWndListViewDelivery);
+	hWndForDestroy(hWndListViewDeliveryNote);
+	hWndForDestroy(hWndListViewDeliveryPosition);
+	hWndForDestroy(hWndListViewEmployee);
+	hWndForDestroy(hWndListViewPost);
+	hWndForDestroy(hWndListViewProduct);
+	hWndForDestroy(hWndListViewProductOrderRequest);
+	hWndForDestroy(hWndListViewRequisitionPosition);
+	hWndForDestroy(hWndListViewStatus);
+	hWndForDestroy(hWndListViewTypeOfCounterparty);
+	hWndForDestroy(hWndListViewTypeOfProduct);
+	hWndForDestroy(hWndListViewWarehouse);
+	hWndForDestroy(hBtnAdd);
+	hWndForDestroy(hBtnEdit);
+	hWndForDestroy(hBtnDelete);
+	hWndForDestroy(hEditName);
+	hWndForDestroy(hFilterButton);
+	hWndForDestroy(hSearchButton);
+}
+

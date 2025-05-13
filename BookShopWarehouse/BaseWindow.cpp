@@ -189,6 +189,10 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	}
 
 	switch (uMsg) {
+
+	case WM_NOTIFY:
+		LPNMHDR nmhdr = (LPNMHDR)lParam;
+		if(nmhdr->hwndFrom == window->GetListViewHandle())
 	case WM_COMMAND:
 	{
 		// Проверяем тип окна
@@ -212,6 +216,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			// Обработка других кнопок
 			else if (controlId == AdminWindow::IDC_ADD) {
+				if()
+
 				MessageBox(hwnd, L"Добавить", L"Debug", MB_OK);
 			}
 			else if (controlId == AdminWindow::IDC_EDIT) {

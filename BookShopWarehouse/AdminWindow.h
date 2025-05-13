@@ -28,8 +28,9 @@ public:
 	static const int IDC_DELETE = 1016;
 	static const int IDC_FILTER = 1017;
 	static const int IDC_SEARCH = 1018;
+	static const int IDC_DELIVERY_POSITION = 1019;
 
-	int topOffset = 50;
+	int topOffset = 150;
 	int padding = 20;
 	int listViewHeight = screenHeight / 2 - topOffset - 60;
 	int listViewWidth = screenWidth - 2 * padding;
@@ -53,6 +54,14 @@ public:
 	void UpdateRecord(cwstring tableName, const std::vector<std::wstring>& columnNames, const std::vector<std::wstring>& values, int id);
 	void DeleteRecord(cwstring tableName, int id);
 
+	void hWndForDestroy(HWND hWndElement);
+
+	void CreateInputFields(HWND parent, const vector<wstring>& headers);
+	void DestroyInputFields();
+
+	int selectedItemId = -1;
+
+	std::vector<std::wstring> GetInputValues(HWND* editFields, size_t count);
 
 	HWND GetHandleListView() const { return hWndListView; }
 
@@ -71,6 +80,8 @@ public:
 	HWND hBtnTabViewTypeOfProduct;
 	HWND hBtnTabViewWarehouse;
 	int currentTab = 0;
+
+	std::vector<HWND> editFields;
 
 protected:
 	HWND hWndListViewContract;

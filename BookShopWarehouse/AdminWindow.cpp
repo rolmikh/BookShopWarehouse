@@ -10,15 +10,29 @@ AdminWindow::AdminWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 	hWnd = nullptr;
 	hWndListViewPost = nullptr;
 	hWndListViewTypeOfCounterparty = nullptr;
+	hWndListViewContract = nullptr;
+	hWndListViewCounterparty = nullptr;
+	hWndListViewDelivery = nullptr;
+	hWndListViewDeliveryNote = nullptr;
+	hWndListViewDeliveryPosition = nullptr;
+	hWndListViewEmployee = nullptr;
+	hWndListViewProduct = nullptr;
+	hWndListViewProductOrderRequest = nullptr;
+	hWndListViewRequisitionPosition = nullptr;
+	hWndListViewStatus = nullptr;
+	hWndListViewTypeOfProduct = nullptr;
+	hWndListViewWarehouse = nullptr;
 	hBtnTabTypeOfCounterparty = nullptr;
 	hBtnTabPost = nullptr;
 	hBtnAdd = nullptr;
 	hBtnEdit = nullptr;
 	hBtnDelete = nullptr;
-	hEditName = nullptr;
 	hFilterButton = nullptr;
 	hSearchButton = nullptr;
 	currentTab = 0;
+	hEditNamePost = nullptr;
+	hEditNameTypeOfCounterparty = nullptr;
+	hEditIdPost = nullptr;
 }
 
 
@@ -63,16 +77,24 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 	currentTab = selected;
 	DestroyElementsView();
+
+	RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 	
 
+	HDC hdc = GetDC(hWnd);
 	RECT rect;
 	GetClientRect(hWnd, &rect);
+	FillRect(hdc, &rect, (HBRUSH)(COLOR_WINDOW + 1));
+	ReleaseDC(hWnd, hdc);
+
+
+	InvalidateRect(hWnd, nullptr, TRUE);
+	UpdateWindow(hWnd);
 	
 
 	switch (selected) {
 	case 0:
 	{
-		DestroyElementsView();
 
 		hWndListViewPost = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
@@ -80,8 +102,10 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		wstring query = L"select ID_Post as 'Код должности', Name_Post as 'Название'  from Post";
 
 		DrawTable(hWndListViewPost, headers, query);
-		CreateInputFields(hWnd, headers);
-
+		hEditNamePost = CreateBaseEdit(hWnd, hInstance, padding + 100, topOffset + padding + 100, 400, 30);
+		SetPlaceholder(hEditNamePost, L"Название должности");
+		hEditIdPost = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 30, 30);
+		SetPlaceholder(hEditIdPost, L"Код должности");
 
 		CreateElementsView();
 
@@ -98,8 +122,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
 
 		DrawTable(hWndListViewTypeOfCounterparty, headers, query);
-
-		CreateInputFields(hWnd, headers);
+		hEditNameTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 400, 30);
 
 		CreateElementsView();
 
@@ -120,8 +143,6 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		DrawTable(hWndListViewContract, headers, query);
 
-		CreateInputFields(hWnd, headers);
-
 
 		CreateElementsView();
 
@@ -134,7 +155,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 	}
 
 
-	InvalidateRect(hWnd, NULL, TRUE);
+	InvalidateRect(hWnd, nullptr, TRUE);
 	UpdateWindow(hWnd);
 
 }
@@ -181,40 +202,6 @@ void AdminWindow::CreateElementsView() {
 
 
 
-int AdminWindow::GetSelectedRowID(HWND hListView) {
-	if (!hListView) return -1;
-
-	int selectedItem = ListView_GetNextItem(hListView, -1, LVNI_SELECTED);
-
-	if (selectedItem == -1) return -1;
-
-	LVITEM item = {};
-
-	item.iItem = selectedItem;
-	item.iSubItem = 0;
-	item.mask = LVIF_TEXT | LVIF_PARAM;
-	item.pszText = new wchar_t[256];
-	item.cchTextMax = 256;
-
-	ListView_GetItem(hListView, &item);
-
-	delete[] item.pszText;
-
-	int id = _wtoi(item.pszText);
-	return id;
-}
-
-vector<wstring> GetInputValues(HWND* editFields, size_t count) {
-	vector<wstring> values;
-	for (size_t i = 0; i < count; ++i) {
-		int len = GetWindowTextLength(editFields[i]);
-		wstring value(len, L'\0');
-		GetWindowText(editFields[i], value.data(), len + 1);
-		values.push_back(value);
-	}
-	return values;
-}
-
 bool AdminWindow::ExecuteSQL(LPCWSTR sql) {
 	try {
 		dbManager.ExecuteQuery(sql);
@@ -250,32 +237,10 @@ void AdminWindow::AddRecord(cwstring tableName, const vector<wstring>& columnNam
 
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно добавлена", L"Успех", MB_OK | MB_ICONERROR);
+		
 		UpdateCurrentTabPage(currentTab);
-		//обновить таблицу
 	}
 
-}
-
-void AdminWindow::CreateInputFields(HWND parent, const vector<wstring>& headers) {
-	DestroyInputFields();
-	int x = padding;
-	int y = topOffset + padding + listViewHeight - 20;
-	int fieldWidth = 200;
-	int fieldHeight = 30;
-	int spacing = 40;
-
-	editFields.resize(headers.size());
-
-	for (size_t i = 0; i < headers.size(); ++i) {
-		editFields[i] = CreateBaseEdit(parent, hInstance, x, y + i * spacing, fieldWidth, fieldHeight);
-	}
-}
-
-void AdminWindow::DestroyInputFields() {
-	for (HWND hWnd : editFields) {
-		if (hWnd) DestroyWindow(hWnd);
-	}
-	editFields.clear();
 }
 
 void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& columnNames, const vector<wstring>& values, int id) {
@@ -285,7 +250,7 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 		return;
 	}
 
-	wstring sql = L"update " + tableName + L" set";
+	wstring sql = L"update " + tableName + L" set ";
 	for (size_t i = 0; i < columnNames.size(); ++i) {
 		sql += columnNames[i] + L" = N'" + values[i] + L"'";
 		if (i != columnNames.size() - 1) sql += L", ";
@@ -296,6 +261,7 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно обновлена", L"Успех", MB_OK | MB_ICONERROR);
+		
 		UpdateCurrentTabPage(currentTab);
 		//обновить таблицу
 	}
@@ -304,18 +270,22 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 
 //Добавлю логическое удаление пока так
 void AdminWindow::DeleteRecord(cwstring tableName, int id) {
+
+	
 	wstring sql = L"delete from " + tableName + L" Where ID_" + tableName + L" = " + to_wstring(id);
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK | MB_ICONERROR);
+		
 		UpdateCurrentTabPage(currentTab);
-		//перерисовку метода добавь если что;
+		
 	}
 }
 
 
-void AdminWindow::hWndForDestroy(HWND hWndElement) {
+void AdminWindow::hWndForDestroy(HWND& hWndElement) {
 	if (hWndElement) {
 		DestroyWindow(hWndElement);
+		SetWindowLongPtr(hWndElement, GWLP_USERDATA, NULL);
 		hWndElement = nullptr;
 	}
 }
@@ -337,11 +307,28 @@ void AdminWindow::DestroyElementsView() {
 	hWndForDestroy(hWndListViewTypeOfCounterparty);
 	hWndForDestroy(hWndListViewTypeOfProduct);
 	hWndForDestroy(hWndListViewWarehouse);
+
 	hWndForDestroy(hBtnAdd);
 	hWndForDestroy(hBtnEdit);
 	hWndForDestroy(hBtnDelete);
-	hWndForDestroy(hEditName);
 	hWndForDestroy(hFilterButton);
 	hWndForDestroy(hSearchButton);
+
+	hWndForDestroy(hEditIdPost);
+	hWndForDestroy(hEditNamePost);
+	hWndForDestroy(hEditNameTypeOfCounterparty);
+
+}
+
+wstring AdminWindow::GetWindowTextAsWstring(HWND hWndEdit) {
+	int length = GetWindowTextLength(hWndEdit);
+	std::vector<wchar_t> buffer(length + 1);  // +1 для учета нулевого символа
+	GetWindowText(hWndEdit, &buffer[0], length + 1);
+
+	return std::wstring(&buffer[0]);
+}
+
+void AdminWindow::SetPlaceholder(HWND hEdit, const wchar_t* text) {
+	SendMessage(hEdit, EM_SETCUEBANNER, TRUE ,(LPARAM)text);
 }
 

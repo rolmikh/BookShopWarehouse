@@ -54,14 +54,13 @@ public:
 	void UpdateRecord(cwstring tableName, const std::vector<std::wstring>& columnNames, const std::vector<std::wstring>& values, int id);
 	void DeleteRecord(cwstring tableName, int id);
 
-	void hWndForDestroy(HWND hWndElement);
+	void hWndForDestroy(HWND& hWndElement);
 
-	void CreateInputFields(HWND parent, const vector<wstring>& headers);
-	void DestroyInputFields();
+	void SetPlaceholder(HWND hEdit, const wchar_t* text);
+
+	std::wstring GetWindowTextAsWstring(HWND hWndEdit);
 
 	int selectedItemId = -1;
-
-	std::vector<std::wstring> GetInputValues(HWND* editFields, size_t count);
 
 	HWND GetHandleListView() const { return hWndListView; }
 
@@ -81,7 +80,13 @@ public:
 	HWND hBtnTabViewWarehouse;
 	int currentTab = 0;
 
-	std::vector<HWND> editFields;
+
+	HWND hEditIdPost;
+	HWND hEditNamePost;
+	HWND hEditNameTypeOfCounterparty;
+
+
+
 
 protected:
 	HWND hWndListViewContract;
@@ -104,16 +109,15 @@ protected:
 
 	DatabaseManager& dbManager;
 
-	int GetSelectedRowID(HWND hListView);
 	bool ExecuteSQL(LPCWSTR sql);
 
 
 	HWND hBtnAdd;
 	HWND hBtnEdit;
 	HWND hBtnDelete;
-	HWND hEditName;
 	HWND hFilterButton;
 	HWND hSearchButton;
 
+	
 };
 

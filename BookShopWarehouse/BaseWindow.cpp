@@ -39,7 +39,7 @@ void BaseWindow::CreateBaseWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE
 		0,
 		CLASS_NAME,
 		windowName,
-		WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
 		0,
 		0,
 		screenWidth,
@@ -113,59 +113,7 @@ HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int
 
 }
 
-//HWND BaseWindow::CreateBaseTabControl(HWND parentHWnd, HINSTANCE hInstance) {
-//	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_TAB_CLASSES };
-//	InitCommonControlsEx(&icex);
-//
-//	hTabCtrl = CreateWindow(
-//		WC_TABCONTROL,
-//		L"",
-//		WS_CHILD | WS_VISIBLE | TCS_TABS,
-//		50, 50,
-//		screenWidth - 100,
-//		screenHeight - 500,
-//		parentHWnd,
-//		nullptr,
-//		hInstance,
-//		nullptr
-//
-//	);
-//
-//	return hTabCtrl;
-//}
-//
-//
-//
-//HWND BaseWindow::CreateTabPage(HWND parentTabCtrl, int x, int y, int width, int height) {
-//	HWND hTabPage = CreateWindowEx(
-//		0,
-//		WC_DIALOG,
-//		L"",
-//		WS_CHILD | WS_VISIBLE,
-//		x, y, width, height,
-//		parentTabCtrl,
-//		nullptr,
-//		hInstance,
-//		nullptr
-//	);
-//
-//	tabPages.push_back(hTabPage);
-//
-//	ShowWindow(hTabPage, SW_SHOW);
-//	UpdateWindow(hTabPage);
-//
-//	return hTabPage;
-//}
-//
-//void BaseWindow::AddTabPage(HWND hTabCtrl, LPCWSTR pageTitle) {
-//	TCITEM tie = {};
-//	tie.mask = TCIF_TEXT;
-//	tie.pszText = const_cast<LPWSTR>(pageTitle);
-//	SendMessage(hTabCtrl, TCM_INSERTITEM, TabCtrl_GetItemCount(hTabCtrl), (LPARAM)&tie);
-//
-//
-//
-//}
+
 
 HWND BaseWindow::GetHandle() const {
 	return hWnd;
@@ -191,8 +139,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	switch (uMsg) {
 
 	case WM_NOTIFY:
-		LPNMHDR nmhdr = (LPNMHDR)lParam;
-		if(nmhdr->hwndFrom == window->GetListViewHandle())
+		//LPNMHDR nmhdr = (LPNMHDR)lParam;
+		//if(nmhdr->hwndFrom == window->GetListViewHandle())
 	case WM_COMMAND:
 	{
 		// Проверяем тип окна
@@ -202,7 +150,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		if (wcscmp(className, AdminWindow::CLASS_NAME) == 0) {
 			AdminWindow* adminWindow = static_cast<AdminWindow*>(window);
 			int controlId = LOWORD(wParam);
-
+			int tab = adminWindow->currentTab;
 			// Обработка кнопок-вкладок
 			if (controlId == AdminWindow::IDC_TAB_POST) {
 				adminWindow->UpdateCurrentTabPage(0); // Должность
@@ -216,15 +164,57 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			// Обработка других кнопок
 			else if (controlId == AdminWindow::IDC_ADD) {
-				if()
+				
+				switch (tab)
+				{
+				case 0: {
+					std::wstring namePost = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNamePost);
+					std::vector<std::wstring> columnNames = { L"Name_Post" };
+					std::vector<std::wstring> values = { namePost };
 
-				MessageBox(hwnd, L"Добавить", L"Debug", MB_OK);
+					adminWindow->AddRecord(L"Post", columnNames, values);
+
+					
+					break;
+				}
+
+				default:
+					break;
+				}
+
 			}
 			else if (controlId == AdminWindow::IDC_EDIT) {
-				MessageBox(hwnd, L"Изменить", L"Debug", MB_OK);
+				switch (tab)
+				{
+				case 0: {
+					std::wstring namePost = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNamePost);
+					std::vector<std::wstring> columnNames = { L"Name_Post" };
+					std::wstring idPostStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdPost);
+					int idPost = _wtoi(idPostStr.c_str());
+					std::vector<std::wstring> values = { namePost };
+					
+					adminWindow->UpdateRecord(L"Post", columnNames, values, idPost);
+
+
+					break;//кнопки не кликабельны
+				}
+
+				default:
+					break;
+				}
 			}
 			else if (controlId == AdminWindow::IDC_DELETE) {
-				MessageBox(hwnd, L"Удалить", L"Debug", MB_OK);
+				switch (tab) {
+				case 0:
+					std::wstring idPostStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdPost);
+
+					int idPost = _wtoi(idPostStr.c_str());
+
+					adminWindow->DeleteRecord(L"Post", idPost);
+
+					break;
+				}
+
 			}
 			else if (controlId == AdminWindow::IDC_SEARCH) {
 				MessageBox(hwnd, L"Поиск", L"Debug", MB_OK);

@@ -37,6 +37,8 @@ AdminWindow::AdminWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 
 
 
+
+
 AdminWindow::~AdminWindow() {}
 
 void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance) {
@@ -45,26 +47,9 @@ void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTAN
 
 	InitCommonControls();
 
-
-
 	this->hInstance = hInstance;
 
-
-
-	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_POST));
-	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 190, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
-	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, 370, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
-	hBtnTabViewCounterparty = CreateBaseButton(hWnd, L"Контрагент", hInstance, 550, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_COUNTERPARTY));
-	hBtnTabViewDelivery = CreateBaseButton(hWnd, L"Поставка", hInstance, 730, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY));
-	hBtnTabViewDeliveryNote = CreateBaseButton(hWnd, L"Накладная", hInstance, 910, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY_NOTE));
-	hBtnTabViewDeliveryPosition = CreateBaseButton(hWnd, L"Позиция поставки", hInstance, 1090, 10, 170, 50, reinterpret_cast<HMENU>(IDC_DELIVERY_POSITION));
-	hBtnTabViewEmployee = CreateBaseButton(hWnd, L"Сотрудник", hInstance, 1270, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_EMPLOYEE));
-	hBtnTabViewProduct = CreateBaseButton(hWnd, L"Товар", hInstance, 10, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT));
-	hBtnTabViewProductOrderRequest = CreateBaseButton(hWnd, L"Заявка на заказ", hInstance, 190, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT_ORDER_REQUEST));
-	hBtnTabViewRequisitionPosition = CreateBaseButton(hWnd, L"Позиция заявки", hInstance, 370, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_REQUISITION_POSITION));
-	hBtnTabViewStatus = CreateBaseButton(hWnd, L"Статус", hInstance, 550, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_STATUS));
-	hBtnTabViewTypeOfProduct = CreateBaseButton(hWnd, L"Тип товара", hInstance, 730, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_PRODUCT));
-	hBtnTabViewWarehouse = CreateBaseButton(hWnd, L"Склад", hInstance, 910, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_WAREHOUSE));
+	CreateTabButton();
 
 	SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
@@ -98,14 +83,10 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hWndListViewPost = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
-		vector<wstring> headers = { L"Код должности",L"Название" };
-		wstring query = L"select ID_Post as 'Код должности', Name_Post as 'Название'  from Post";
-
-		DrawTable(hWndListViewPost, headers, query);
+		
+		DrawTable(hWndListViewPost, Queries[0]);
 		hEditNamePost = CreateBaseEdit(hWnd, hInstance, padding + 100, topOffset + padding + 100, 400, 30);
-		SetPlaceholder(hEditNamePost, L"Название должности");
-		hEditIdPost = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 30, 30);
-		SetPlaceholder(hEditIdPost, L"Код должности");
+		hEditIdPost = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 80, 30);
 
 		CreateElementsView();
 
@@ -118,10 +99,8 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hWndListViewTypeOfCounterparty = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
-		vector<wstring> headers = { L"Код типа контрагента", L"Название" };
-		wstring query = L"select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty";
 
-		DrawTable(hWndListViewTypeOfCounterparty, headers, query);
+		DrawTable(hWndListViewTypeOfCounterparty, Queries[1]);
 		hEditNameTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 400, 30);
 
 		CreateElementsView();
@@ -135,14 +114,8 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hWndListViewContract = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
-		vector<wstring> headers = { L"Код договора", L"Номер договора", L"Дата заключения", L"Дата окончания", L"Условия договора", L"Статус договора" };
-		wstring query = L"select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения',";
-		query += L"End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ ";
-		query += L"inner join Status_ on Status_ID = Status_.ID_Status";
 
-
-		DrawTable(hWndListViewContract, headers, query);
-
+		DrawTable(hWndListViewContract, Queries[2]);
 
 		CreateElementsView();
 
@@ -160,9 +133,11 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 }
 
-void AdminWindow::DrawTable(HWND tableListView, vector<wstring> headers, wstring query) {
+void AdminWindow::DrawTable(HWND tableListView, const QueryDescriptor& descriptor) {
 	HWND targetListView = tableListView;
 
+	const auto& headers = descriptor.headers;
+	wstring query = descriptor.sqlQuery;
 
 	if (!targetListView) {
 		MessageBox(NULL, L"Список еще не создан", L"Ошибка", MB_OK | MB_ICONERROR);
@@ -192,12 +167,16 @@ void AdminWindow::DrawTable(HWND tableListView, vector<wstring> headers, wstring
 
 void AdminWindow::CreateElementsView() {
 
-	if (!hBtnAdd) hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, padding, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_ADD));
-	if(!hBtnEdit) hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, padding + 110, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_EDIT));
-	if(!hBtnDelete)	hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, padding + 220, topOffset + listViewHeight + 40, 100, 30, reinterpret_cast<HMENU>(IDC_DELETE));
+	if (!hBtnAdd) hBtnAdd = CreateBaseButton(hWnd, L"Добавить", hInstance, buttonLeft, buttonTop - 20, buttonWidth, buttonHeight, reinterpret_cast<HMENU>(IDC_ADD));
+	buttonLeft += buttonWidth + gap;
+	if(!hBtnEdit) hBtnEdit = CreateBaseButton(hWnd, L"Изменить", hInstance, buttonLeft, buttonTop - 20, buttonWidth, buttonHeight, reinterpret_cast<HMENU>(IDC_EDIT));
+	buttonLeft += buttonWidth + gap;
+	if(!hBtnDelete)	hBtnDelete = CreateBaseButton(hWnd, L"Удалить", hInstance, buttonLeft, buttonTop - 20, buttonWidth, buttonHeight, reinterpret_cast<HMENU>(IDC_DELETE));
 	if(!hSearchButton)	hSearchButton = CreateBaseButton(hWnd, L"П", hInstance, screenWidth - 150, 100, 30, 30, reinterpret_cast<HMENU>(IDC_SEARCH));
 	if(!hFilterButton)	hFilterButton = CreateBaseButton(hWnd, L"Ф", hInstance, screenWidth - 100, 100, 30, 30, reinterpret_cast<HMENU>(IDC_FILTER));
 
+
+	buttonLeft = sideOffset;
 }
 
 
@@ -236,7 +215,7 @@ void AdminWindow::AddRecord(cwstring tableName, const vector<wstring>& columnNam
 	sql += L")";
 
 	if (ExecuteSQL(sql.c_str())) {
-		MessageBox(hWnd, L"Запись успешно добавлена", L"Успех", MB_OK | MB_ICONERROR);
+		MessageBox(hWnd, L"Запись успешно добавлена", L"Успех", MB_OK);
 		
 		UpdateCurrentTabPage(currentTab);
 	}
@@ -260,10 +239,9 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 
 
 	if (ExecuteSQL(sql.c_str())) {
-		MessageBox(hWnd, L"Запись успешно обновлена", L"Успех", MB_OK | MB_ICONERROR);
+		MessageBox(hWnd, L"Запись успешно обновлена", L"Успех", MB_OK);
 		
 		UpdateCurrentTabPage(currentTab);
-		//обновить таблицу
 	}
 
 }
@@ -274,7 +252,7 @@ void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 	
 	wstring sql = L"delete from " + tableName + L" Where ID_" + tableName + L" = " + to_wstring(id);
 	if (ExecuteSQL(sql.c_str())) {
-		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK | MB_ICONERROR);
+		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK);
 		
 		UpdateCurrentTabPage(currentTab);
 		
@@ -328,7 +306,22 @@ wstring AdminWindow::GetWindowTextAsWstring(HWND hWndEdit) {
 	return std::wstring(&buffer[0]);
 }
 
-void AdminWindow::SetPlaceholder(HWND hEdit, const wchar_t* text) {
-	SendMessage(hEdit, EM_SETCUEBANNER, TRUE ,(LPARAM)text);
+
+void AdminWindow::CreateTabButton() {
+	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_POST));
+	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 190, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
+	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, 370, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
+	hBtnTabViewCounterparty = CreateBaseButton(hWnd, L"Контрагент", hInstance, 550, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_COUNTERPARTY));
+	hBtnTabViewDelivery = CreateBaseButton(hWnd, L"Поставка", hInstance, 730, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY));
+	hBtnTabViewDeliveryNote = CreateBaseButton(hWnd, L"Накладная", hInstance, 910, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY_NOTE));
+	hBtnTabViewDeliveryPosition = CreateBaseButton(hWnd, L"Позиция поставки", hInstance, 1090, 10, 170, 50, reinterpret_cast<HMENU>(IDC_DELIVERY_POSITION));
+	hBtnTabViewEmployee = CreateBaseButton(hWnd, L"Сотрудник", hInstance, 1270, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_EMPLOYEE));
+	hBtnTabViewProduct = CreateBaseButton(hWnd, L"Товар", hInstance, 10, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT));
+	hBtnTabViewProductOrderRequest = CreateBaseButton(hWnd, L"Заявка на заказ", hInstance, 190, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT_ORDER_REQUEST));
+	hBtnTabViewRequisitionPosition = CreateBaseButton(hWnd, L"Позиция заявки", hInstance, 370, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_REQUISITION_POSITION));
+	hBtnTabViewStatus = CreateBaseButton(hWnd, L"Статус", hInstance, 550, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_STATUS));
+	hBtnTabViewTypeOfProduct = CreateBaseButton(hWnd, L"Тип товара", hInstance, 730, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_PRODUCT));
+	hBtnTabViewWarehouse = CreateBaseButton(hWnd, L"Склад", hInstance, 910, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_WAREHOUSE));
+
 }
 

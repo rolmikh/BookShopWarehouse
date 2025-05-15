@@ -4,6 +4,8 @@
 #include <commctrl.h>
 #include "BaseWindow.h"
 #include "DatabaseManager.h"
+#include "QueryDescriptor.h"
+
 
 
 class AdminWindow : public BaseWindow
@@ -35,13 +37,26 @@ public:
 	int listViewHeight = screenHeight / 2 - topOffset - 60;
 	int listViewWidth = screenWidth - 2 * padding;
 
+	int buttonHeight = 60;
+	int bottomOffset = 40;
+	int sideOffset = 40;
+	int gap = 20;
+	int buttonCount = 3;
+	
+	int totalGap = gap * (buttonCount - 1);
+	int availableWidth = screenWidth - 2 * sideOffset - totalGap;
+	int buttonWidth = availableWidth / buttonCount;
+
+	int buttonTop = screenHeight - buttonHeight - bottomOffset;
+	int buttonLeft = sideOffset;
+
 	AdminWindow(DatabaseManager& dbManager);
 	~AdminWindow();
 
 	void CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
 	
 
-	void DrawTable(HWND tableListView, std::vector<std::wstring> headers, std::wstring query);
+	void DrawTable(HWND tableListView, const QueryDescriptor& descriptor);
 	
 	void CreateElementsView();
 	void DestroyElementsView();
@@ -56,7 +71,8 @@ public:
 
 	void hWndForDestroy(HWND& hWndElement);
 
-	void SetPlaceholder(HWND hEdit, const wchar_t* text);
+
+	void CreateTabButton();
 
 	std::wstring GetWindowTextAsWstring(HWND hWndEdit);
 

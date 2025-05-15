@@ -143,6 +143,7 @@
     <ClCompile Include="AdminWindow.cpp" />
     <ClCompile Include="Product.cpp" />
     <ClCompile Include="ProductOrderRequest.cpp" />
+    <ClCompile Include="QueryDescriptor.cpp" />
     <ClCompile Include="RequisitionPosition.cpp" />
     <ClCompile Include="Status.cpp" />
     <ClCompile Include="TypeOfCounterparty.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="AdminWindow.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="ProductOrderRequest.h" />
+    <ClInclude Include="QueryDescriptor.h" />
     <ClInclude Include="RequisitionPosition.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="TypeOfCounterparty.h" />

@@ -93,6 +93,9 @@
     <ClCompile Include="BaseTable.cpp">
       <Filter>Исходные файлы\Design</Filter>
     </ClCompile>
+    <ClCompile Include="QueryDescriptor.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseConnection.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="BaseTable.h">
       <Filter>Файлы заголовков\Design</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryDescriptor.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

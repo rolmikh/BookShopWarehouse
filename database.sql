@@ -3,33 +3,24 @@
 	Name_Type_Of_Product NVARCHAR(50) NOT NULL UNIQUE
 );
 
+
 CREATE TABLE TypeOfCounterparty (
 	ID_Type_Of_Counterparty INTEGER PRIMARY KEY IDENTITY(1,1),
 	Name_Type_Of_Counterparty NVARCHAR(50) NOT NULL UNIQUE
 );
 
-INSERT INTO	TypeOfCounterparty (Name_Type_Of_Counterparty)
-VALUES(N'Издательство'),(N'Производитель')
-GO
 
 CREATE TABLE Post (
 	ID_Post INTEGER PRIMARY KEY IDENTITY(1,1),
 	Name_Post NVARCHAR(50) NOT NULL UNIQUE
 );
 
-INSERT INTO	Post (Name_Post)
-VALUES(N'Администратор баз данных'),(N'Сотрудник склада')
-GO
-
-SELECT * FROM Post
-GO
-
-select ID_Post as 'Код должности', Name_Post as 'Название'  from Post
 
 CREATE TABLE Status_ (
 	ID_Status INTEGER PRIMARY KEY IDENTITY(1,1),
 	Name_Status NVARCHAR(50) NOT NULL UNIQUE
 );
+
 
 CREATE TABLE Warehouse (
 	ID_Warehouse INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -38,6 +29,8 @@ CREATE TABLE Warehouse (
 	Warehouse_Capacity INTEGER NOT NULL,
 	Current_Warehouse_Load INTEGER NOT NULL
 );
+
+
 
 CREATE TABLE Contract_ (
 	ID_Contract INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -49,6 +42,7 @@ CREATE TABLE Contract_ (
 	FOREIGN KEY (Status_ID) REFERENCES Status_ (ID_Status)
 );
 
+select ID_Contract as 'Код склада', Contract_Number as 'Номер склада', Start_Date_Contract as 'Адрес склада', End_Date_Contract as 'Вместимость склада', Contract_Terms as 'Текущая загрузка склада', Status_ID  from Warehouse
 
 
 CREATE TABLE DeliveryNote (
@@ -140,4 +134,92 @@ CREATE TABLE DeliveryPosition (
 	FOREIGN KEY (Delivery_ID) REFERENCES Delivery (ID_Delivery)
 );
 
+select ID_Post as 'Код должности', Name_Post as 'Название'  from Post
+
 select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения', End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ inner join Status_ on Status_ID = Status_.ID_Status
+
+select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty
+
+select ID_Type_Of_Product as 'Код типа товара', Name_Type_Of_Product as 'Название типа товара' from TypeOfProduct
+
+select ID_Status as 'Код статуса', Name_Status as 'Название статуса' from Status_
+
+select ID_Warehouse as 'Код склада', Warehouse_Number as 'Номер склада', Warehouse_Address as 'Адрес склада', Warehouse_Capacity as 'Вместимость склада', Current_Warehouse_Load as 'Текущая загрузка склада'  from Warehouse
+
+
+insert into	TypeOfCounterparty (Name_Type_Of_Counterparty)
+values(N'Издательство'),(N'Производитель')
+
+insert into	Post (Name_Post)
+values(N'Администратор баз данных'),(N'Сотрудник склада')
+
+
+insert into Status_ (Name_Status)
+values 
+(N'Активный'),
+(N'В пути'),
+(N'Завершён')
+
+insert into TypeOfProduct (Name_Type_Of_Product)
+values (N'Книга'), (N'Мягкие игрушки'), (N'Канцелярия')
+
+insert into Warehouse (Warehouse_Number, Warehouse_Address, Warehouse_Capacity, Current_Warehouse_Load)
+values 
+(N'WH001', N'Московская область, г. Подольск, ул. Складская, д. 10', 10000, 6000),
+(N'WH002', N'Московская область, г. Одинцово, ул. Магистральная, д. 5', 8000, 4500)
+
+insert into Contract_ (Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms, Status_ID)
+values 
+(N'CT001', '2025-01-15', '2026-01-15', N'Поставка книг ежеквартально', 3),
+(N'CT002', '2025-03-10', '2026-03-10', N'Ежемесячная поставка канцелярии', 2),
+(N'CT003', '2025-04-15', '2026-04-15', N'Разовая поставка мягких игрушек', 1)
+
+insert into DeliveryNote (DeliveryNote_Number, Date_Of_Formation, Contract_ID)
+values 
+(N'DN001', '2025-02-01', 1),
+(N'DN002', '2025-03-01', 2),
+(N'DN003', '2025-04-01', 3)
+
+insert into Delivery (Delivery_Number, Delivery_Date, Warehouse_ID, DeliveryNote_ID, Status_ID)
+values 
+(N'DL001', '2025-02-05', 1, 1, 3),
+(N'DL002', '2025-04-05', 2, 2, 2),
+(N'DL003', '2025-05-05', 1, 3, 1)
+
+insert into Counterparty (Name_Counterparty, Phone_Counterparty, Email_Counterparty, Contact_Person, Terms_Of_Cooperation, Country, City, TypeOfCounterparty_ID)
+values 
+(N'ООО "Книготорг"', N'89123456789', N'books@supplier.ru', N'Алексей Алексеевич Книжников', N'По договору', N'Россия', N'Москва', 1),
+(N'ИП Петров', N'89223456789', N'toys@supplier.com', N'Ольга Викторовна Иванова', N'Разово', N'Россия', N'Санкт-Петербург', 2),
+(N'ООО "Канцторг"', N'89323456789', N'kanctorg@example.com', N'Виктор Михайлович Смирнов', N'Еженедельно', N'Россия', N'Екатеринбург', 2)
+
+
+insert into Product (Name_Product, Purchase_Price, Selling_Price, Article, Quantity_Of_Product, Date_Of_Receipt, Counterparty_ID, TypeOfProduct_ID)
+values 
+(N'Энциклопедия для школьника', 400.00, 600.00, N'111111', 200, '2025-02-11', 4, 1),
+(N'Мягкая игрушка "Мишка"', 150.00, 300.00, N'111112', 150, '2025-05-05', 5, 2),
+(N'Формат А4, пачка 500 листов', 120.00, 200.00, N'111113', 300, '2025-05-15', 6, 3)
+
+insert into Employee (Surname, Name, Patronymic, Email, Login_Employee, Password_Employee, Post_ID, Salt)
+values 
+(N'Иванов', N'Иван', N'Иванович', N'ivanov@warehouse.com', N'ivanov', N'pass123', 5, N'salt1'),
+(N'Петров', N'Петр', N'Петрович', N'petrov@warehouse.com', N'petrov', N'pass456', 4, N'salt2'),
+(N'Сидорова', N'Мария', N'Сергеевна', N'sidorova@warehouse.com', N'ms', N'pass789', 6, N'salt3')
+
+insert into ProductOrderRequest (Request_Number, Date_Of_Creation, Employee_ID, Commentary, Counterparty_ID)
+values 
+(N'REQ001', '2025-03-20', 3, N'Срочно', 4),
+(N'REQ002', '2025-04-10', 4, N'Не срочно', 5),
+(N'REQ003', '2025-04-03', 5, N'Первый заказ', 6)
+
+insert into RequisitionPosition (Position_Number, Product_ID, ProductOrderRequest_ID, Quantity_Of_Product_In_Requisition, Unit_Price)
+values 
+(N'POS001', 3, 3, 50, 600.00),
+(N'POS002', 4, 4, 100, 200.00),
+(N'POS003', 5, 5, 200, 300.00)
+
+insert into DeliveryPosition (RequisitionPosition_ID, Delivery_ID)
+values 
+(3, 1),
+(4, 2),
+(5, 3)
+

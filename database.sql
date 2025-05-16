@@ -42,7 +42,6 @@ CREATE TABLE Contract_ (
 	FOREIGN KEY (Status_ID) REFERENCES Status_ (ID_Status)
 );
 
-select ID_Contract as 'Код склада', Contract_Number as 'Номер склада', Start_Date_Contract as 'Адрес склада', End_Date_Contract as 'Вместимость склада', Contract_Terms as 'Текущая загрузка склада', Status_ID  from Warehouse
 
 
 CREATE TABLE DeliveryNote (
@@ -52,6 +51,8 @@ CREATE TABLE DeliveryNote (
 	Contract_ID INTEGER NOT NULL,
 	FOREIGN KEY (Contract_ID) REFERENCES Contract_ (ID_Contract)
 );
+
+
 
 CREATE TABLE Delivery (
 	ID_Delivery INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -64,6 +65,8 @@ CREATE TABLE Delivery (
 	FOREIGN KEY (DeliveryNote_ID) REFERENCES DeliveryNote (ID_DeliveryNote),
 	FOREIGN KEY (Status_ID) REFERENCES Status_ (ID_Status)
 );
+
+
 
 CREATE TABLE Employee (
 	ID_Employee INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -78,6 +81,8 @@ CREATE TABLE Employee (
 	FOREIGN KEY (Post_ID) REFERENCES Post (ID_Post)
 );
 
+
+
 CREATE TABLE Counterparty (
 	ID_Counterparty INTEGER PRIMARY KEY IDENTITY(1,1),
 	Name_Counterparty NVARCHAR(100) NOT NULL,
@@ -91,6 +96,8 @@ CREATE TABLE Counterparty (
 	FOREIGN KEY (TypeOfCounterparty_ID) REFERENCES TypeOfCounterparty (ID_Type_Of_Counterparty)
 );
 
+
+
 CREATE TABLE ProductOrderRequest (
 	ID_ProductOrderRequest INTEGER PRIMARY KEY IDENTITY(1,1),
 	Request_Number NVARCHAR(10) NOT NULL,
@@ -100,6 +107,8 @@ CREATE TABLE ProductOrderRequest (
 	Counterparty_ID INTEGER NOT NULL,
 	FOREIGN KEY (Counterparty_ID) REFERENCES Counterparty (ID_Counterparty)
 );
+
+
 
 CREATE TABLE Product (
 	ID_Product INTEGER PRIMARY KEY IDENTITY(1,1),
@@ -115,6 +124,8 @@ CREATE TABLE Product (
 	FOREIGN KEY (TypeOfProduct_ID) REFERENCES TypeOfProduct (ID_Type_Of_Product)
 );
 
+
+
 CREATE TABLE RequisitionPosition (
 	ID_RequisitionPosition INTEGER PRIMARY KEY IDENTITY(1,1),
 	Position_Number NVARCHAR(50) NOT NULL,
@@ -126,6 +137,8 @@ CREATE TABLE RequisitionPosition (
 	FOREIGN KEY (ProductOrderRequest_ID) REFERENCES ProductOrderRequest (ID_ProductOrderRequest)
 );
 
+
+
 CREATE TABLE DeliveryPosition (
 	ID_DeliveryPosition INTEGER PRIMARY KEY IDENTITY(1,1),
 	RequisitionPosition_ID INTEGER NOT NULL,
@@ -134,9 +147,10 @@ CREATE TABLE DeliveryPosition (
 	FOREIGN KEY (Delivery_ID) REFERENCES Delivery (ID_Delivery)
 );
 
-select ID_Post as 'Код должности', Name_Post as 'Название'  from Post
 
-select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения', End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ inner join Status_ on Status_ID = Status_.ID_Status
+
+
+select ID_Post as 'Код должности', Name_Post as 'Название'  from Post
 
 select ID_Type_Of_Counterparty as 'Код типа контрагента', Name_Type_Of_Counterparty as 'Название'  from TypeOfCounterparty
 
@@ -146,6 +160,33 @@ select ID_Status as 'Код статуса', Name_Status as 'Название с
 
 select ID_Warehouse as 'Код склада', Warehouse_Number as 'Номер склада', Warehouse_Address as 'Адрес склада', Warehouse_Capacity as 'Вместимость склада', Current_Warehouse_Load as 'Текущая загрузка склада'  from Warehouse
 
+select ID_Contract as 'Код договора', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения', End_Date_Contract as 'Дата окончания', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора'  from Contract_ inner join Status_ on Status_ID = Status_.ID_Status
+
+select ID_DeliveryNote as 'Код накладной', DeliveryNote_Number as 'Номер накладной', Date_Of_Formation as 'Дата формирования', Contract_Number as 'Номер договора', Start_Date_Contract as 'Дата заключения договора', End_Date_Contract as 'Дата окончания договора', Contract_Terms as 'Условия договора', Name_Status as 'Статус договора' from DeliveryNote inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Status_ID = Status_.ID_Status 
+
+select ID_Delivery, Delivery_Number, Delivery_Date, Name_Status, Warehouse_Number, DeliveryNote_Number , Date_Of_Formation , Contract_Number from Delivery inner join DeliveryNote on DeliveryNote_ID = DeliveryNote.ID_DeliveryNote inner join Warehouse on Warehouse_ID = Warehouse.ID_Warehouse inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Delivery.Status_ID = Status_.ID_Status 
+
+select ID_Employee, Surname, Name, Patronymic, Email, Login_Employee, Name_Post from Employee inner join Post on Post_ID = Post.ID_Post 
+
+select ID_Counterparty, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Contact_Person, Terms_Of_Cooperation, Country, City, Name_Type_Of_Counterparty from Counterparty inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty
+
+select ID_ProductOrderRequest, Request_Number, Date_Of_Creation, Surname + ' ' + Name + ' ' + Patronymic as 'ФИО', Email , Commentary, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Contact_Person, Terms_Of_Cooperation, Country, City, Name_Type_Of_Counterparty from ProductOrderRequest inner join Employee on Employee_ID = Employee.ID_Employee inner join Counterparty on Counterparty_ID = Counterparty.ID_Counterparty inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty
+
+select ID_Product, Name_Product, Purchase_Price, Selling_Price, Article, Quantity_Of_Product, Date_Of_Receipt, Name_Type_Of_Product, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Country, City, Name_Type_Of_Counterparty from Product inner join TypeOfProduct on TypeOfProduct_ID = TypeOfProduct.ID_Type_Of_Product inner join Counterparty on Counterparty_ID = Counterparty.ID_Counterparty inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty
+
+select ID_RequisitionPosition, Position_Number, Quantity_Of_Product_In_Requisition, Unit_Price , Request_Number, Date_Of_Creation, Surname + ' ' + Name + ' ' + Patronymic as 'ФИО', Email, Name_Product, Purchase_Price, Article, Quantity_Of_Product, Name_Type_Of_Product, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Country, City, Name_Type_Of_Counterparty from RequisitionPosition inner join Product on Product_ID = Product.ID_Product inner join ProductOrderRequest on ProductOrderRequest_ID = ProductOrderRequest.ID_ProductOrderRequest inner join Employee on Employee_ID = Employee.ID_Employee inner join TypeOfProduct on TypeOfProduct_ID = TypeOfProduct.ID_Type_Of_Product inner join Counterparty on ProductOrderRequest.Counterparty_ID = Counterparty.ID_Counterparty inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty
+
+select ID_DeliveryPosition, ID_RequisitionPosition, Position_Number, Quantity_Of_Product_In_Requisition, Unit_Price , Request_Number, Date_Of_Creation, Surname + ' ' + Name + ' ' + Patronymic as 'ФИО', Email, Name_Product, Purchase_Price, Article, Quantity_Of_Product, Name_Type_Of_Product, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Country, City, Name_Type_Of_Counterparty, Delivery_Number, Delivery_Date, Warehouse_Number, DeliveryNote_Number , Date_Of_Formation , Contract_Number from DeliveryPosition 
+inner join RequisitionPosition on RequisitionPosition_ID = RequisitionPosition.ID_RequisitionPosition
+inner join Product on Product_ID = Product.ID_Product
+inner join ProductOrderRequest on ProductOrderRequest_ID = ProductOrderRequest.ID_ProductOrderRequest 
+inner join Employee on Employee_ID = Employee.ID_Employee 
+inner join TypeOfProduct on TypeOfProduct_ID = TypeOfProduct.ID_Type_Of_Product 
+inner join Counterparty on ProductOrderRequest.Counterparty_ID = Counterparty.ID_Counterparty 
+inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty 
+inner join Delivery on Delivery_ID = Delivery.ID_Delivery inner join DeliveryNote on DeliveryNote_ID = DeliveryNote.ID_DeliveryNote 
+inner join Warehouse on Warehouse_ID = Warehouse.ID_Warehouse 
+inner join Contract_ on Contract_ID = Contract_.ID_Contract
 
 insert into	TypeOfCounterparty (Name_Type_Of_Counterparty)
 values(N'Издательство'),(N'Производитель')

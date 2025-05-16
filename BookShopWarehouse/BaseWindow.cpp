@@ -68,7 +68,7 @@ HWND BaseWindow::CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance, int x,
 		0,
 		WC_LISTVIEW,
 		L"",
-		WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_SINGLESEL | WS_BORDER,
+		WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_SINGLESEL | WS_BORDER | WS_HSCROLL | WS_VSCROLL,
 		x, y, width, height,
 		parentHWnd,
 		nullptr,
@@ -160,6 +160,39 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			else if (controlId == AdminWindow::IDC_TAB_CONTRACT) {
 				adminWindow->UpdateCurrentTabPage(2); // Контракт
+			}
+			else if (controlId == AdminWindow::IDC_TAB_COUNTERPARTY) {
+				adminWindow->UpdateCurrentTabPage(3); // Контрагент
+			}
+			else if (controlId == AdminWindow::IDC_TAB_DELIVERY) {
+				adminWindow->UpdateCurrentTabPage(4); // Поставка
+			}
+			else if (controlId == AdminWindow::IDC_TAB_DELIVERY_NOTE) {
+				adminWindow->UpdateCurrentTabPage(5); // Накладная
+			}
+			else if (controlId == AdminWindow::IDC_DELIVERY_POSITION) {
+				adminWindow->UpdateCurrentTabPage(6); // Позиция поставки
+			}
+			else if (controlId == AdminWindow::IDC_TAB_EMPLOYEE) {
+				adminWindow->UpdateCurrentTabPage(7); // Сотрудник
+			}
+			else if (controlId == AdminWindow::IDC_TAB_PRODUCT) {
+				adminWindow->UpdateCurrentTabPage(8); // Товар
+			}
+			else if (controlId == AdminWindow::IDC_TAB_PRODUCT_ORDER_REQUEST) {
+				adminWindow->UpdateCurrentTabPage(9); // Заявка на заказ товара
+			}
+			else if (controlId == AdminWindow::IDC_TAB_REQUISITION_POSITION) {
+				adminWindow->UpdateCurrentTabPage(10); // Заявка поставки
+			}
+			else if (controlId == AdminWindow::IDC_TAB_STATUS) {
+				adminWindow->UpdateCurrentTabPage(11); // Статус
+			}
+			else if (controlId == AdminWindow::IDC_TAB_TYPE_OF_PRODUCT) {
+				adminWindow->UpdateCurrentTabPage(12); // Тип товара
+			}
+			else if (controlId == AdminWindow::IDC_TAB_WAREHOUSE) {
+				adminWindow->UpdateCurrentTabPage(13); // Склад
 			}
 
 			// Обработка других кнопок

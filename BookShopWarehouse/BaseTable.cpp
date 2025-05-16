@@ -96,17 +96,27 @@ void BaseTable::ResizeListViewToFit(HWND hWndLIstView, int rowCount) {
 		newHeight = rowHeight * 4;
 	}
 
+	int height = GetSystemMetrics(SM_CYSCREEN);
+
+
+	if (newHeight > height / 2) {
+		newHeight = height / 2;
+	}
+
+	int maxWidth = GetSystemMetrics(SM_CXSCREEN) - 50;
 	int totalColumnWidth = 0;
 	int columnCount = Header_GetItemCount(ListView_GetHeader(hWndLIstView));
 	for (int i = 0; i < columnCount; ++i) {
 		totalColumnWidth += ListView_GetColumnWidth(hWndLIstView, i);
 	}
+	
+	if (totalColumnWidth > maxWidth) totalColumnWidth = maxWidth;
 
 	SetWindowPos(
 		hWndLIstView,
 		nullptr,
 		0, 0,
-		totalColumnWidth + 50,
+		totalColumnWidth,
 		newHeight,
 		SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE
 	

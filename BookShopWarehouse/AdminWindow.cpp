@@ -114,7 +114,6 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hWndListViewContract = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
 
-
 		DrawTable(hWndListViewContract, Queries[2]);
 
 		CreateElementsView();
@@ -123,6 +122,158 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		break;
 	}
+	case 3:
+	{
+
+		hWndListViewCounterparty = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewCounterparty, Queries[3]);
+		
+		CreateElementsView();
+
+		ShowWindow(hWndListViewCounterparty, SW_SHOW);
+
+		break;
+	}
+	case 4:
+	{
+
+		hWndListViewDelivery = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewDelivery, Queries[4]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewDelivery, SW_SHOW);
+
+		break;
+	}
+	case 5:
+	{
+
+		hWndListViewDeliveryNote = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+		DrawTable(hWndListViewDeliveryNote, Queries[5]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewDeliveryNote, SW_SHOW);
+
+		break;
+	}
+	case 6:
+	{
+
+		hWndListViewDeliveryPosition = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewDeliveryPosition, Queries[6]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewDeliveryPosition, SW_SHOW);
+
+		break;
+	}
+	case 7:
+	{
+
+		hWndListViewEmployee = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewEmployee, Queries[7]);
+		
+		CreateElementsView();
+
+		ShowWindow(hWndListViewEmployee, SW_SHOW);
+
+		break;
+	}
+	case 8:
+	{
+
+		hWndListViewProduct = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+		DrawTable(hWndListViewProduct, Queries[8]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewProduct, SW_SHOW);
+
+		break;
+	}
+	case 9:
+	{
+
+		hWndListViewProductOrderRequest = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewProductOrderRequest, Queries[9]);
+		
+		CreateElementsView();
+
+		ShowWindow(hWndListViewProductOrderRequest, SW_SHOW);
+
+		break;
+	}
+	case 10:
+	{
+
+		hWndListViewRequisitionPosition = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewRequisitionPosition, Queries[10]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewRequisitionPosition, SW_SHOW);
+
+		break;
+	}
+	case 11:
+	{
+
+		hWndListViewStatus = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+		DrawTable(hWndListViewStatus, Queries[11]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewStatus, SW_SHOW);
+
+		break;
+	}
+	case 12:
+	{
+
+		hWndListViewTypeOfProduct = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewTypeOfProduct, Queries[12]);
+		
+		CreateElementsView();
+
+		ShowWindow(hWndListViewTypeOfProduct, SW_SHOW);
+
+		break;
+	}
+	case 13:
+	{
+
+		hWndListViewWarehouse = CreateBaseListView(hWnd, hInstance, padding, topOffset, 0, 0);
+
+
+		DrawTable(hWndListViewWarehouse, Queries[13]);
+
+		CreateElementsView();
+
+		ShowWindow(hWndListViewWarehouse, SW_SHOW);
+
+		break;
+	}
+	
 		
 
 	}

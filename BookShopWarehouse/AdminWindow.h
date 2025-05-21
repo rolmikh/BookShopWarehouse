@@ -5,6 +5,7 @@
 #include "BaseWindow.h"
 #include "DatabaseManager.h"
 #include "QueryDescriptor.h"
+#include <unordered_map>
 
 
 
@@ -31,6 +32,20 @@ public:
 	static const int IDC_FILTER = 1017;
 	static const int IDC_SEARCH = 1018;
 	static const int IDC_DELIVERY_POSITION = 1019;
+
+	static const int IDC_COMBOBOX_STATUS = 1020;
+	static const int IDC_COMBOBOX_WAREHOUSE = 1021;
+	static const int IDC_COMBOBOX_DELIVERY_NOTE = 1022;
+	static const int IDC_COMBOBOX_STATUS_DELIVERY = 1023;
+	static const int IDC_COMBOBOX_CONTRACT = 1024;
+	static const int IDC_COMBOBOX_REQUISITION_POSITION = 1025;
+	static const int IDC_COMBOBOX_DELIVERY = 1026;
+	static const int IDC_COMBOBOX_POST = 1027;
+	static const int IDC_COMBOBOX_COUNTERPARTY = 1028;
+	static const int IDC_COMBOBOX_TYPE_OF_PRODUCT = 1029;
+	static const int IDC_COMBOBOX_EMPLOYEE = 1030;
+	static const int IDC_COMBOBOX_PRODUCT_ORDER_REQUEST = 1031;
+	static const int IDC_COMBOBOX_PRODUCT = 1032;
 
 	int topOffset = 150;
 	int padding = 20;
@@ -71,10 +86,15 @@ public:
 
 	void hWndForDestroy(HWND& hWndElement);
 
+	std::vector<int> comboBoxIdMap;
+
+	void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap);
 
 	void CreateTabButton();
 
 	std::wstring GetWindowTextAsWstring(HWND hWndEdit);
+
+	std::unordered_map<int, std::wstring> comboBoxIndexToIdMap;
 
 	int selectedItemId = -1;
 
@@ -99,8 +119,89 @@ public:
 
 	HWND hEditIdPost;
 	HWND hEditNamePost;
+
+	HWND hEditIdTypeOfCounterparty;
 	HWND hEditNameTypeOfCounterparty;
 
+	HWND hEditIdTypeOfProduct;
+	HWND hEditNameTypeOfProduct;
+
+	HWND hEditIdStatus;
+	HWND hEditStatus;
+
+	HWND hEditIdWarehouse;
+	HWND hEditWarehouseNumber;
+	HWND hEditWarehouseAddress;
+	HWND hEditWarehouseCapacity;
+	HWND hEditCurrentWarehouseLoad;
+
+
+	HWND hEditIdContract;
+	HWND hEditContractNumber;
+	HWND hDPStartDateContract;
+	HWND hDPEndDateContract;
+	HWND hEditContractTerms;
+	HWND hComboBoxStatus;
+
+	HWND hEditIdDeliveryNote;
+	HWND hEditDeliveryNoteNumber;
+	HWND hDPDateOfFormation;
+	HWND hComboBoxContract;
+
+	HWND hEditIdDelivery;
+	HWND hEditDeliveryNumber;
+	HWND hDPDeliveryDate;
+	HWND hComboBoxWarehouse;
+	HWND hComboBoxDeliveryNote;
+	HWND hComboBoxStatusDelivery;
+
+	HWND hEditIdEmployee;
+	HWND hEditSurname;
+	HWND hEditName;
+	HWND hEditPatronymic;
+	HWND hEditEmail;
+	HWND hEditLogin;
+	HWND hEditPassword;
+	HWND hComboBoxPost;
+	HWND hEditSalt;
+
+	HWND hEditIdCounterparty;
+	HWND hEditNameCounterparty;
+	HWND hEditPhoneCounterparty;
+	HWND hEditEmailCounterparty;
+	HWND hEditContactPerson;
+	HWND hEditTermsOfCooperation;
+	HWND hEditCountry;
+	HWND hEditCity;
+	HWND hComboBoxTypeOfCounterparty;
+
+	HWND hEditIdProductOrderRequest;
+	HWND hEditRequestNumber;
+	HWND hDPDateOfCreation;
+	HWND hComboBoxEmployee;
+	HWND hEditCommentary;
+	HWND hComboBoxCounterparty;
+
+	HWND hEditIdProduct;
+	HWND hEditNameProduct;
+	HWND hEditPurchasePrice;
+	HWND hEditSellingPrice;
+	HWND hEditArticle;
+	HWND hEditQuantityOfProduct;
+	HWND hDPDateOfReceipt;
+	HWND hComboBoxCounterpartyProduct;
+	HWND hComboBoxTypeOfProduct;
+
+	HWND hEditIdRequisitionPosition;
+	HWND hEditPositionNumber;
+	HWND hComboBoxProduct;
+	HWND hComboBoxProductOrderRequest;
+	HWND hEditQuantityOfProductInRequisition;
+	HWND hEditUnitPrice;
+
+	HWND hEditIdDeliveryPosition;
+	HWND hComboBoxRequisitionPosition;
+	HWND hComboBoxDeliveryDLPosition;
 
 
 

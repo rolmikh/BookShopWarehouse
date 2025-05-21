@@ -76,6 +76,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 	InvalidateRect(hWnd, nullptr, TRUE);
 	UpdateWindow(hWnd);
 	
+	int editTop = topOffset + listViewHeight + padding;
 
 	switch (selected) {
 	case 0:
@@ -85,8 +86,8 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		
 		DrawTable(hWndListViewPost, Queries[0]);
-		hEditNamePost = CreateBaseEdit(hWnd, hInstance, padding + 100, topOffset + padding + 100, 400, 30);
-		hEditIdPost = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 80, 30);
+		hEditIdPost = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditNamePost = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 80, screenWidth / 2, 50);
 
 		CreateElementsView();
 
@@ -101,7 +102,9 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 
 		DrawTable(hWndListViewTypeOfCounterparty, Queries[1]);
-		hEditNameTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, padding, topOffset + padding + 100, 400, 30);
+
+		hEditIdTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditNameTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 80, screenWidth / 2, 50);
 
 		CreateElementsView();
 
@@ -118,7 +121,17 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		CreateElementsView();
 
+		hEditIdContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);
+		hEditContractNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
+		hDPStartDateContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50);
+		hDPEndDateContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50);
+		hEditContractTerms = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50);
+		hComboBoxStatus = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS));
+		
+		FillComboBox(hComboBoxStatus, L"select ID_Status, Name_Status from Status_", dbManager, comboBoxIdMap);
+
 		ShowWindow(hWndListViewContract, SW_SHOW);
+
 
 		break;
 	}
@@ -131,6 +144,15 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		DrawTable(hWndListViewCounterparty, Queries[3]);
 		
 		CreateElementsView();
+
+		hEditIdContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 , screenWidth / 2, 50);
+		hEditContractNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hDPStartDateContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 80, screenWidth / 2, 50);
+		hDPEndDateContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 140, screenWidth / 2, 50);
+		hEditContractTerms = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 200, screenWidth / 2, 50);
+		hComboBoxStatus = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 260, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS));
+
+		FillComboBox(hComboBoxStatus, L"select ID_Status, Name_Status from Status_", dbManager, comboBoxIdMap);
 
 		ShowWindow(hWndListViewCounterparty, SW_SHOW);
 
@@ -146,6 +168,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		CreateElementsView();
 
+		hEditDeliveryNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdDelivery = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 80, screenWidth / 2, 50);
+		hDPDeliveryDate = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hComboBoxWarehouse = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_WAREHOUSE));
+		hComboBoxDeliveryNote = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_DELIVERY_NOTE));
+		hComboBoxStatusDelivery = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS_DELIVERY));
+
+
 		ShowWindow(hWndListViewDelivery, SW_SHOW);
 
 		break;
@@ -158,6 +188,12 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		DrawTable(hWndListViewDeliveryNote, Queries[5]);
 
 		CreateElementsView();
+
+		hEditDeliveryNoteNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdDeliveryNote = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hDPDateOfFormation = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hComboBoxContract = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_CONTRACT));
+
 
 		ShowWindow(hWndListViewDeliveryNote, SW_SHOW);
 
@@ -173,6 +209,11 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		CreateElementsView();
 
+		hEditIdDeliveryPosition = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50); // ID
+		hComboBoxRequisitionPosition = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_REQUISITION_POSITION));
+		hComboBoxDeliveryDLPosition = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_DELIVERY));
+
+
 		ShowWindow(hWndListViewDeliveryPosition, SW_SHOW);
 
 		break;
@@ -187,6 +228,17 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		
 		CreateElementsView();
 
+		hEditSurname = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditName = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditPatronymic = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdEmployee = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditEmail = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditLogin = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditPassword = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditSalt = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hComboBoxPost = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_POST));
+
+
 		ShowWindow(hWndListViewEmployee, SW_SHOW);
 
 		break;
@@ -199,6 +251,17 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		DrawTable(hWndListViewProduct, Queries[8]);
 
 		CreateElementsView();
+
+		hEditNameProduct = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdProduct = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditPurchasePrice = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditSellingPrice = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditArticle = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditQuantityOfProduct = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hDPDateOfReceipt = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50); 
+		hComboBoxCounterpartyProduct = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_COUNTERPARTY));
+		hComboBoxTypeOfProduct = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_TYPE_OF_PRODUCT));
+
 
 		ShowWindow(hWndListViewProduct, SW_SHOW);
 
@@ -214,6 +277,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		
 		CreateElementsView();
 
+		hEditRequestNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdProductOrderRequest = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hDPDateOfCreation = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hComboBoxEmployee = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_EMPLOYEE));
+		hEditCommentary = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hComboBoxCounterparty = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_COUNTERPARTY));
+
+
 		ShowWindow(hWndListViewProductOrderRequest, SW_SHOW);
 
 		break;
@@ -228,6 +299,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		CreateElementsView();
 
+		hEditPositionNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdRequisitionPosition = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hComboBoxProduct = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_PRODUCT));
+		hComboBoxProductOrderRequest = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_PRODUCT_ORDER_REQUEST));
+		hEditQuantityOfProductInRequisition = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditUnitPrice = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+
+
 		ShowWindow(hWndListViewRequisitionPosition, SW_SHOW);
 
 		break;
@@ -239,7 +318,12 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		DrawTable(hWndListViewStatus, Queries[11]);
 
+
 		CreateElementsView();
+
+		hEditStatus = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdStatus = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+
 
 		ShowWindow(hWndListViewStatus, SW_SHOW);
 
@@ -255,6 +339,10 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		
 		CreateElementsView();
 
+		hEditNameTypeOfProduct = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdTypeOfProduct = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+
+
 		ShowWindow(hWndListViewTypeOfProduct, SW_SHOW);
 
 		break;
@@ -266,6 +354,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 
 		DrawTable(hWndListViewWarehouse, Queries[13]);
+
+
+		hEditWarehouseNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditWarehouseAddress = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditIdWarehouse = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditWarehouseCapacity = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+		hEditCurrentWarehouseLoad = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
+
 
 		CreateElementsView();
 
@@ -445,7 +541,88 @@ void AdminWindow::DestroyElementsView() {
 
 	hWndForDestroy(hEditIdPost);
 	hWndForDestroy(hEditNamePost);
+
+	hWndForDestroy(hEditIdTypeOfCounterparty);
 	hWndForDestroy(hEditNameTypeOfCounterparty);
+
+	hWndForDestroy(hEditIdTypeOfProduct);
+	hWndForDestroy(hEditNameTypeOfProduct);
+
+	hWndForDestroy(hEditIdStatus);
+	hWndForDestroy(hEditStatus);
+
+	hWndForDestroy(hEditIdWarehouse);
+	hWndForDestroy(hEditWarehouseNumber);
+	hWndForDestroy(hEditWarehouseAddress);
+	hWndForDestroy(hEditWarehouseCapacity);
+	hWndForDestroy(hEditCurrentWarehouseLoad);
+
+	hWndForDestroy(hEditIdContract);
+	hWndForDestroy(hEditContractNumber);
+	hWndForDestroy(hDPStartDateContract);
+	hWndForDestroy(hDPEndDateContract);
+	hWndForDestroy(hEditContractTerms);
+	hWndForDestroy(hComboBoxStatus);
+
+	hWndForDestroy(hEditIdDeliveryNote);
+	hWndForDestroy(hEditDeliveryNoteNumber);
+	hWndForDestroy(hDPDateOfFormation);
+	hWndForDestroy(hComboBoxContract);
+
+	hWndForDestroy(hEditIdDelivery);
+	hWndForDestroy(hEditDeliveryNumber);
+	hWndForDestroy(hDPDeliveryDate);
+	hWndForDestroy(hComboBoxWarehouse);
+	hWndForDestroy(hComboBoxDeliveryNote);
+	hWndForDestroy(hComboBoxStatusDelivery);
+
+	hWndForDestroy(hEditIdEmployee);
+	hWndForDestroy(hEditSurname);
+	hWndForDestroy(hEditName);
+	hWndForDestroy(hEditPatronymic);
+	hWndForDestroy(hEditEmail);
+	hWndForDestroy(hEditLogin);
+	hWndForDestroy(hEditPassword);
+	hWndForDestroy(hComboBoxPost);
+	hWndForDestroy(hEditSalt);
+
+	hWndForDestroy(hEditIdCounterparty);
+	hWndForDestroy(hEditNameCounterparty);
+	hWndForDestroy(hEditPhoneCounterparty);
+	hWndForDestroy(hEditEmailCounterparty);
+	hWndForDestroy(hEditContactPerson);
+	hWndForDestroy(hEditTermsOfCooperation);
+	hWndForDestroy(hEditCountry);
+	hWndForDestroy(hEditCity);
+	hWndForDestroy(hComboBoxTypeOfCounterparty);
+
+	hWndForDestroy(hEditIdProductOrderRequest);
+	hWndForDestroy(hEditRequestNumber);
+	hWndForDestroy(hDPDateOfCreation);
+	hWndForDestroy(hComboBoxEmployee);
+	hWndForDestroy(hEditCommentary);
+	hWndForDestroy(hComboBoxCounterparty);
+
+	hWndForDestroy(hEditIdProduct);
+	hWndForDestroy(hEditNameProduct);
+	hWndForDestroy(hEditPurchasePrice);
+	hWndForDestroy(hEditSellingPrice);
+	hWndForDestroy(hEditArticle);
+	hWndForDestroy(hEditQuantityOfProduct);
+	hWndForDestroy(hDPDateOfReceipt);
+	hWndForDestroy(hComboBoxCounterpartyProduct);
+	hWndForDestroy(hComboBoxTypeOfProduct);
+
+	hWndForDestroy(hEditIdRequisitionPosition);
+	hWndForDestroy(hEditPositionNumber);
+	hWndForDestroy(hComboBoxProduct);
+	hWndForDestroy(hComboBoxProductOrderRequest);
+	hWndForDestroy(hEditQuantityOfProductInRequisition);
+	hWndForDestroy(hEditUnitPrice);
+
+	hWndForDestroy(hEditIdDeliveryPosition);
+	hWndForDestroy(hComboBoxRequisitionPosition);
+	hWndForDestroy(hComboBoxDeliveryDLPosition);
 
 }
 
@@ -459,20 +636,56 @@ wstring AdminWindow::GetWindowTextAsWstring(HWND hWndEdit) {
 
 
 void AdminWindow::CreateTabButton() {
-	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, 10, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_POST));
-	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, 190, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
-	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, 370, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
-	hBtnTabViewCounterparty = CreateBaseButton(hWnd, L"Контрагент", hInstance, 550, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_COUNTERPARTY));
-	hBtnTabViewDelivery = CreateBaseButton(hWnd, L"Поставка", hInstance, 730, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY));
-	hBtnTabViewDeliveryNote = CreateBaseButton(hWnd, L"Накладная", hInstance, 910, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY_NOTE));
-	hBtnTabViewDeliveryPosition = CreateBaseButton(hWnd, L"Позиция поставки", hInstance, 1090, 10, 170, 50, reinterpret_cast<HMENU>(IDC_DELIVERY_POSITION));
-	hBtnTabViewEmployee = CreateBaseButton(hWnd, L"Сотрудник", hInstance, 1270, 10, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_EMPLOYEE));
-	hBtnTabViewProduct = CreateBaseButton(hWnd, L"Товар", hInstance, 10, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT));
-	hBtnTabViewProductOrderRequest = CreateBaseButton(hWnd, L"Заявка на заказ", hInstance, 190, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT_ORDER_REQUEST));
-	hBtnTabViewRequisitionPosition = CreateBaseButton(hWnd, L"Позиция заявки", hInstance, 370, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_REQUISITION_POSITION));
-	hBtnTabViewStatus = CreateBaseButton(hWnd, L"Статус", hInstance, 550, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_STATUS));
-	hBtnTabViewTypeOfProduct = CreateBaseButton(hWnd, L"Тип товара", hInstance, 730, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_PRODUCT));
-	hBtnTabViewWarehouse = CreateBaseButton(hWnd, L"Склад", hInstance, 910, 70, 170, 50, reinterpret_cast<HMENU>(IDC_TAB_WAREHOUSE));
 
+	RECT rc;
+	GetClientRect(hWnd, &rc);
+	int totalWidth = rc.right - rc.left;
+
+	const int buttonsPerRow = 7;
+	int buttonWidth = totalWidth / buttonsPerRow;
+
+	int topOffset1 = 10;
+	int topOffset2 = 70;
+
+	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, buttonWidth * 0, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_POST));
+	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, buttonWidth * 1, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
+	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, buttonWidth * 2, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
+	hBtnTabViewCounterparty = CreateBaseButton(hWnd, L"Контрагент", hInstance, buttonWidth * 3, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_COUNTERPARTY));
+	hBtnTabViewDelivery = CreateBaseButton(hWnd, L"Поставка", hInstance, buttonWidth * 4, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY));
+	hBtnTabViewDeliveryNote = CreateBaseButton(hWnd, L"Накладная", hInstance, buttonWidth * 5, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY_NOTE));
+	hBtnTabViewDeliveryPosition = CreateBaseButton(hWnd, L"Позиция поставки", hInstance, buttonWidth * 6, topOffset1, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_DELIVERY_POSITION));
+	hBtnTabViewEmployee = CreateBaseButton(hWnd, L"Сотрудник", hInstance, buttonWidth * 0, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_EMPLOYEE));
+	hBtnTabViewProduct = CreateBaseButton(hWnd, L"Товар", hInstance, buttonWidth * 1, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT));
+	hBtnTabViewProductOrderRequest = CreateBaseButton(hWnd, L"Заявка на заказ", hInstance, buttonWidth * 2, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_PRODUCT_ORDER_REQUEST));
+	hBtnTabViewRequisitionPosition = CreateBaseButton(hWnd, L"Позиция заявки", hInstance, buttonWidth * 3, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_REQUISITION_POSITION));
+	hBtnTabViewStatus = CreateBaseButton(hWnd, L"Статус", hInstance, buttonWidth * 4, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_STATUS));
+	hBtnTabViewTypeOfProduct = CreateBaseButton(hWnd, L"Тип товара", hInstance, buttonWidth * 5, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_PRODUCT));
+	hBtnTabViewWarehouse = CreateBaseButton(hWnd, L"Склад", hInstance, buttonWidth * 6, topOffset2, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_WAREHOUSE));
+
+}
+
+void AdminWindow::FillComboBox(HWND hComboBox, const wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap) {
+	SendMessage(hComboBox, CB_RESETCONTENT, 0, 0);
+
+	idMap.clear();
+
+	auto data = dbManager.ExecuteQuery(query);
+
+	wprintf(L"Получено строк: %zu\n", data.size());
+
+	for (const auto& row : data) {
+		if (row.size() >= 2) {
+			int id = stoi(row[0]);
+			const wstring& name = row[1];
+
+			SendMessage(hComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(name.c_str()));
+
+			idMap.push_back(id);
+		}
+	}
+
+	if (!data.empty()) {
+		SendMessage(hComboBox, CB_SETCURSEL, 0, 0);
+	}
 }
 

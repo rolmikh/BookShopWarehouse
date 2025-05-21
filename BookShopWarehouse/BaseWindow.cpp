@@ -77,6 +77,14 @@ HWND BaseWindow::CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance, int x,
 
 	);
 
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 20;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(listView, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+
 	return listView;
 }
 
@@ -93,12 +101,21 @@ HWND BaseWindow::CreateBaseButton(HWND parentHWnd, LPCWSTR buttonName, HINSTANCE
 
 	);
 
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 25;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(hWndButton, WM_SETFONT, (WPARAM)hFont, TRUE);
+
 	return hWndButton;
 
 }
 
 HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height) {
-	return CreateWindow(
+	
+	
+	HWND editField = CreateWindow(
 		L"EDIT",
 		L"",
 		WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
@@ -110,7 +127,32 @@ HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int
 
 	);
 
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 20;
+	HFONT hFont = CreateFontIndirect(&lf);
 
+	SendMessage(editField, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+	return editField;
+}
+
+HWND BaseWindow::CreateBaseComboBox(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height, HMENU id) {
+	int comboBoxHeight = 500;
+	HWND hComboBox = CreateWindowEx(
+		0,
+		WC_COMBOBOX,
+		nullptr,
+		CBS_DROPDOWNLIST | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP,
+		x, y, width, comboBoxHeight,
+		parentHWnd,
+		id,
+		hInstance,
+		nullptr
+	
+	);
+
+	return hComboBox;
 }
 
 

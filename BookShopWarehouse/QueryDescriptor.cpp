@@ -28,7 +28,7 @@ const std::vector<QueryDescriptor> Queries = {
 	} ,
 	{
 		{L"Код накладной", L"Номер накладной", L"Дата формирования", L"Номер договора", L"Дата заключения договора", L"Дата окончания договора", L"Условия договора", L"Статус договора" },
-		L"select ID_DeliveryNote, DeliveryNote_Number, Date_Of_Formation, Contract_Number', Start_Date_Contract, End_Date_Contract, Contract_Terms, Name_Status from DeliveryNote inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Status_ID = Status_.ID_Status ",
+		L"select ID_DeliveryNote, DeliveryNote_Number, Date_Of_Formation, Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms, Name_Status from DeliveryNote inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Status_ID = Status_.ID_Status ",
 		L"DeliveryNote"
 	},
 	{

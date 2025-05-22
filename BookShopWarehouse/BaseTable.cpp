@@ -58,14 +58,14 @@ void BaseTable::AutoResizeColumns(HWND hWndListView, const std::vector<std::wstr
 
 	for (int i = 0; i < columnCount; ++i) {
 		GetTextExtentPoint32(hdc, headers[i].c_str(), static_cast<int>(headers[i].length()), &size);
-		columnWidths[i] = size.cx + 30;
+		columnWidths[i] = size.cx + 70;
 	}
 
 	for (const auto& row : data) {
 		for (size_t col = 0; col < row.size() && col < columnCount; ++col) {
 			GetTextExtentPoint32(hdc, row[col].c_str(), static_cast<int>(row[col].length()), &size);
-			if (size.cx + 30 > columnWidths[col]) {
-				columnWidths[col] = size.cx + 30;
+			if (size.cx + 70 > columnWidths[col]) {
+				columnWidths[col] = size.cx + 70;
 			}
 		}
 	}

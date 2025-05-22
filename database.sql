@@ -105,9 +105,9 @@ CREATE TABLE ProductOrderRequest (
 	Employee_ID INTEGER NOT NULL,
 	Commentary NVARCHAR(50) NOT NULL,
 	Counterparty_ID INTEGER NOT NULL,
-	FOREIGN KEY (Counterparty_ID) REFERENCES Counterparty (ID_Counterparty)
+	FOREIGN KEY (Counterparty_ID) REFERENCES Counterparty (ID_Counterparty),
+	FOREIGN KEY (Employee_ID) REFERENCES Employee(ID_Employee)
 );
-
 
 
 CREATE TABLE Product (
@@ -148,7 +148,7 @@ CREATE TABLE DeliveryPosition (
 );
 
 
-
+select ID_DeliveryNote, DeliveryNote_Number, Date_Of_Formation, Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms, Name_Status from DeliveryNote inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Status_ID = Status_.ID_Status
 
 select ID_Post as 'Код должности', Name_Post as 'Название'  from Post
 

@@ -42,6 +42,7 @@ public:
 	static const int IDC_COMBOBOX_DELIVERY = 1026;
 	static const int IDC_COMBOBOX_POST = 1027;
 	static const int IDC_COMBOBOX_COUNTERPARTY = 1028;
+	static const int IDC_COMBOBOX_TYPE_OF_COUNTERPARTY = 1028;
 	static const int IDC_COMBOBOX_TYPE_OF_PRODUCT = 1029;
 	static const int IDC_COMBOBOX_EMPLOYEE = 1030;
 	static const int IDC_COMBOBOX_PRODUCT_ORDER_REQUEST = 1031;

@@ -151,6 +151,7 @@ HWND BaseWindow::CreateBaseComboBox(HWND parentHWnd, HINSTANCE hInstance, int x,
 		nullptr
 	
 	);
+	SendMessage(hComboBox, CB_SETITEMHEIGHT, static_cast<WPARAM>(-1), MAKELPARAM(40, 0));
 
 	return hComboBox;
 }
@@ -181,11 +182,9 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	switch (uMsg) {
 
 	case WM_NOTIFY:
-		//LPNMHDR nmhdr = (LPNMHDR)lParam;
-		//if(nmhdr->hwndFrom == window->GetListViewHandle())
+		
 	case WM_COMMAND:
 	{
-		// Проверяем тип окна
 		wchar_t className[256];
 		GetClassName(hwnd, className, 256);
 
@@ -249,7 +248,6 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->AddRecord(L"Post", columnNames, values);
 
-					
 					break;
 				}
 
@@ -271,7 +269,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					adminWindow->UpdateRecord(L"Post", columnNames, values, idPost);
 
 
-					break;//кнопки не кликабельны
+					break;
 				}
 
 				default:

@@ -129,7 +129,7 @@ HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int
 
 	LOGFONT lf;
 	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
-	lf.lfHeight = 20;
+	lf.lfHeight = 25;
 	HFONT hFont = CreateFontIndirect(&lf);
 
 	SendMessage(editField, WM_SETFONT, (WPARAM)hFont, TRUE);
@@ -154,6 +154,52 @@ HWND BaseWindow::CreateBaseComboBox(HWND parentHWnd, HINSTANCE hInstance, int x,
 	SendMessage(hComboBox, CB_SETITEMHEIGHT, static_cast<WPARAM>(-1), MAKELPARAM(40, 0));
 
 	return hComboBox;
+}
+
+HWND BaseWindow::CreateBaseDatePicker(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height, HMENU id) {
+	HWND hDatePicker = CreateWindow(
+
+		DATETIMEPICK_CLASS,
+		NULL,
+		WS_CHILD | WS_VISIBLE | DTS_SHORTDATEFORMAT | DTS_UPDOWN,
+		x, y, width, height,
+		hWnd,
+		id,
+		hInstance,
+		NULL
+
+	);
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 25;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(hDatePicker, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+	return hDatePicker;
+}
+
+HWND BaseWindow::CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text) {
+	HWND hLabel = CreateWindow(
+		L"STATIC", 
+		text,
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x, y, screenWidth / 2 - 100, 50,
+		parentHWnd,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 25;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(hLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+	return hLabel;
+
 }
 
 
@@ -249,6 +295,28 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					adminWindow->AddRecord(L"Post", columnNames, values);
 
 					break;
+				}
+				case 1: {
+					break;
+				}
+				case 2: {
+					
+					std::wstring contractNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractNumber);
+					std::wstring startDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
+					std::wstring endDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPEndDateContract);
+					std::wstring contractTerms = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractTerms);
+
+					int index = SendMessage(adminWindow->hComboBoxStatus, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedStatusContractId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = {L"Contract_Number", L"Start_Date_Contract", L"End_Date_Contract", L"Contract_Terms", L"Status_ID"};
+
+					std::vector<std::wstring> values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
+
+					adminWindow->AddRecord(L"Contract_", columnNames, values);
+
 				}
 
 				default:

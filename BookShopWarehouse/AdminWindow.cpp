@@ -33,6 +33,192 @@ AdminWindow::AdminWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 	hEditNamePost = nullptr;
 	hEditNameTypeOfCounterparty = nullptr;
 	hEditIdPost = nullptr;
+	hInstance = nullptr;
+	hBtnTabViewContract = nullptr;
+	hBtnTabViewCounterparty = nullptr;
+	hBtnTabViewDelivery = nullptr;
+	hBtnTabViewDeliveryNote = nullptr;
+	hBtnTabViewDeliveryPosition = nullptr;
+	hBtnTabViewEmployee = nullptr;
+	hBtnTabPost = nullptr;
+	hBtnTabViewProduct = nullptr;
+	hBtnTabViewProductOrderRequest = nullptr;
+	hBtnTabViewRequisitionPosition = nullptr;
+	hBtnTabViewStatus = nullptr;
+	hBtnTabTypeOfCounterparty = nullptr;
+	hBtnTabViewTypeOfProduct = nullptr;
+	hBtnTabViewWarehouse = nullptr;
+
+	hEditIdPost = nullptr;
+	hEditNamePost = nullptr;
+
+	hEditIdTypeOfCounterparty = nullptr;
+	hEditNameTypeOfCounterparty = nullptr;
+
+	hEditIdTypeOfProduct = nullptr;
+	hEditNameTypeOfProduct = nullptr;
+
+	hEditIdStatus = nullptr;
+	hEditStatus = nullptr;
+
+	hEditIdWarehouse = nullptr;
+	hEditWarehouseNumber = nullptr;
+	hEditWarehouseAddress = nullptr;
+	hEditWarehouseCapacity = nullptr;
+	hEditCurrentWarehouseLoad = nullptr;
+
+
+	hEditIdContract = nullptr;
+	hEditContractNumber = nullptr;
+	hDPStartDateContract = nullptr;
+	hDPEndDateContract = nullptr;
+	hEditContractTerms = nullptr;
+	hComboBoxStatus = nullptr;
+
+	hEditIdDeliveryNote = nullptr;
+	hEditDeliveryNoteNumber = nullptr;
+	hDPDateOfFormation = nullptr;
+	hComboBoxContract = nullptr;
+
+	hEditIdDelivery = nullptr;
+	hEditDeliveryNumber = nullptr;
+	hDPDeliveryDate = nullptr;
+	hComboBoxWarehouse = nullptr;
+	hComboBoxDeliveryNote = nullptr;
+	hComboBoxStatusDelivery = nullptr;
+
+	hEditIdEmployee = nullptr;
+	hEditSurname = nullptr;
+	hEditName = nullptr;
+	hEditPatronymic = nullptr;
+	hEditEmail = nullptr;
+	hEditLogin = nullptr;
+	hEditPassword = nullptr;
+	hComboBoxPost = nullptr;
+
+	hEditIdCounterparty = nullptr;
+	hEditNameCounterparty = nullptr;
+	hEditPhoneCounterparty = nullptr;
+	hEditEmailCounterparty = nullptr;
+	hEditContactPerson = nullptr;
+	hEditTermsOfCooperation = nullptr;
+	hEditCountry = nullptr;
+	hEditCity = nullptr;
+	hComboBoxTypeOfCounterparty = nullptr;
+
+	hEditIdProductOrderRequest = nullptr;
+	hEditRequestNumber = nullptr;
+	hDPDateOfCreation = nullptr;
+	hComboBoxEmployee = nullptr;
+	hEditCommentary = nullptr;
+	hComboBoxCounterparty = nullptr;
+
+	hEditIdProduct = nullptr;
+	hEditNameProduct = nullptr;
+	hEditPurchasePrice = nullptr;
+	hEditSellingPrice = nullptr;
+	hEditArticle = nullptr;
+	hEditQuantityOfProduct = nullptr;
+	hDPDateOfReceipt = nullptr;
+	hComboBoxCounterpartyProduct = nullptr;
+	hComboBoxTypeOfProduct = nullptr;
+
+	hEditIdRequisitionPosition = nullptr;
+	hEditPositionNumber = nullptr;
+	hComboBoxProduct = nullptr;
+	hComboBoxProductOrderRequest = nullptr;
+	hEditQuantityOfProductInRequisition = nullptr;
+	hEditUnitPrice = nullptr;
+
+	hEditIdDeliveryPosition = nullptr;
+	hComboBoxRequisitionPosition = nullptr;
+	hComboBoxDeliveryDLPosition = nullptr;
+
+	hLabelIdPost = nullptr;
+	hLabelNamePost = nullptr;
+
+	hLabelIdTypeOfCounterparty = nullptr;
+	hLabelNameTypeOfCounterparty = nullptr;
+
+	hLabelIdTypeOfProduct = nullptr;
+	hLabelNameTypeOfProduct = nullptr;
+
+	hLabelIdStatus = nullptr;
+	hLabelStatus = nullptr;
+
+	hLabelIdWarehouse = nullptr;
+	hLabelWarehouseNumber = nullptr;
+	hLabelWarehouseAddress = nullptr;
+	hLabelWarehouseCapacity = nullptr;
+	hLabelCurrentWarehouseLoad = nullptr;
+
+
+	hLabelIdContract = nullptr;
+	hLabelContractNumber = nullptr;
+	hLabelStartDateContract = nullptr;
+	hLabelEndDateContract = nullptr;
+	hLabelContractTerms = nullptr;
+	hLabelStatusContract = nullptr;
+
+	hLabelIdDeliveryNote = nullptr;
+	hLabelDeliveryNoteNumber = nullptr;
+	hLabelDateOfFormation = nullptr;
+	hLabelContract = nullptr;
+
+	hLabelIdDelivery = nullptr;
+	hLabelDeliveryNumber = nullptr;
+	hLabelDeliveryDate = nullptr;
+	hLabelWarehouse = nullptr;
+	hLabelDeliveryNote = nullptr;
+	hLabelStatusDelivery = nullptr;
+
+	hLabelIdEmployee = nullptr;
+	hLabelSurname = nullptr;
+	hLabelName = nullptr;
+	hLabelPatronymic = nullptr;
+	hLabelEmail = nullptr;
+	hLabelLogin = nullptr;
+	hLabelPassword = nullptr;
+	hLabelPost = nullptr;
+
+	hLabelIdCounterparty = nullptr;
+	hLabelNameCounterparty = nullptr;
+	hLabelPhoneCounterparty = nullptr;
+	hLabelEmailCounterparty = nullptr;
+	hLabelContactPerson = nullptr;
+	hLabelTermsOfCooperation = nullptr;
+	hLabelCountry = nullptr;
+	hLabelCity = nullptr;
+	hLabelTypeOfCounterparty = nullptr;
+
+	hLabelIdProductOrderRequest = nullptr;
+	hLabelRequestNumber = nullptr;
+	hLabelDateOfCreation = nullptr;
+	hLabelEmployee = nullptr;
+	hLabelCommentary = nullptr;
+	hLabelCounterparty = nullptr;
+
+	hLabelIdProduct = nullptr;
+	hLabelNameProduct = nullptr;
+	hLabelPurchasePrice = nullptr;
+	hLabelSellingPrice = nullptr;
+	hLabelArticle = nullptr;
+	hLabelQuantityOfProduct = nullptr;
+	hLabelDateOfReceipt = nullptr;
+	hLabelCounterpartyProduct = nullptr;
+	hLabelTypeOfProduct = nullptr;
+
+	hLabelIdRequisitionPosition = nullptr;
+	hLabelPositionNumber = nullptr;
+	hLabelProduct = nullptr;
+	hLabelProductOrderRequest = nullptr;
+	hLabelQuantityOfProductInRequisition = nullptr;
+	hLabelUnitPrice = nullptr;
+
+	hLabelIdDeliveryPosition = nullptr;
+	hLabelRequisitionPosition = nullptr;
+	hLabelDeliveryDLPosition = nullptr;
+	 
 }
 
 
@@ -88,7 +274,10 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		DrawTable(hWndListViewPost, Queries[0]);
 		hEditIdPost = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
 		hEditNamePost = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 80, screenWidth / 2, 50);
+		hLabelIdPost = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 20, L"Код должности");
+		hLabelNamePost = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 80, L"Название должности");
 
+		
 		CreateElementsView();
 
 		ShowWindow(hWndListViewPost, SW_SHOW);
@@ -123,8 +312,8 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hEditIdContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);
 		hEditContractNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
-		hDPStartDateContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50);
-		hDPEndDateContract = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50);
+		hDPStartDateContract = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATEPICKER_STARTDATE_CONTRACT));
+		hDPEndDateContract = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATEPICKER_ENDDATE_CONTRACT));
 		hEditContractTerms = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50);
 		hComboBoxStatus = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS));
 		
@@ -174,7 +363,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hEditIdDelivery = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);
 		hEditDeliveryNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
-		hDPDeliveryDate = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50);
+		hDPDeliveryDate = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATEPICKER_DELIVERY_DATE));
 		hComboBoxWarehouse = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_WAREHOUSE));
 		hComboBoxDeliveryNote = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_DELIVERY_NOTE));
 		hComboBoxStatusDelivery = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS_DELIVERY));
@@ -198,7 +387,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		hEditIdDeliveryNote = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);
 
 		hEditDeliveryNoteNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
-		hDPDateOfFormation = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50);
+		hDPDateOfFormation = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATEPICKER_DATE_OF_FORMATION));
 		hComboBoxContract = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_CONTRACT));
 
 		FillComboBox(hComboBoxContract, L"select ID_Contract, Contract_Number from Contract_", dbManager, comboBoxIdMap);
@@ -270,7 +459,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		hEditSellingPrice = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50 + (screenWidth / 4), screenHeight / 2 + 120, screenWidth / 4, 50);
 		hEditArticle = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50);
 		hEditQuantityOfProduct = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50);
-		hDPDateOfReceipt = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50); 
+		hDPDateOfReceipt = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATEPICKER_DATE_OF_RECEIPT));
 		hComboBoxCounterpartyProduct = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 4, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_COUNTERPARTY));
 		hComboBoxTypeOfProduct = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50 + (screenWidth / 4), screenHeight / 2 + 300, screenWidth / 4, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_TYPE_OF_PRODUCT));
 		
@@ -292,11 +481,12 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		
 		CreateElementsView();
 
-		hEditIdProductOrderRequest = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);		hEditRequestNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
-		hDPDateOfCreation = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
-		hComboBoxEmployee = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_EMPLOYEE));
-		hEditCommentary = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50);
-		hComboBoxCounterparty = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_COUNTERPARTY));
+		hEditIdProductOrderRequest = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);		
+		hEditRequestNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
+		hDPDateOfCreation = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATE_OF_CREATION));
+		hComboBoxEmployee = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_EMPLOYEE));
+		hEditCommentary = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50);
+		hComboBoxCounterparty = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_COUNTERPARTY));
 
 
 		FillComboBox(hComboBoxEmployee, L"select ID_Employee, Email from Employee", dbManager, comboBoxIdMap);
@@ -602,7 +792,6 @@ void AdminWindow::DestroyElementsView() {
 	hWndForDestroy(hEditLogin);
 	hWndForDestroy(hEditPassword);
 	hWndForDestroy(hComboBoxPost);
-	hWndForDestroy(hEditSalt);
 
 	hWndForDestroy(hEditIdCounterparty);
 	hWndForDestroy(hEditNameCounterparty);
@@ -642,6 +831,91 @@ void AdminWindow::DestroyElementsView() {
 	hWndForDestroy(hComboBoxRequisitionPosition);
 	hWndForDestroy(hComboBoxDeliveryDLPosition);
 
+	hWndForDestroy(hLabelIdPost);
+	hWndForDestroy(hLabelNamePost);
+
+	hWndForDestroy(hLabelIdTypeOfCounterparty);
+	hWndForDestroy(hLabelNameTypeOfCounterparty);
+
+	hWndForDestroy(hLabelIdTypeOfProduct);
+	hWndForDestroy(hLabelNameTypeOfProduct);
+
+	hWndForDestroy(hLabelIdStatus);
+	hWndForDestroy(hLabelStatus);
+
+	hWndForDestroy(hLabelIdWarehouse);
+	hWndForDestroy(hLabelWarehouseNumber);
+	hWndForDestroy(hLabelWarehouseAddress);
+	hWndForDestroy(hLabelWarehouseCapacity);
+	hWndForDestroy(hLabelCurrentWarehouseLoad);
+
+	hWndForDestroy(hLabelIdContract);
+	hWndForDestroy(hLabelContractNumber);
+	hWndForDestroy(hLabelStartDateContract);
+	hWndForDestroy(hLabelEndDateContract);
+	hWndForDestroy(hLabelContractTerms);
+	hWndForDestroy(hLabelStatusContract);
+
+	hWndForDestroy(hLabelIdDeliveryNote);
+	hWndForDestroy(hLabelDeliveryNoteNumber);
+	hWndForDestroy(hLabelDateOfFormation);
+	hWndForDestroy(hLabelContract);
+
+	hWndForDestroy(hLabelIdDelivery);
+	hWndForDestroy(hLabelDeliveryNumber);
+	hWndForDestroy(hLabelDeliveryDate);
+	hWndForDestroy(hLabelWarehouse);
+	hWndForDestroy(hLabelDeliveryNote);
+	hWndForDestroy(hLabelStatusDelivery);
+
+	hWndForDestroy(hLabelIdEmployee);
+	hWndForDestroy(hLabelSurname);
+	hWndForDestroy(hLabelName);
+	hWndForDestroy(hLabelPatronymic);
+	hWndForDestroy(hLabelEmail);
+	hWndForDestroy(hLabelLogin);
+	hWndForDestroy(hLabelPassword);
+	hWndForDestroy(hLabelPost);
+
+	hWndForDestroy(hLabelIdCounterparty);
+	hWndForDestroy(hLabelNameCounterparty);
+	hWndForDestroy(hLabelPhoneCounterparty);
+	hWndForDestroy(hLabelEmailCounterparty);
+	hWndForDestroy(hLabelContactPerson);
+	hWndForDestroy(hLabelTermsOfCooperation);
+	hWndForDestroy(hLabelCountry);
+	hWndForDestroy(hLabelCity);
+	hWndForDestroy(hLabelTypeOfCounterparty);
+
+	hWndForDestroy(hLabelIdProductOrderRequest);
+	hWndForDestroy(hLabelRequestNumber);
+	hWndForDestroy(hLabelDateOfCreation);
+	hWndForDestroy(hLabelEmployee);
+	hWndForDestroy(hLabelCommentary);
+	hWndForDestroy(hLabelCounterparty);
+
+	hWndForDestroy(hLabelIdProduct);
+	hWndForDestroy(hLabelNameProduct);
+	hWndForDestroy(hLabelPurchasePrice);
+	hWndForDestroy(hLabelSellingPrice);
+	hWndForDestroy(hLabelArticle);
+	hWndForDestroy(hLabelQuantityOfProduct);
+	hWndForDestroy(hLabelDateOfReceipt);
+	hWndForDestroy(hLabelCounterpartyProduct);
+	hWndForDestroy(hLabelTypeOfProduct);
+
+	hWndForDestroy(hLabelIdRequisitionPosition);
+	hWndForDestroy(hLabelPositionNumber);
+	hWndForDestroy(hLabelProduct);
+	hWndForDestroy(hLabelProductOrderRequest);
+	hWndForDestroy(hLabelQuantityOfProductInRequisition);
+	hWndForDestroy(hLabelUnitPrice);
+
+	hWndForDestroy(hLabelIdDeliveryPosition);
+	hWndForDestroy(hLabelRequisitionPosition);
+	hWndForDestroy(hLabelDeliveryDLPosition);
+	
+
 }
 
 wstring AdminWindow::GetWindowTextAsWstring(HWND hWndEdit) {
@@ -650,6 +924,17 @@ wstring AdminWindow::GetWindowTextAsWstring(HWND hWndEdit) {
 	GetWindowText(hWndEdit, &buffer[0], length + 1);
 
 	return std::wstring(&buffer[0]);
+}
+
+wstring AdminWindow::GetDateFromDatePicker(HWND hDatePicker) {
+	SYSTEMTIME st;
+	if (DateTime_GetSystemtime(hDatePicker, &st) == GDT_VALID) {
+		wchar_t buffer[256];
+		swprintf(buffer, sizeof(buffer) / sizeof(buffer[0]), L"%04d-%02d-%02d", st.wYear, st.wMonth, st.wDay);
+		return wstring(buffer);
+	}
+
+	return L"";
 }
 
 
@@ -706,4 +991,7 @@ void AdminWindow::FillComboBox(HWND hComboBox, const wstring& query, DatabaseMan
 		SendMessage(hComboBox, CB_SETCURSEL, 0, 0);
 	}
 }
+
+
+
 

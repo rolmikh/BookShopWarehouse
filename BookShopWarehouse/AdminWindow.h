@@ -48,6 +48,14 @@ public:
 	static const int IDC_COMBOBOX_PRODUCT_ORDER_REQUEST = 1031;
 	static const int IDC_COMBOBOX_PRODUCT = 1032;
 
+	static const int IDC_DATEPICKER_STARTDATE_CONTRACT = 1033;
+	static const int IDC_DATEPICKER_ENDDATE_CONTRACT = 1034;
+	static const int IDC_DATEPICKER_DATE_OF_RECEIPT= 1035;
+	static const int IDC_DATEPICKER_DATE_OF_FORMATION = 1036;
+	static const int IDC_DATEPICKER_DELIVERY_DATE = 1037;
+	static const int IDC_DATE_OF_CREATION = 1038;
+
+
 	int topOffset = 150;
 	int padding = 20;
 	int listViewHeight = screenHeight / 2 - topOffset - 60;
@@ -94,6 +102,7 @@ public:
 	void CreateTabButton();
 
 	std::wstring GetWindowTextAsWstring(HWND hWndEdit);
+	std::wstring GetDateFromDatePicker(HWND hDatePicker);
 
 	std::unordered_map<int, std::wstring> comboBoxIndexToIdMap;
 
@@ -164,7 +173,6 @@ public:
 	HWND hEditLogin;
 	HWND hEditPassword;
 	HWND hComboBoxPost;
-	HWND hEditSalt;
 
 	HWND hEditIdCounterparty;
 	HWND hEditNameCounterparty;
@@ -203,6 +211,92 @@ public:
 	HWND hEditIdDeliveryPosition;
 	HWND hComboBoxRequisitionPosition;
 	HWND hComboBoxDeliveryDLPosition;
+
+
+	HWND hLabelIdPost;
+	HWND hLabelNamePost;
+
+	HWND hLabelIdTypeOfCounterparty;
+	HWND hLabelNameTypeOfCounterparty;
+
+	HWND hLabelIdTypeOfProduct;
+	HWND hLabelNameTypeOfProduct;
+
+	HWND hLabelIdStatus;
+	HWND hLabelStatus;
+
+	HWND hLabelIdWarehouse;
+	HWND hLabelWarehouseNumber;
+	HWND hLabelWarehouseAddress;
+	HWND hLabelWarehouseCapacity;
+	HWND hLabelCurrentWarehouseLoad;
+
+
+	HWND hLabelIdContract;
+	HWND hLabelContractNumber;
+	HWND hLabelStartDateContract;
+	HWND hLabelEndDateContract;
+	HWND hLabelContractTerms;
+	HWND hLabelStatusContract;
+
+	HWND hLabelIdDeliveryNote;
+	HWND hLabelDeliveryNoteNumber;
+	HWND hLabelDateOfFormation;
+	HWND hLabelContract;
+
+	HWND hLabelIdDelivery;
+	HWND hLabelDeliveryNumber;
+	HWND hLabelDeliveryDate;
+	HWND hLabelWarehouse;
+	HWND hLabelDeliveryNote;
+	HWND hLabelStatusDelivery;
+
+	HWND hLabelIdEmployee;
+	HWND hLabelSurname;
+	HWND hLabelName;
+	HWND hLabelPatronymic;
+	HWND hLabelEmail;
+	HWND hLabelLogin;
+	HWND hLabelPassword;
+	HWND hLabelPost;
+
+	HWND hLabelIdCounterparty;
+	HWND hLabelNameCounterparty;
+	HWND hLabelPhoneCounterparty;
+	HWND hLabelEmailCounterparty;
+	HWND hLabelContactPerson;
+	HWND hLabelTermsOfCooperation;
+	HWND hLabelCountry;
+	HWND hLabelCity;
+	HWND hLabelTypeOfCounterparty;
+
+	HWND hLabelIdProductOrderRequest;
+	HWND hLabelRequestNumber;
+	HWND hLabelDateOfCreation;
+	HWND hLabelEmployee;
+	HWND hLabelCommentary;
+	HWND hLabelCounterparty;
+
+	HWND hLabelIdProduct;
+	HWND hLabelNameProduct;
+	HWND hLabelPurchasePrice;
+	HWND hLabelSellingPrice;
+	HWND hLabelArticle;
+	HWND hLabelQuantityOfProduct;
+	HWND hLabelDateOfReceipt;
+	HWND hLabelCounterpartyProduct;
+	HWND hLabelTypeOfProduct;
+
+	HWND hLabelIdRequisitionPosition;
+	HWND hLabelPositionNumber;
+	HWND hLabelProduct;
+	HWND hLabelProductOrderRequest;
+	HWND hLabelQuantityOfProductInRequisition;
+	HWND hLabelUnitPrice;
+
+	HWND hLabelIdDeliveryPosition;
+	HWND hLabelRequisitionPosition;
+	HWND hLabelDeliveryDLPosition;
 
 
 

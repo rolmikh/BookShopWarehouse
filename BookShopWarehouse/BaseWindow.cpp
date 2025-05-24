@@ -267,22 +267,22 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				adminWindow->UpdateCurrentTabPage(8); // Товар
 			}
 			else if (controlId == AdminWindow::IDC_TAB_PRODUCT_ORDER_REQUEST) {
-				adminWindow->UpdateCurrentTabPage(9); // Заявка на заказ товара
+				adminWindow->UpdateCurrentTabPage(9); 
 			}
 			else if (controlId == AdminWindow::IDC_TAB_REQUISITION_POSITION) {
-				adminWindow->UpdateCurrentTabPage(10); // Заявка поставки
+				adminWindow->UpdateCurrentTabPage(10); 
 			}
 			else if (controlId == AdminWindow::IDC_TAB_STATUS) {
-				adminWindow->UpdateCurrentTabPage(11); // Статус
+				adminWindow->UpdateCurrentTabPage(11); 
 			}
 			else if (controlId == AdminWindow::IDC_TAB_TYPE_OF_PRODUCT) {
-				adminWindow->UpdateCurrentTabPage(12); // Тип товара
+				adminWindow->UpdateCurrentTabPage(12);
 			}
 			else if (controlId == AdminWindow::IDC_TAB_WAREHOUSE) {
-				adminWindow->UpdateCurrentTabPage(13); // Склад
+				adminWindow->UpdateCurrentTabPage(13); 
 			}
 
-			// Обработка других кнопок
+			
 			else if (controlId == AdminWindow::IDC_ADD) {
 				
 				switch (tab)
@@ -297,6 +297,12 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					break;
 				}
 				case 1: {
+					std::wstring nameTypeOfCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameTypeOfCounterparty);
+					std::vector<std::wstring> columnNames = { L"Name_Type_Of_Counterparty" };
+					std::vector<std::wstring> values = { nameTypeOfCounterparty };
+
+					adminWindow->AddRecord(L"TypeOfCounterparty", columnNames, values);
+
 					break;
 				}
 				case 2: {
@@ -318,7 +324,214 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					adminWindow->AddRecord(L"Contract_", columnNames, values);
 
 				}
+				case 3: {
+					std::wstring nameCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
+					std::wstring phoneCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPhoneCounterparty);
+					std::wstring emailCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditEmailCounterparty);
+					std::wstring contactPerson = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContactPerson);
+					std::wstring termsOfCooperation = adminWindow->GetWindowTextAsWstring(adminWindow->hEditTermsOfCooperation);
+					std::wstring country = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCountry);
+					std::wstring city = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCity);
+					
+					int index = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
 
+					int selectedTypeOfCounterpartyId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = {L"Name_Counterparty", L"Phone_Counterparty", L"Email_Counterparty", L"Contact_Person", L"Terms_Of_Cooperation", L"Country", L"City", L"TypeOfCounterparty_ID"};
+
+					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId)};
+
+					adminWindow->AddRecord(L"Counterparty", columnNames, values);
+
+				}
+				case 4: {
+					std::wstring deliveryNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
+					std::wstring deliveryDate = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
+					
+					int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexWarehouse == CB_ERR) break;
+
+					int indexDeliveryNote = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexDeliveryNote == CB_ERR) break;
+					
+					int indexStatus = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexStatus == CB_ERR) break;
+
+					int selectedWarehouseId = adminWindow->comboBoxIdMap[indexWarehouse];
+					int selectedDeliveryNoteId = adminWindow->comboBoxIdMap[indexDeliveryNote];
+					int selectedStatusId = adminWindow->comboBoxIdMap[indexStatus];
+
+					std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID"};
+
+					std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId)};
+
+					adminWindow->AddRecord(L"Delivery", columnNames, values);
+
+				}
+				case 5: {
+
+					std::wstring deliveryNoteNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditDeliveryNoteNumber);
+					std::wstring dateOfFormation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfFormation);
+					
+					int index = SendMessage(adminWindow->hComboBoxContract, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedContractId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = { L"DeliveryNote_Number", L"Date_Of_Formation", L"Contract_ID" };
+
+					std::vector<std::wstring> values = { deliveryNoteNumber, dateOfFormation, std::to_wstring(selectedContractId) };
+
+					adminWindow->AddRecord(L"DeliveryNote", columnNames, values);
+
+				}
+				case 6: {
+
+					int indexRequisition = SendMessage(adminWindow->hComboBoxRequisitionPosition, CB_GETCURSEL, 0, 0);
+					if (indexRequisition == CB_ERR) break;
+
+					int indexDelivery = SendMessage(adminWindow->hComboBoxDeliveryDLPosition, CB_GETCURSEL, 0, 0);
+					if (indexDelivery == CB_ERR) break;
+
+					int selectedRequisitionId = adminWindow->comboBoxIdMap[indexRequisition];
+					int selectedDeliveryId = adminWindow->comboBoxIdMap[indexDelivery];
+
+					std::vector<std::wstring> columnNames = { L"RequisitionPosition_ID", L"Delivery_ID" };
+
+					std::vector<std::wstring> values = {std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
+
+					adminWindow->AddRecord(L"DeliveryPosition", columnNames, values);
+
+				}
+				case 7: {
+					std::wstring surname = adminWindow->GetWindowTextAsWstring(adminWindow->hEditSurname);
+					std::wstring name = adminWindow->GetWindowTextAsWstring(adminWindow->hEditName);
+					std::wstring patronymic = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPatronymic);
+					std::wstring email = adminWindow->GetWindowTextAsWstring(adminWindow->hEditEmail);
+					std::wstring login = adminWindow->GetWindowTextAsWstring(adminWindow->hEditLogin);
+					std::wstring password = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPassword);
+
+					int index = SendMessage(adminWindow->hComboBoxPost, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedPostId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID"};
+
+					std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
+
+					adminWindow->AddRecord(L"Employee", columnNames, values);
+
+
+				}
+				case 8: {
+					std::wstring nameProduct = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameProduct);
+					std::wstring purchasePrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPurchasePrice);
+					std::wstring sellingPrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditSellingPrice);
+					std::wstring article = adminWindow->GetWindowTextAsWstring(adminWindow->hEditArticle);
+					std::wstring quantityOfProduct = adminWindow->GetWindowTextAsWstring(adminWindow->hEditQuantityOfProduct);
+					std::wstring dateOfReceipt = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfReceipt);
+
+					int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterpartyProduct, CB_GETCURSEL, 0, 0);
+					if (indexCounterparty == CB_ERR) break;
+
+					int indexTypeProduct = SendMessage(adminWindow->hComboBoxTypeOfProduct, CB_GETCURSEL, 0, 0);
+					if (indexTypeProduct == CB_ERR) break;
+
+					int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
+					int selectedTypeProductId = adminWindow->comboBoxIdMap[indexTypeProduct];
+
+
+					std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID"};
+
+					std::vector<std::wstring> values = { nameProduct, purchasePrice, sellingPrice, article, quantityOfProduct, dateOfReceipt, std::to_wstring(selectedCounterpartyId), std::to_wstring(selectedTypeProductId) };
+
+					adminWindow->AddRecord(L"Product", columnNames, values);
+
+
+				}
+				case 9: {
+					std::wstring requestNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditRequestNumber);
+					std::wstring dateOfCreation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfCreation);
+					std::wstring editCommentary = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCommentary);
+					
+					int indexEmployee = SendMessage(adminWindow->hComboBoxEmployee, CB_GETCURSEL, 0, 0);
+					if (indexEmployee == CB_ERR) break;
+
+					int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexCounterparty == CB_ERR) break;
+
+					int selectedEmployeeId = adminWindow->comboBoxIdMap[indexEmployee];
+					int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
+
+
+
+					std::vector<std::wstring> columnNames = { L"Request_Number", L"Date_Of_Creation", L"Employee_ID", L"Commentary", L"Counterparty_ID" };
+
+					std::vector<std::wstring> values = { requestNumber, dateOfCreation, std::to_wstring(selectedEmployeeId), editCommentary, std::to_wstring(selectedCounterpartyId) };
+
+					adminWindow->AddRecord(L"ProductOrderRequest", columnNames, values);
+
+
+				}
+				case 10: {
+					std::wstring positionNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPositionNumber);
+					std::wstring quantityOfProductInRequisition = adminWindow->GetDateFromDatePicker(adminWindow->hEditQuantityOfProductInRequisition);
+					std::wstring unitPrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditUnitPrice);
+
+					int indexProduct = SendMessage(adminWindow->hComboBoxProduct, CB_GETCURSEL, 0, 0);
+					if (indexProduct == CB_ERR) break;
+
+					int indexOrderRequest = SendMessage(adminWindow->hComboBoxProductOrderRequest, CB_GETCURSEL, 0, 0);
+					if (indexOrderRequest == CB_ERR) break;
+
+					int selectedProductId = adminWindow->comboBoxIdMap[indexProduct];
+					int selectedOrderRequestId = adminWindow->comboBoxIdMap[indexOrderRequest];
+
+
+
+					std::vector<std::wstring> columnNames = { L"Position_Number", L"Product_ID", L"ProductOrderRequest_ID", L"Quantity_Of_Product_In_Requisition", L"Unit_Price" };
+
+					std::vector<std::wstring> values = { positionNumber, std::to_wstring(selectedProductId), std::to_wstring(selectedOrderRequestId), quantityOfProductInRequisition, unitPrice };
+
+					adminWindow->AddRecord(L"RequisitionPosition", columnNames, values);
+
+
+				}
+				case 11: {
+					std::wstring status = adminWindow->GetWindowTextAsWstring(adminWindow->hEditStatus);
+					std::vector<std::wstring> columnNames = { L"Name_Status" };
+					std::vector<std::wstring> values = { status };
+
+					adminWindow->AddRecord(L"Status_", columnNames, values);
+
+					break;
+				}
+				case 12: {
+					std::wstring nameTypeOfProduct = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameTypeOfProduct);
+					std::vector<std::wstring> columnNames = { L"Name_Type_Of_Product" };
+					std::vector<std::wstring> values = { nameTypeOfProduct };
+
+					adminWindow->AddRecord(L"TypeOfProduct", columnNames, values);
+
+					break;
+				}
+				case 13: {
+
+					std::wstring warehouseNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditWarehouseNumber);
+					std::wstring warehouseAddress = adminWindow->GetDateFromDatePicker(adminWindow->hEditWarehouseAddress);
+					std::wstring warehouseCapacity = adminWindow->GetDateFromDatePicker(adminWindow->hEditWarehouseCapacity);
+					std::wstring currentWarehouseLoad = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCurrentWarehouseLoad);
+
+					
+					std::vector<std::wstring> columnNames = { L"Warehouse_Number", L"Warehouse_Address", L"Warehouse_Capacity", L"Current_Warehouse_Load"};
+
+					std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
+
+					adminWindow->AddRecord(L"Warehouse", columnNames, values);
+
+				}
 				default:
 					break;
 				}
@@ -338,6 +551,281 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 
 					break;
+				}
+
+				case 1: {
+					std::wstring nameTypeOfCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameTypeOfCounterparty);
+					std::vector<std::wstring> columnNames = { L"Name_Type_Of_Counterparty" };
+					std::vector<std::wstring> values = { nameTypeOfCounterparty };
+
+					std::wstring idTypeCounterpartyStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdTypeOfCounterparty);
+					int id = _wtoi(idTypeCounterpartyStr.c_str());
+
+					adminWindow->UpdateRecord(L"TypeOfCounterparty", columnNames, values, id);
+
+					break;
+				}
+				case 2: {
+
+					std::wstring contractNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractNumber);
+					std::wstring startDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
+					std::wstring endDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPEndDateContract);
+					std::wstring contractTerms = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractTerms);
+
+					std::wstring idContractStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdContract);
+					int id = _wtoi(idContractStr.c_str());
+
+					int index = SendMessage(adminWindow->hComboBoxStatus, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedStatusContractId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = { L"Contract_Number", L"Start_Date_Contract", L"End_Date_Contract", L"Contract_Terms", L"Status_ID" };
+
+					std::vector<std::wstring> values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
+
+					adminWindow->UpdateRecord(L"Contract_", columnNames, values, id);
+
+				}
+				case 3: {
+					std::wstring nameCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
+					std::wstring phoneCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPhoneCounterparty);
+					std::wstring emailCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditEmailCounterparty);
+					std::wstring contactPerson = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContactPerson);
+					std::wstring termsOfCooperation = adminWindow->GetWindowTextAsWstring(adminWindow->hEditTermsOfCooperation);
+					std::wstring country = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCountry);
+					std::wstring city = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCity);
+
+					std::wstring idCounterpartyStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdCounterparty);
+					int id = _wtoi(idCounterpartyStr.c_str());
+
+					int index = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedTypeOfCounterpartyId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = { L"Name_Counterparty", L"Phone_Counterparty", L"Email_Counterparty", L"Contact_Person", L"Terms_Of_Cooperation", L"Country", L"City", L"TypeOfCounterparty_ID" };
+
+					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId) };
+
+					adminWindow->UpdateRecord(L"Counterparty", columnNames, values, id);
+
+				}
+				case 4: {
+					std::wstring deliveryNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
+					std::wstring deliveryDate = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
+
+					std::wstring idDeliveryStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDelivery);
+					int id = _wtoi(idDeliveryStr.c_str());
+
+					int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexWarehouse == CB_ERR) break;
+
+					int indexDeliveryNote = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexDeliveryNote == CB_ERR) break;
+
+					int indexStatus = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexStatus == CB_ERR) break;
+
+					int selectedWarehouseId = adminWindow->comboBoxIdMap[indexWarehouse];
+					int selectedDeliveryNoteId = adminWindow->comboBoxIdMap[indexDeliveryNote];
+					int selectedStatusId = adminWindow->comboBoxIdMap[indexStatus];
+
+					std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID" };
+
+					std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId) };
+
+					adminWindow->UpdateRecord(L"Delivery", columnNames, values, id);
+
+				}
+				case 5: {
+
+					std::wstring deliveryNoteNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditDeliveryNoteNumber);
+					std::wstring dateOfFormation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfFormation);
+
+					std::wstring idDeliveryNoteStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDeliveryNote);
+					int id = _wtoi(idDeliveryNoteStr.c_str());
+
+					int index = SendMessage(adminWindow->hComboBoxContract, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedContractId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = { L"DeliveryNote_Number", L"Date_Of_Formation", L"Contract_ID" };
+
+					std::vector<std::wstring> values = { deliveryNoteNumber, dateOfFormation, std::to_wstring(selectedContractId) };
+
+					adminWindow->UpdateRecord(L"DeliveryNote", columnNames, values, id);
+
+				}
+				case 6: {
+
+					std::wstring idDeliveryPositionStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDeliveryPosition);
+					int id = _wtoi(idDeliveryPositionStr.c_str());
+
+					int indexRequisition = SendMessage(adminWindow->hComboBoxRequisitionPosition, CB_GETCURSEL, 0, 0);
+					if (indexRequisition == CB_ERR) break;
+
+					int indexDelivery = SendMessage(adminWindow->hComboBoxDeliveryDLPosition, CB_GETCURSEL, 0, 0);
+					if (indexDelivery == CB_ERR) break;
+
+					int selectedRequisitionId = adminWindow->comboBoxIdMap[indexRequisition];
+					int selectedDeliveryId = adminWindow->comboBoxIdMap[indexDelivery];
+
+					std::vector<std::wstring> columnNames = { L"RequisitionPosition_ID", L"Delivery_ID" };
+
+					std::vector<std::wstring> values = { std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
+
+					adminWindow->UpdateRecord(L"DeliveryPosition", columnNames, values, id);
+
+				}
+				case 7: {
+					std::wstring surname = adminWindow->GetWindowTextAsWstring(adminWindow->hEditSurname);
+					std::wstring name = adminWindow->GetWindowTextAsWstring(adminWindow->hEditName);
+					std::wstring patronymic = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPatronymic);
+					std::wstring email = adminWindow->GetWindowTextAsWstring(adminWindow->hEditEmail);
+					std::wstring login = adminWindow->GetWindowTextAsWstring(adminWindow->hEditLogin);
+					std::wstring password = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPassword);
+
+					std::wstring idEmployeeStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdEmployee);
+					int id = _wtoi(idEmployeeStr.c_str());
+
+					int index = SendMessage(adminWindow->hComboBoxPost, CB_GETCURSEL, 0, 0);
+					if (index == CB_ERR) break;
+
+					int selectedPostId = adminWindow->comboBoxIdMap[index];
+
+					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID" };
+
+					std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
+
+					adminWindow->UpdateRecord(L"Employee", columnNames, values, id);
+
+
+				}
+				case 8: {
+					std::wstring nameProduct = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameProduct);
+					std::wstring purchasePrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPurchasePrice);
+					std::wstring sellingPrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditSellingPrice);
+					std::wstring article = adminWindow->GetWindowTextAsWstring(adminWindow->hEditArticle);
+					std::wstring quantityOfProduct = adminWindow->GetWindowTextAsWstring(adminWindow->hEditQuantityOfProduct);
+					std::wstring dateOfReceipt = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfReceipt);
+
+					std::wstring idProductStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdProduct);
+					int id = _wtoi(idProductStr.c_str());
+
+					int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterpartyProduct, CB_GETCURSEL, 0, 0);
+					if (indexCounterparty == CB_ERR) break;
+
+					int indexTypeProduct = SendMessage(adminWindow->hComboBoxTypeOfProduct, CB_GETCURSEL, 0, 0);
+					if (indexTypeProduct == CB_ERR) break;
+
+					int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
+					int selectedTypeProductId = adminWindow->comboBoxIdMap[indexTypeProduct];
+
+
+					std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID" };
+
+					std::vector<std::wstring> values = { nameProduct, purchasePrice, sellingPrice, article, quantityOfProduct, dateOfReceipt, std::to_wstring(selectedCounterpartyId), std::to_wstring(selectedTypeProductId) };
+
+					adminWindow->UpdateRecord(L"Product", columnNames, values, id);
+
+
+				}
+				case 9: {
+					std::wstring requestNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditRequestNumber);
+					std::wstring dateOfCreation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfCreation);
+					std::wstring editCommentary = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCommentary);
+
+					std::wstring idProductOrderRequestStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdProductOrderRequest);
+					int id = _wtoi(idProductOrderRequestStr.c_str());
+
+					int indexEmployee = SendMessage(adminWindow->hComboBoxEmployee, CB_GETCURSEL, 0, 0);
+					if (indexEmployee == CB_ERR) break;
+
+					int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterparty, CB_GETCURSEL, 0, 0);
+					if (indexCounterparty == CB_ERR) break;
+
+					int selectedEmployeeId = adminWindow->comboBoxIdMap[indexEmployee];
+					int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
+
+
+
+					std::vector<std::wstring> columnNames = { L"Request_Number", L"Date_Of_Creation", L"Employee_ID", L"Commentary", L"Counterparty_ID" };
+
+					std::vector<std::wstring> values = { requestNumber, dateOfCreation, std::to_wstring(selectedEmployeeId), editCommentary, std::to_wstring(selectedCounterpartyId) };
+
+					adminWindow->UpdateRecord(L"ProductOrderRequest", columnNames, values, id);
+
+
+				}
+				case 10: {
+					std::wstring positionNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPositionNumber);
+					std::wstring quantityOfProductInRequisition = adminWindow->GetDateFromDatePicker(adminWindow->hEditQuantityOfProductInRequisition);
+					std::wstring unitPrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditUnitPrice);
+
+					std::wstring idRequisitionPosStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdRequisitionPosition);
+					int id = _wtoi(idRequisitionPosStr.c_str());
+
+					int indexProduct = SendMessage(adminWindow->hComboBoxProduct, CB_GETCURSEL, 0, 0);
+					if (indexProduct == CB_ERR) break;
+
+					int indexOrderRequest = SendMessage(adminWindow->hComboBoxProductOrderRequest, CB_GETCURSEL, 0, 0);
+					if (indexOrderRequest == CB_ERR) break;
+
+					int selectedProductId = adminWindow->comboBoxIdMap[indexProduct];
+					int selectedOrderRequestId = adminWindow->comboBoxIdMap[indexOrderRequest];
+
+
+
+					std::vector<std::wstring> columnNames = { L"Position_Number", L"Product_ID", L"ProductOrderRequest_ID", L"Quantity_Of_Product_In_Requisition", L"Unit_Price" };
+
+					std::vector<std::wstring> values = { positionNumber, std::to_wstring(selectedProductId), std::to_wstring(selectedOrderRequestId), quantityOfProductInRequisition, unitPrice };
+
+					adminWindow->UpdateRecord(L"RequisitionPosition", columnNames, values, id);
+
+
+				}
+				case 11: {
+					std::wstring status = adminWindow->GetWindowTextAsWstring(adminWindow->hEditStatus);
+					std::vector<std::wstring> columnNames = { L"Name_Status" };
+					std::vector<std::wstring> values = { status };
+
+					std::wstring idStatusStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdStatus);
+					int id = _wtoi(idStatusStr.c_str());
+
+					adminWindow->UpdateRecord(L"Status_", columnNames, values, id);
+
+					break;
+				}
+				case 12: {
+					std::wstring nameTypeOfProduct = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameTypeOfProduct);
+					std::vector<std::wstring> columnNames = { L"Name_Type_Of_Product" };
+					std::vector<std::wstring> values = { nameTypeOfProduct };
+
+					std::wstring idTypeOfProductStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdTypeOfProduct);
+					int id = _wtoi(idTypeOfProductStr.c_str());
+
+					adminWindow->UpdateRecord(L"TypeOfProduct", columnNames, values, id);
+
+					break;
+				}
+				case 13: {
+
+					std::wstring warehouseNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditWarehouseNumber);
+					std::wstring warehouseAddress = adminWindow->GetDateFromDatePicker(adminWindow->hEditWarehouseAddress);
+					std::wstring warehouseCapacity = adminWindow->GetDateFromDatePicker(adminWindow->hEditWarehouseCapacity);
+					std::wstring currentWarehouseLoad = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCurrentWarehouseLoad);
+
+					std::wstring idWarehouseStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdWarehouse);
+					int id = _wtoi(idWarehouseStr.c_str());
+
+					std::vector<std::wstring> columnNames = { L"Warehouse_Number", L"Warehouse_Address", L"Warehouse_Capacity", L"Current_Warehouse_Load" };
+
+					std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
+
+					adminWindow->UpdateRecord(L"Warehouse", columnNames, values, id);
+
 				}
 
 				default:

@@ -294,6 +294,8 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 		hEditIdTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 20, screenWidth / 2, 50);
 		hEditNameTypeOfCounterparty = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 80, screenWidth / 2, 50);
+		hLabelIdTypeOfCounterparty = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 20, L"Код типа контрагента");
+		hLabelNameTypeOfCounterparty = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 80, L"Название типа контрагента");
 
 		CreateElementsView();
 
@@ -318,6 +320,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		hComboBoxStatus = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS));
 		
 		FillComboBox(hComboBoxStatus, L"select ID_Status, Name_Status from Status_", dbManager, comboBoxIdMap);
+
+		hLabelIdContract = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2, L"Код контракта");
+		hLabelContractNumber = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 60, L"Номер контракта");
+		hLabelStartDateContract = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 120, L"Дата заключения контракта");
+		hLabelEndDateContract = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 180, L"Дата окончания контракта");
+		hLabelContractTerms = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 240, L"Условия сотрудничества");
+		hLabelStatusContract = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 300, L"Статус контракта");
+
 
 		ShowWindow(hWndListViewContract, SW_SHOW);
 
@@ -346,6 +356,13 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 
 
 		FillComboBox(hComboBoxTypeOfCounterparty, L"select ID_Type_Of_Counterparty, Name_Type_Of_Counterparty from TypeOfCounterparty", dbManager, comboBoxIdMap);
+		
+		hLabelIdCounterparty = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2, L"Код контрагента");
+		hLabelNameCounterparty = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 60, L"Название контрагента");
+		hLabelPhoneCounterparty = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 120, L"Телефон контрагента");
+		hLabelEmailCounterparty = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 180, L"Дата окончания контракта");
+		hLabelContactPerson = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 240, L"Условия сотрудничества");
+		hLabelTermsOfCooperation = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 300, L"Статус контракта");
 
 		ShowWindow(hWndListViewCounterparty, SW_SHOW);
 

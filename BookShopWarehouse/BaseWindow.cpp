@@ -834,7 +834,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			else if (controlId == AdminWindow::IDC_DELETE) {
 				switch (tab) {
-				case 0:
+				case 0: {
 					std::wstring idPostStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdPost);
 
 					int idPost = _wtoi(idPostStr.c_str());
@@ -844,7 +844,125 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					break;
 				}
 
+				case 1: {
+
+					std::wstring idTypeCounterpartyStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdTypeOfCounterparty);
+					int id = _wtoi(idTypeCounterpartyStr.c_str());
+
+					adminWindow->DeleteRecord(L"TypeOfCounterparty", id);
+
+					break;
+				}case 2: {
+
+
+					std::wstring idContractStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdContract);
+					int id = _wtoi(idContractStr.c_str());
+
+
+					adminWindow->DeleteRecord(L"Contract_", id);
+
+				}
+				case 3: {
+
+					std::wstring idCounterpartyStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdCounterparty);
+					int id = _wtoi(idCounterpartyStr.c_str());
+
+					adminWindow->DeleteRecord(L"Counterparty", id);
+
+				}
+				case 4: {
+
+					std::wstring idDeliveryStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDelivery);
+					int id = _wtoi(idDeliveryStr.c_str());
+
+					adminWindow->DeleteRecord(L"Delivery", id);
+
+				}
+				case 5: {
+
+					std::wstring idDeliveryNoteStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDeliveryNote);
+					int id = _wtoi(idDeliveryNoteStr.c_str());
+
+					adminWindow->DeleteRecord(L"DeliveryNote", id);
+
+				}
+				case 6: {
+
+					std::wstring idDeliveryPositionStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDeliveryPosition);
+					int id = _wtoi(idDeliveryPositionStr.c_str());
+
+					adminWindow->DeleteRecord(L"DeliveryPosition", id);
+
+				}
+				case 7: {
+
+					std::wstring idEmployeeStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdEmployee);
+					int id = _wtoi(idEmployeeStr.c_str());
+
+					adminWindow->DeleteRecord(L"Employee", id);
+
+
+				}
+				case 8: {
+
+					std::wstring idProductStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdProduct);
+					int id = _wtoi(idProductStr.c_str());
+
+					adminWindow->DeleteRecord(L"Product", id);
+
+
+				}
+				case 9: {
+
+					std::wstring idProductOrderRequestStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdProductOrderRequest);
+					int id = _wtoi(idProductOrderRequestStr.c_str());
+
+
+					adminWindow->DeleteRecord(L"ProductOrderRequest", id);
+
+
+				}
+				case 10: {
+
+					std::wstring idRequisitionPosStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdRequisitionPosition);
+					int id = _wtoi(idRequisitionPosStr.c_str());
+
+					adminWindow->DeleteRecord(L"RequisitionPosition", id);
+
+
+				}
+				case 11: {
+
+					std::wstring idStatusStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdStatus);
+					int id = _wtoi(idStatusStr.c_str());
+
+					adminWindow->DeleteRecord(L"Status_", id);
+
+					break;
+				}
+				case 12: {
+
+					std::wstring idTypeOfProductStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdTypeOfProduct);
+					int id = _wtoi(idTypeOfProductStr.c_str());
+
+					adminWindow->DeleteRecord(L"TypeOfProduct", id);
+
+					break;
+				}
+				case 13: {
+
+
+					std::wstring idWarehouseStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdWarehouse);
+					int id = _wtoi(idWarehouseStr.c_str());
+
+					adminWindow->DeleteRecord(L"Warehouse", id);
+
+					break;
+				}
+
+				}
 			}
+			
 			else if (controlId == AdminWindow::IDC_SEARCH) {
 				MessageBox(hwnd, L"Поиск", L"Debug", MB_OK);
 			}
@@ -857,6 +975,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
 		return 0;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;

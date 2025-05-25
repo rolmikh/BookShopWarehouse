@@ -251,10 +251,8 @@ public:
 	HWND hLabelDeliveryNote;
 	HWND hLabelStatusDelivery;
 
-	HWND hLabelIdEmployee;
-	HWND hLabelSurname;
-	HWND hLabelName;
-	HWND hLabelPatronymic;
+	HWND hLabelIdSurnameEmployee;
+	HWND hLabelNamePatronymic;
 	HWND hLabelEmail;
 	HWND hLabelLogin;
 	HWND hLabelPassword;
@@ -262,13 +260,10 @@ public:
 
 	HWND hLabelIdCounterparty;
 	HWND hLabelNameCounterparty;
-	HWND hLabelPhoneCounterparty;
-	HWND hLabelEmailCounterparty;
-	HWND hLabelContactPerson;
-	HWND hLabelTermsOfCooperation;
+	HWND hLabelPhoneEmailCounterparty;
+	HWND hLabelContactPersonTermsOfCooperationCounterparty;
 	HWND hLabelCountry;
-	HWND hLabelCity;
-	HWND hLabelTypeOfCounterparty;
+	HWND hLabelCityTypeOfCounterparty;
 
 	HWND hLabelIdProductOrderRequest;
 	HWND hLabelRequestNumber;
@@ -279,13 +274,10 @@ public:
 
 	HWND hLabelIdProduct;
 	HWND hLabelNameProduct;
-	HWND hLabelPurchasePrice;
-	HWND hLabelSellingPrice;
-	HWND hLabelArticle;
-	HWND hLabelQuantityOfProduct;
+	HWND hLabelPurchaseSellingPrice;
+	HWND hLabelArticleQuantityOfProduct;
 	HWND hLabelDateOfReceipt;
-	HWND hLabelCounterpartyProduct;
-	HWND hLabelTypeOfProduct;
+	HWND hLabelCounterpartyProductTypeOfProduct;
 
 	HWND hLabelIdRequisitionPosition;
 	HWND hLabelPositionNumber;

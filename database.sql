@@ -58,13 +58,14 @@ CREATE TABLE Delivery (
 	ID_Delivery INTEGER PRIMARY KEY IDENTITY(1,1),
 	Delivery_Number NVARCHAR(8) NOT NULL UNIQUE,
 	Delivery_Date DATETIME NOT NULL,
-	Warehouse_ID INTEGER NOT NULL,
+	Warehouse_ID INTEGER NULL,
 	DeliveryNote_ID INTEGER NOT NULL,
 	Status_ID INTEGER NOT NULL,
 	FOREIGN KEY (Warehouse_ID) REFERENCES Warehouse (ID_Warehouse),
 	FOREIGN KEY (DeliveryNote_ID) REFERENCES DeliveryNote (ID_DeliveryNote),
 	FOREIGN KEY (Status_ID) REFERENCES Status_ (ID_Status)
 );
+
 
 
 

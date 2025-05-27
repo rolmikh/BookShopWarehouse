@@ -373,16 +373,14 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		hEditIdDelivery = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2, screenWidth / 2, 50);
 		hEditDeliveryNumber = CreateBaseEdit(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 60, screenWidth / 2, 50);
 		hDPDeliveryDate = CreateBaseDatePicker(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 120, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_DATEPICKER_DELIVERY_DATE));
-		hComboBoxWarehouse = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_WAREHOUSE));
-		hComboBoxDeliveryNote = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_DELIVERY_NOTE));
-		hComboBoxStatusDelivery = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 300, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS_DELIVERY));
+		hComboBoxDeliveryNote = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 180, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_DELIVERY_NOTE));
+		hComboBoxStatusDelivery = CreateBaseComboBox(hWnd, hInstance, (padding + screenWidth / 2) - 50, screenHeight / 2 + 240, screenWidth / 2, 50, reinterpret_cast<HMENU>(IDC_COMBOBOX_STATUS_DELIVERY));
 
 		hLabelIdDelivery = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2, L"Код поставки");
 		hLabelDeliveryNumber = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 60, L"Номер поставки");
 		hLabelDeliveryDate = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 120, L"Дата поставки");
-		hLabelWarehouse = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 180, L"Склад");
-		hLabelDeliveryNote = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 240, L"Накладная");
-		hLabelStatusDelivery = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 300, L"Статус поставки");
+		hLabelDeliveryNote = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 180, L"Накладная");
+		hLabelStatusDelivery = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 240, L"Статус поставки");
 
 
 		FillComboBox(hComboBoxWarehouse, L"select ID_Warehouse, Warehouse_Number from Warehouse", dbManager, comboBoxIdMap);

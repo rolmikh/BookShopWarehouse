@@ -97,7 +97,7 @@ public:
 
 	std::vector<int> comboBoxIdMap;
 
-	void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap);
+	void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap) override;
 
 	void CreateTabButton();
 

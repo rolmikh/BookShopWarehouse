@@ -96,6 +96,9 @@
     <ClCompile Include="QueryDescriptor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="WarehouseWorkerWindow.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseConnection.h">
@@ -156,6 +159,9 @@
       <Filter>Файлы заголовков\Design</Filter>
     </ClInclude>
     <ClInclude Include="QueryDescriptor.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="WarehouseWorkerWindow.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

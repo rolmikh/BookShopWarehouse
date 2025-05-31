@@ -25,7 +25,9 @@ public:
 	virtual HWND CreateBaseDatePicker(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height, HMENU id);
 	virtual HWND CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
 	virtual void UpdateCurrentTabPage(int selectedTabIndex) {};
-	
+
+	virtual void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap) {};
+
 	HWND labelWindow;
 
 

@@ -3,6 +3,7 @@
 #include "DatabaseConnection.h"
 #include "DatabaseManager.h"
 #include "AdminWindow.h"
+#include "WarehouseWorkerWindow.h"
 #include <tchar.h>
 
 
@@ -15,6 +16,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     static DatabaseConnection* dbConn = nullptr;
     static DatabaseManager* dbManager = nullptr;
     static AdminWindow* adminWindow = nullptr;
+    static WarehouseWorkerWindow* warehouseWorkerWindow = nullptr;
 
 
     switch (uMsg) {
@@ -44,13 +46,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             dbManager = new DatabaseManager(*dbConn);
         }
 
-        if (!adminWindow && dbManager) {
+        /*if (!adminWindow && dbManager) {
             
             adminWindow = new AdminWindow(*dbManager);
             adminWindow->CreateAdminWindow(hwnd, L"Окно администратора", GetModuleHandle(NULL));
            
             
-        }
+        }*/
+
+        warehouseWorkerWindow = new WarehouseWorkerWindow(*dbManager);
+        warehouseWorkerWindow->CreateWarehouseWorkerWindow(hwnd, L"Окно сотрудника склада", GetModuleHandle(NULL));
+
 
         break;
     }

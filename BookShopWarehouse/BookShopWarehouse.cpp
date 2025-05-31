@@ -47,7 +47,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         if (!adminWindow && dbManager) {
             
             adminWindow = new AdminWindow(*dbManager);
-            adminWindow->CreateAdminWindow(hwnd, L"Должность", GetModuleHandle(NULL));
+            adminWindow->CreateAdminWindow(hwnd, L"Окно администратора", GetModuleHandle(NULL));
            
             
         }

@@ -26,6 +26,8 @@ public:
 	virtual HWND CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
 	virtual void UpdateCurrentTabPage(int selectedTabIndex) {};
 	
+	HWND labelWindow;
+
 
 protected:
 	HWND hWnd;

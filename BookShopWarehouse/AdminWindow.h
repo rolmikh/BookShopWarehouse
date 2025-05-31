@@ -110,6 +110,7 @@ public:
 
 	HWND GetHandleListView() const { return hWndListView; }
 
+
 	HWND hBtnTabViewContract;
 	HWND hBtnTabViewCounterparty;
 	HWND hBtnTabViewDelivery;

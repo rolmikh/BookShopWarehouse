@@ -11,27 +11,9 @@
 
 class AdminWindow : public BaseWindow
 {
-public:
-
-	static const int IDC_TAB_POST = 1001;
-	static const int IDC_TAB_TYPE_OF_COUNTERPARTY = 1002;
-	static const int IDC_TAB_CONTRACT = 1003;
-	static const int IDC_TAB_COUNTERPARTY = 1004;
-	static const int IDC_TAB_DELIVERY = 1005;
-	static const int IDC_TAB_DELIVERY_NOTE = 1006;
-	static const int IDC_TAB_EMPLOYEE = 1007;
-	static const int IDC_TAB_PRODUCT = 1008;
-	static const int IDC_TAB_PRODUCT_ORDER_REQUEST = 1009;
-	static const int IDC_TAB_REQUISITION_POSITION = 1010;
-	static const int IDC_TAB_STATUS = 1011;
-	static const int IDC_TAB_TYPE_OF_PRODUCT = 1012;
-	static const int IDC_TAB_WAREHOUSE = 1013;
-	static const int IDC_ADD = 1014;
-	static const int IDC_EDIT = 1015;
-	static const int IDC_DELETE = 1016;
-	static const int IDC_FILTER = 1017;
-	static const int IDC_SEARCH = 1018;
-	static const int IDC_DELIVERY_POSITION = 1019;
+private:
+	
+	
 
 	static const int IDC_COMBOBOX_STATUS = 1020;
 	static const int IDC_COMBOBOX_WAREHOUSE = 1021;
@@ -50,7 +32,7 @@ public:
 
 	static const int IDC_DATEPICKER_STARTDATE_CONTRACT = 1033;
 	static const int IDC_DATEPICKER_ENDDATE_CONTRACT = 1034;
-	static const int IDC_DATEPICKER_DATE_OF_RECEIPT= 1035;
+	static const int IDC_DATEPICKER_DATE_OF_RECEIPT = 1035;
 	static const int IDC_DATEPICKER_DATE_OF_FORMATION = 1036;
 	static const int IDC_DATEPICKER_DELIVERY_DATE = 1037;
 	static const int IDC_DATE_OF_CREATION = 1038;
@@ -66,7 +48,7 @@ public:
 	int sideOffset = 40;
 	int gap = 20;
 	int buttonCount = 3;
-	
+
 	int totalGap = gap * (buttonCount - 1);
 	int availableWidth = screenWidth - 2 * sideOffset - totalGap;
 	int buttonWidth = availableWidth / buttonCount;
@@ -74,16 +56,39 @@ public:
 	int buttonTop = screenHeight - buttonHeight - bottomOffset;
 	int buttonLeft = sideOffset;
 
+public:
+
+	static const int IDC_TAB_POST = 1001;
+	static const int IDC_TAB_TYPE_OF_COUNTERPARTY = 1002;
+	static const int IDC_TAB_CONTRACT = 1003;
+	static const int IDC_TAB_COUNTERPARTY = 1004;
+	static const int IDC_TAB_DELIVERY = 1005;
+	static const int IDC_TAB_DELIVERY_NOTE = 1006;
+	static const int IDC_TAB_EMPLOYEE = 1007;
+	static const int IDC_TAB_PRODUCT = 1008;
+	static const int IDC_TAB_PRODUCT_ORDER_REQUEST = 1009;
+	static const int IDC_TAB_REQUISITION_POSITION = 1010;
+	static const int IDC_TAB_STATUS = 1011;
+	static const int IDC_TAB_TYPE_OF_PRODUCT = 1012;
+	static const int IDC_TAB_WAREHOUSE = 1013;
+	static const int IDC_DELIVERY_POSITION = 1019;
+
+	static const int IDC_ADD = 1014;
+	static const int IDC_EDIT = 1015;
+	static const int IDC_DELETE = 1016;
+	static const int IDC_FILTER = 1017;
+	static const int IDC_SEARCH = 1018;
+
 	AdminWindow(DatabaseManager& dbManager);
 	~AdminWindow();
 
 	void CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
 	
 
-	void DrawTable(HWND tableListView, const QueryDescriptor& descriptor);
+	void DrawTable(HWND tableListView, const QueryDescriptor& descriptor) override;
 	
-	void CreateElementsView();
-	void DestroyElementsView();
+	void CreateElementsView() override;
+	void DestroyElementsView() override;
 
 	void UpdateCurrentTabPage(int selected) override;
 

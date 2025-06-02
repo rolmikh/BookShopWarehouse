@@ -46,23 +46,28 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             dbManager = new DatabaseManager(*dbConn);
         }
 
-        /*if (!adminWindow && dbManager) {
+        if (!adminWindow && dbManager) {
             
             adminWindow = new AdminWindow(*dbManager);
             adminWindow->CreateAdminWindow(hwnd, L"Окно администратора", GetModuleHandle(NULL));
            
             
+        }
+
+        /*if (!warehouseWorkerWindow && dbManager) {
+            warehouseWorkerWindow = new WarehouseWorkerWindow(*dbManager);
+            warehouseWorkerWindow->CreateWarehouseWorkerWindow(hwnd, L"Окно сотрудника склада", GetModuleHandle(NULL));
+
         }*/
 
-        warehouseWorkerWindow = new WarehouseWorkerWindow(*dbManager);
-        warehouseWorkerWindow->CreateWarehouseWorkerWindow(hwnd, L"Окно сотрудника склада", GetModuleHandle(NULL));
-
+        
 
         break;
     }
 
     case WM_DESTROY:
         delete adminWindow;
+        delete warehouseWorkerWindow;
         delete dbManager;
         delete dbConn;
         PostQuitMessage(0);

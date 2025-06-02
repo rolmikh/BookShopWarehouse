@@ -183,7 +183,7 @@ HWND BaseWindow::CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, in
 	HWND hLabel = CreateWindow(
 		L"STATIC", 
 		text,
-		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		WS_CHILD | WS_VISIBLE | SS_LEFT | SS_CENTERIMAGE,
 		x, y, screenWidth / 2 - 100, 50,
 		parentHWnd,
 		nullptr,
@@ -194,6 +194,52 @@ HWND BaseWindow::CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, in
 	LOGFONT lf;
 	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
 	lf.lfHeight = 25;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(hLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+	return hLabel;
+
+}
+
+HWND BaseWindow::CreateBaseLabelMin(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text) {
+	HWND hLabel = CreateWindow(
+		L"STATIC",
+		text,
+		WS_CHILD | WS_VISIBLE | SS_CENTER | SS_CENTERIMAGE,
+		x, y, screenWidth / 3 - 30, 50,
+		parentHWnd,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 25;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(hLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+	return hLabel;
+
+}
+
+HWND BaseWindow::CreateBaseTitleLabel(HWND parentHWnd, HINSTANCE hInstance, LPCWSTR text) {
+	HWND hLabel = CreateWindow(
+		L"STATIC",
+		text,
+		WS_CHILD | WS_VISIBLE | SS_CENTER | SS_CENTERIMAGE,
+		0, 5, screenWidth, 50,
+		parentHWnd,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 30;
 	HFONT hFont = CreateFontIndirect(&lf);
 
 	SendMessage(hLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
@@ -477,7 +523,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				}
 				case 10: {
 					std::wstring positionNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPositionNumber);
-					std::wstring quantityOfProductInRequisition = adminWindow->GetDateFromDatePicker(adminWindow->hEditQuantityOfProductInRequisition);
+					std::wstring quantityOfProductInRequisition = adminWindow->GetWindowTextAsWstring(adminWindow->hEditQuantityOfProductInRequisition);
 					std::wstring unitPrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditUnitPrice);
 
 					int indexProduct = SendMessage(adminWindow->hComboBoxProduct, CB_GETCURSEL, 0, 0);
@@ -520,8 +566,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				case 13: {
 
 					std::wstring warehouseNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditWarehouseNumber);
-					std::wstring warehouseAddress = adminWindow->GetDateFromDatePicker(adminWindow->hEditWarehouseAddress);
-					std::wstring warehouseCapacity = adminWindow->GetDateFromDatePicker(adminWindow->hEditWarehouseCapacity);
+					std::wstring warehouseAddress = adminWindow->GetWindowTextAsWstring(adminWindow->hEditWarehouseAddress);
+					std::wstring warehouseCapacity = adminWindow->GetWindowTextAsWstring(adminWindow->hEditWarehouseCapacity);
 					std::wstring currentWarehouseLoad = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCurrentWarehouseLoad);
 
 					

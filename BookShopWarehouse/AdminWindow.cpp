@@ -243,7 +243,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 	currentTab = selected;
 	DestroyElementsView();
 
-	labelWindow = CreateBaseLabel(hWnd, hInstance, screenWidth / 4, 5, L"Окно администратора");
+	labelWindow = CreateBaseTitleLabel(hWnd, hInstance, L"Окно администратора");
 
 	RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 	
@@ -774,7 +774,7 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 
 }
 
-//Добавлю логическое удаление пока так
+//не удаляются из таблицы с _ исправь
 void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 
 	

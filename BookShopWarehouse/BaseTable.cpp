@@ -84,7 +84,7 @@ void BaseTable::ResizeListViewToFit(HWND hWndLIstView, int rowCount) {
 	RECT rect;
 	GetWindowRect(hWndLIstView, &rect);
 
-	int height = GetSystemMetrics(SM_CYSCREEN) / 4;
+	int height = GetSystemMetrics(SM_CYSCREEN) / 5;
 
 	int width = GetSystemMetrics(SM_CXSCREEN) - 50;
 	

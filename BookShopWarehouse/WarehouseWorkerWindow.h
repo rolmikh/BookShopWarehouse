@@ -3,15 +3,24 @@
 #include "BaseWindow.h"
 #include "DatabaseManager.h"
 #include "QueryDescriptor.h"
-#include "AdminWindow.h"
 
 class WarehouseWorkerWindow : public BaseWindow
 {
+
+private:
+	static const int IDC_COMBO_BOX_WAREHOUSE = 1050;
+	static const int IDC_COMBO_BOX_DELIVERY = 1055;
+	int padding = 20;
+
+
 public:
 
-	static const int IDC_COMBO_BOX_WAREHOUSE = 1050;
+	static const int IDC_BTN_SHOW_ALL_DELIVERY = 1051;
+	static const int IDC_BTN_SHOW_REJECTED_DELIVERY = 1052;
+	static const int IDC_BTN_SHOW_DELIVERY_POSITION = 1053;
+	static const int IDC_BTN_CONFIRM_DELIVERY = 1054;
 
-	int padding = 20;
+
 
 
 	WarehouseWorkerWindow(DatabaseManager& dbManager);
@@ -19,8 +28,8 @@ public:
 
 	void CreateWarehouseWorkerWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance);
 
-	void CreateElementsView();
-	void DestroyElementsView();
+	void CreateElementsView() override;
+	void DestroyElementsView() override;
 
 	HWND hLabelWindow;
 	HWND hLabelNumberDelivery;
@@ -31,19 +40,23 @@ public:
 	HWND hBtnShowDeliveryPosition;
 	HWND hBtnConfirmDelivery;
 
-	HWND hEditNumberDelivery;
+	HWND hComboBoxNumberDelivery;
 
 	HWND hComboBoxWarehouse;
-
-	void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap) override;
 
 	std::vector<int> comboBoxIdMap;
 
 
+	void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap) override;
+
+	void DrawTable(HWND tableListView, const QueryDescriptor& descriptor) override;
+
+	void hWndForDestroy(HWND& hWndElement);
+
 
 protected:
 
-	HWND hWnsListViewDelivery;
+	HWND hWndListViewDelivery;
 	HWND hWndListViewDeliveryPosition;
 	HWND hWndListViewWarehouse;
 

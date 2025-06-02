@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Authorization.cpp" />
     <ClCompile Include="BaseTable.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="BookShopWarehouse.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="WarehouseWorkerWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Authorization.h" />
     <ClInclude Include="BaseTable.h" />
     <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="Contract.h" />

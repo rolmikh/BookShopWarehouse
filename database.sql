@@ -167,7 +167,7 @@ select ID_DeliveryNote as 'Код накладной', DeliveryNote_Number as '�
 
 select ID_Delivery, Delivery_Number, Delivery_Date, Name_Status, Warehouse_Number, DeliveryNote_Number , Date_Of_Formation , Contract_Number from Delivery inner join DeliveryNote on DeliveryNote_ID = DeliveryNote.ID_DeliveryNote inner join Warehouse on Warehouse_ID = Warehouse.ID_Warehouse inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Delivery.Status_ID = Status_.ID_Status 
 
-select ID_Employee, Surname, Name, Patronymic, Email, Login_Employee, Name_Post from Employee inner join Post on Post_ID = Post.ID_Post 
+select ID_Employee, Surname, Name, Patronymic, Email, Login_Employee, Name_Post, Password_Employee from Employee inner join Post on Post_ID = Post.ID_Post 
 
 select ID_Counterparty, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Contact_Person, Terms_Of_Cooperation, Country, City, Name_Type_Of_Counterparty from Counterparty inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty
 

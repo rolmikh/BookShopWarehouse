@@ -105,7 +105,7 @@
     <ClCompile Include="HashAndSalt.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Base64.cpp">
+    <ClCompile Include="Sha256.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,7 +179,7 @@
     <ClInclude Include="HashAndSalt.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Base64.h">
+    <ClInclude Include="Sha256.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

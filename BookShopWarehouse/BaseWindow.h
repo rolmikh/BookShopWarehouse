@@ -3,6 +3,7 @@
 #include <commctrl.h>
 #include <vector>
 #include <string>
+#include "HashAndSalt.h"
 
 class DatabaseManager;
 
@@ -41,6 +42,9 @@ public:
 	virtual void DestroyElementsView() = 0;
 
 	HWND labelWindow;
+
+	std::string WstrToStr(const std::wstring& wstr);
+	std::wstring StrToWstr(const std::string& str);
 
 
 protected:

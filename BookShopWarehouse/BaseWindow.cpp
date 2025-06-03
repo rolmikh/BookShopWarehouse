@@ -248,6 +248,22 @@ HWND BaseWindow::CreateBaseTitleLabel(HWND parentHWnd, HINSTANCE hInstance, LPCW
 
 }
 
+std::string WstrToStr(const std::wstring& wstr) {
+	if (wstr.empty()) return "";
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), nullptr, 0, nullptr, nullptr);
+	std::string str(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &str[0], size_needed, nullptr, nullptr);
+	return str;
+}
+
+std::wstring StrToWstr(const std::string& str) {
+	if (str.empty()) return {};
+	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), nullptr, 0);
+	std::wstring wstr(size_needed, 0);
+	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstr[0], size_needed);
+	return wstr;
+}
+
 
 
 HWND BaseWindow::GetHandle() const {
@@ -458,14 +474,19 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring login = adminWindow->GetWindowTextAsWstring(adminWindow->hEditLogin);
 					std::wstring password = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPassword);
 
+					HashAndSalt hasher;
+
+					std::string salt = hasher.CreateSalt(16);
+					std::string hash = hasher.GenerateHash(WstrToStr(password), salt);
+
 					int index = SendMessage(adminWindow->hComboBoxPost, CB_GETCURSEL, 0, 0);
 					if (index == CB_ERR) break;
 
 					int selectedPostId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID"};
+					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID", L"Salt"};
 
-					std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
+					std::vector<std::wstring> values = { surname, name, patronymic, email, login, StrToWstr(hash), std::to_wstring(selectedPostId), StrToWstr(salt) };
 
 					adminWindow->AddRecord(L"Employee", columnNames, values);
 

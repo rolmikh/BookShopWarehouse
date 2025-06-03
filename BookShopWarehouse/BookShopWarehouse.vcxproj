@@ -129,7 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Authorization.cpp" />
-    <ClCompile Include="Base64.cpp" />
+    <ClCompile Include="Sha256.cpp" />
     <ClCompile Include="BaseTable.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="HashAndSalt.cpp" />
@@ -156,7 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Authorization.h" />
-    <ClInclude Include="Base64.h" />
+    <ClInclude Include="Sha256.h" />
     <ClInclude Include="BaseTable.h" />
     <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="HashAndSalt.h" />

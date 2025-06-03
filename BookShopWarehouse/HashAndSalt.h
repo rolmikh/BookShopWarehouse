@@ -1,11 +1,10 @@
 #pragma once
 #include <string>
-#include <vector>
+#include "Sha256.h"
 
 class HashAndSalt {
 public:
-    std::string CreateSalt(int size);
-    std::string GenerateHash(const std::string& input, const std::string& salt);
-    bool AreEqual(const std::string& plainTextInput, const std::string& hashedInput, const std::string& salt);
-    std::string GenerateToken(int length);
+    static std::string CreateSalt(int size = 16);
+    static std::string GenerateHash(const std::string& password, const std::string& salt);
+    static bool AreEqual(const std::string& plainText, const std::string& storedHash, const std::string& salt);
 };

@@ -403,6 +403,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->AddRecord(L"Contract_", columnNames, values);
 
+					break;
+
 				}
 				case 3: {
 					std::wstring nameCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
@@ -423,6 +425,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId) };
 
 					adminWindow->AddRecord(L"Counterparty", columnNames, values);
+
+					break;
 
 				}
 				case 4: {
@@ -448,6 +452,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->AddRecord(L"Delivery", columnNames, values);
 
+					break;
+
 				}
 				case 5: {
 
@@ -464,6 +470,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { deliveryNoteNumber, dateOfFormation, std::to_wstring(selectedContractId) };
 
 					adminWindow->AddRecord(L"DeliveryNote", columnNames, values);
+
+					break;
 
 				}
 				case 6: {
@@ -482,6 +490,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
 
 					adminWindow->AddRecord(L"DeliveryPosition", columnNames, values);
+
+					break;
 
 				}
 				case 7: {
@@ -507,6 +517,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { surname, name, patronymic, email, login, window->StrToWstr(hash), std::to_wstring(selectedPostId), window->StrToWstr(salt) };
 
 					adminWindow->AddRecord(L"Employee", columnNames, values);
+
+					break;
 
 
 				}
@@ -534,6 +546,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->AddRecord(L"Product", columnNames, values);
 
+					break;
+
 
 				}
 				case 9: {
@@ -558,6 +572,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->AddRecord(L"ProductOrderRequest", columnNames, values);
 
+					break;
+
 
 				}
 				case 10: {
@@ -581,6 +597,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { positionNumber, std::to_wstring(selectedProductId), std::to_wstring(selectedOrderRequestId), quantityOfProductInRequisition, unitPrice };
 
 					adminWindow->AddRecord(L"RequisitionPosition", columnNames, values);
+
+					break;
 
 
 				}
@@ -615,6 +633,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
 
 					adminWindow->AddRecord(L"Warehouse", columnNames, values);
+
+					break;
 
 				}
 				default:
@@ -671,6 +691,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->UpdateRecord(L"Contract_", columnNames, values, id);
 
+					break;
+
 				}
 				case 3: {
 					std::wstring nameCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
@@ -694,6 +716,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId) };
 
 					adminWindow->UpdateRecord(L"Counterparty", columnNames, values, id);
+
+					break;
 
 				}
 				case 4: {
@@ -722,6 +746,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->UpdateRecord(L"Delivery", columnNames, values, id);
 
+					break;
+
 				}
 				case 5: {
 
@@ -741,6 +767,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { deliveryNoteNumber, dateOfFormation, std::to_wstring(selectedContractId) };
 
 					adminWindow->UpdateRecord(L"DeliveryNote", columnNames, values, id);
+					break;
 
 				}
 				case 6: {
@@ -762,6 +789,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
 
 					adminWindow->UpdateRecord(L"DeliveryPosition", columnNames, values, id);
+
+					break;
 
 				}
 				case 7: {
@@ -785,6 +814,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
 
 					adminWindow->UpdateRecord(L"Employee", columnNames, values, id);
+
+					break;
 
 
 				}
@@ -815,6 +846,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->UpdateRecord(L"Product", columnNames, values, id);
 
+					break;
+
 
 				}
 				case 9: {
@@ -842,6 +875,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->UpdateRecord(L"ProductOrderRequest", columnNames, values, id);
 
+					break;
+
 
 				}
 				case 10: {
@@ -868,6 +903,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { positionNumber, std::to_wstring(selectedProductId), std::to_wstring(selectedOrderRequestId), quantityOfProductInRequisition, unitPrice };
 
 					adminWindow->UpdateRecord(L"RequisitionPosition", columnNames, values, id);
+
+					break;
 
 
 				}
@@ -910,6 +947,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
 
 					adminWindow->UpdateRecord(L"Warehouse", columnNames, values, id);
+					break;
 
 				}
 
@@ -946,6 +984,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->DeleteRecord(L"Contract_", id);
 
+					break;
+
 				}
 				case 3: {
 
@@ -953,6 +993,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int id = _wtoi(idCounterpartyStr.c_str());
 
 					adminWindow->DeleteRecord(L"Counterparty", id);
+
+					break;
 
 				}
 				case 4: {
@@ -962,6 +1004,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->DeleteRecord(L"Delivery", id);
 
+					break;
+
 				}
 				case 5: {
 
@@ -969,6 +1013,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int id = _wtoi(idDeliveryNoteStr.c_str());
 
 					adminWindow->DeleteRecord(L"DeliveryNote", id);
+
+					break;
 
 				}
 				case 6: {
@@ -978,6 +1024,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->DeleteRecord(L"DeliveryPosition", id);
 
+					break;
+
 				}
 				case 7: {
 
@@ -985,6 +1033,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int id = _wtoi(idEmployeeStr.c_str());
 
 					adminWindow->DeleteRecord(L"Employee", id);
+
+					break;
 
 
 				}
@@ -994,6 +1044,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int id = _wtoi(idProductStr.c_str());
 
 					adminWindow->DeleteRecord(L"Product", id);
+
+					break;
 
 
 				}
@@ -1005,6 +1057,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->DeleteRecord(L"ProductOrderRequest", id);
 
+					break;
+
 
 				}
 				case 10: {
@@ -1014,6 +1068,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					adminWindow->DeleteRecord(L"RequisitionPosition", id);
 
+					break;
+
 
 				}
 				case 11: {
@@ -1022,6 +1078,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int id = _wtoi(idStatusStr.c_str());
 
 					adminWindow->DeleteRecord(L"Status_", id);
+
+
 
 					break;
 				}

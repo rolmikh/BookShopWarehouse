@@ -776,14 +776,20 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 //не удаляются из таблицы с _ исправь
 void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 
+
+
+	if (id == NULL) {
+		MessageBox(hWnd, L"Запись не выбрана!", L"Ошибка", MB_OK | MB_ICONERROR);
+		return;
+	}
 	
 	wstring sql = L"delete from " + tableName + L" Where ID_" + tableName + L" = " + to_wstring(id);
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK);
-		
 		UpdateCurrentTabPage(currentTab);
 		
 	}
+
 }
 
 WindowTypes AdminWindow::GetType() const { return WindowTypes::ADMIN_WINDOW; }

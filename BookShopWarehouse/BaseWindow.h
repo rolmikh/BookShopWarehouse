@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "HashAndSalt.h"
+#include "WindowTypes.h"
 
 class DatabaseManager;
 
@@ -19,6 +20,8 @@ public:
 
 	virtual void CreateBaseWindow(HWND parentHWnd = nullptr, LPCWSTR windowName = L"", HINSTANCE hInstance = nullptr);
 	HWND GetHandle() const;
+
+	//virtual LPCWSTR GetClassName() const = 0;
 
 	virtual void DrawTable(HWND hWnd);
 
@@ -46,6 +49,7 @@ public:
 	std::string WstrToStr(const std::wstring& wstr);
 	std::wstring StrToWstr(const std::string& str);
 
+	virtual WindowTypes GetType() const;
 
 protected:
 	HWND hWnd;

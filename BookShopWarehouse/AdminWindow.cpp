@@ -213,11 +213,9 @@ AdminWindow::AdminWindow(DatabaseManager& dbManager) : dbManager(dbManager) {
 	 
 }
 
-
-
-
-
 AdminWindow::~AdminWindow() {}
+
+const LPCWSTR AdminWindow::CLASS_NAME = L"AdminWindowClass";
 
 void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance) {
 
@@ -236,6 +234,7 @@ void AdminWindow::CreateAdminWindow(HWND parentHWnd, LPCWSTR windowName, HINSTAN
 	UpdateCurrentTabPage(currentTab);
 
 }
+
 
 
 void AdminWindow::UpdateCurrentTabPage(int selected) {
@@ -786,6 +785,8 @@ void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 		
 	}
 }
+
+WindowTypes AdminWindow::GetType() const { return WindowTypes::ADMIN_WINDOW; }
 
 
 void AdminWindow::hWndForDestroy(HWND& hWndElement) {

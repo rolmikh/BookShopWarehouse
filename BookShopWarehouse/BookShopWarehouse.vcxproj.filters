@@ -19,17 +19,17 @@
     <Filter Include="Исходные файлы\Database">
       <UniqueIdentifier>{141453e5-768b-4f29-8d1a-cb7a125949e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\Design">
-      <UniqueIdentifier>{10580570-abbf-4068-8ba5-779c96c83dda}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы заголовков\Class">
       <UniqueIdentifier>{085e5b7d-8a5d-4b0b-bd47-f74fa58b9860}</UniqueIdentifier>
     </Filter>
     <Filter Include="Файлы заголовков\Database">
       <UniqueIdentifier>{14764cd1-172a-4891-8baa-855ad1a694fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Design">
+    <Filter Include="Файлы заголовков\Window">
       <UniqueIdentifier>{ea1d55d6-a8b0-4ff8-a3c6-6b3449e2def3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Window">
+      <UniqueIdentifier>{10580570-abbf-4068-8ba5-779c96c83dda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,24 +82,18 @@
       <Filter>Исходные файлы\Database</Filter>
     </ClCompile>
     <ClCompile Include="AdminWindow.cpp">
-      <Filter>Исходные файлы\Design</Filter>
+      <Filter>Исходные файлы\Window</Filter>
     </ClCompile>
     <ClCompile Include="BaseWindow.cpp">
-      <Filter>Исходные файлы\Design</Filter>
+      <Filter>Исходные файлы\Window</Filter>
     </ClCompile>
     <ClCompile Include="DatabaseManager.cpp">
       <Filter>Исходные файлы\Database</Filter>
     </ClCompile>
     <ClCompile Include="BaseTable.cpp">
-      <Filter>Исходные файлы\Design</Filter>
+      <Filter>Исходные файлы\Window</Filter>
     </ClCompile>
     <ClCompile Include="QueryDescriptor.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="WarehouseWorkerWindow.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Authorization.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="HashAndSalt.cpp">
@@ -107,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="Sha256.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Authorization.cpp">
+      <Filter>Исходные файлы\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="WarehouseWorkerWindow.cpp">
+      <Filter>Исходные файлы\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,24 +156,18 @@
       <Filter>Файлы заголовков\Class</Filter>
     </ClInclude>
     <ClInclude Include="AdminWindow.h">
-      <Filter>Файлы заголовков\Design</Filter>
+      <Filter>Файлы заголовков\Window</Filter>
     </ClInclude>
     <ClInclude Include="BaseWindow.h">
-      <Filter>Файлы заголовков\Design</Filter>
+      <Filter>Файлы заголовков\Window</Filter>
     </ClInclude>
     <ClInclude Include="DatabaseManager.h">
       <Filter>Файлы заголовков\Database</Filter>
     </ClInclude>
     <ClInclude Include="BaseTable.h">
-      <Filter>Файлы заголовков\Design</Filter>
+      <Filter>Файлы заголовков\Window</Filter>
     </ClInclude>
     <ClInclude Include="QueryDescriptor.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="WarehouseWorkerWindow.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Authorization.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="HashAndSalt.h">
@@ -181,6 +175,15 @@
     </ClInclude>
     <ClInclude Include="Sha256.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Authorization.h">
+      <Filter>Файлы заголовков\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="WarehouseWorkerWindow.h">
+      <Filter>Файлы заголовков\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

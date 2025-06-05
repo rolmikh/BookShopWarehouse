@@ -1,5 +1,6 @@
 #include "BaseWindow.h"
 #include "AdminWindow.h"
+#include "Authorization.h"
 #pragma comment(lib, "comctl32.lib")
 
 
@@ -25,6 +26,7 @@ BaseWindow::BaseWindow() {
 	hWnd = nullptr;
 	hWndListView = nullptr;
 	hInstance = nullptr;
+	labelWindow = nullptr;
 }
 
 BaseWindow::~BaseWindow() {}
@@ -47,7 +49,7 @@ void BaseWindow::CreateBaseWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE
 		parentHWnd,
 		nullptr,
 		hInstance,
-		nullptr
+		this
 
 	);
 
@@ -113,8 +115,8 @@ HWND BaseWindow::CreateBaseButton(HWND parentHWnd, LPCWSTR buttonName, HINSTANCE
 }
 
 HWND BaseWindow::CreateBaseEdit(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height) {
-	
-	
+
+
 	HWND editField = CreateWindow(
 		L"EDIT",
 		L"",
@@ -149,7 +151,7 @@ HWND BaseWindow::CreateBaseComboBox(HWND parentHWnd, HINSTANCE hInstance, int x,
 		id,
 		hInstance,
 		nullptr
-	
+
 	);
 	SendMessage(hComboBox, CB_SETITEMHEIGHT, static_cast<WPARAM>(-1), MAKELPARAM(40, 0));
 
@@ -181,7 +183,7 @@ HWND BaseWindow::CreateBaseDatePicker(HWND parentHWnd, HINSTANCE hInstance, int 
 
 HWND BaseWindow::CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text) {
 	HWND hLabel = CreateWindow(
-		L"STATIC", 
+		L"STATIC",
 		text,
 		WS_CHILD | WS_VISIBLE | SS_LEFT | SS_CENTERIMAGE,
 		x, y, screenWidth / 2 - 100, 50,
@@ -248,7 +250,7 @@ HWND BaseWindow::CreateBaseTitleLabel(HWND parentHWnd, HINSTANCE hInstance, LPCW
 
 }
 
-std::string WstrToStr(const std::wstring& wstr) {
+std::string BaseWindow::WstrToStr(const std::wstring& wstr) {
 	if (wstr.empty()) return "";
 	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), nullptr, 0, nullptr, nullptr);
 	std::string str(size_needed, 0);
@@ -256,7 +258,7 @@ std::string WstrToStr(const std::wstring& wstr) {
 	return str;
 }
 
-std::wstring StrToWstr(const std::string& str) {
+std::wstring BaseWindow::StrToWstr(const std::string& str) {
 	if (str.empty()) return {};
 	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), nullptr, 0);
 	std::wstring wstr(size_needed, 0);
@@ -274,6 +276,9 @@ void BaseWindow::DrawTable(HWND hWnd) {
 
 }
 
+WindowTypes BaseWindow::GetType() const { return WindowTypes::BASE_WINDOW; }
+
+
 LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	BaseWindow* window = reinterpret_cast<BaseWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	if (uMsg == WM_CREATE) {
@@ -290,13 +295,26 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	switch (uMsg) {
 
 	case WM_NOTIFY:
-		
+
 	case WM_COMMAND:
 	{
-		wchar_t className[256];
-		GetClassName(hwnd, className, 256);
+		switch (window->GetType()) {
+		case WindowTypes::AUTHORIZATION_WINDOW:
+		{
+			Authorization* authorization = static_cast<Authorization*>(window);
+			int controlId = LOWORD(wParam);
 
-		if (wcscmp(className, AdminWindow::CLASS_NAME) == 0) {
+			if (controlId == Authorization::IDC_BTN_AUTHORIZATION) {
+				std::wstring login = authorization->GetWindowTextAsWstring(authorization->hEditLogin);
+				std::wstring password = authorization->GetWindowTextAsWstring(authorization->hPBPassword);
+
+				authorization->ToAuthorization(login, password);
+
+			}
+
+			break;
+		}
+		case WindowTypes::ADMIN_WINDOW: {
 			AdminWindow* adminWindow = static_cast<AdminWindow*>(window);
 			int controlId = LOWORD(wParam);
 			int tab = adminWindow->currentTab;
@@ -329,24 +347,24 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				adminWindow->UpdateCurrentTabPage(8); // Товар
 			}
 			else if (controlId == AdminWindow::IDC_TAB_PRODUCT_ORDER_REQUEST) {
-				adminWindow->UpdateCurrentTabPage(9); 
+				adminWindow->UpdateCurrentTabPage(9);
 			}
 			else if (controlId == AdminWindow::IDC_TAB_REQUISITION_POSITION) {
-				adminWindow->UpdateCurrentTabPage(10); 
+				adminWindow->UpdateCurrentTabPage(10);
 			}
 			else if (controlId == AdminWindow::IDC_TAB_STATUS) {
-				adminWindow->UpdateCurrentTabPage(11); 
+				adminWindow->UpdateCurrentTabPage(11);
 			}
 			else if (controlId == AdminWindow::IDC_TAB_TYPE_OF_PRODUCT) {
 				adminWindow->UpdateCurrentTabPage(12);
 			}
 			else if (controlId == AdminWindow::IDC_TAB_WAREHOUSE) {
-				adminWindow->UpdateCurrentTabPage(13); 
+				adminWindow->UpdateCurrentTabPage(13);
 			}
 
-			
+
 			else if (controlId == AdminWindow::IDC_ADD) {
-				
+
 				switch (tab)
 				{
 				case 0: {
@@ -368,7 +386,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					break;
 				}
 				case 2: {
-					
+
 					std::wstring contractNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractNumber);
 					std::wstring startDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
 					std::wstring endDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPEndDateContract);
@@ -379,7 +397,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					int selectedStatusContractId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = {L"Contract_Number", L"Start_Date_Contract", L"End_Date_Contract", L"Contract_Terms", L"Status_ID"};
+					std::vector<std::wstring> columnNames = { L"Contract_Number", L"Start_Date_Contract", L"End_Date_Contract", L"Contract_Terms", L"Status_ID" };
 
 					std::vector<std::wstring> values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
 
@@ -394,15 +412,15 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring termsOfCooperation = adminWindow->GetWindowTextAsWstring(adminWindow->hEditTermsOfCooperation);
 					std::wstring country = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCountry);
 					std::wstring city = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCity);
-					
+
 					int index = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
 					if (index == CB_ERR) break;
 
 					int selectedTypeOfCounterpartyId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = {L"Name_Counterparty", L"Phone_Counterparty", L"Email_Counterparty", L"Contact_Person", L"Terms_Of_Cooperation", L"Country", L"City", L"TypeOfCounterparty_ID"};
+					std::vector<std::wstring> columnNames = { L"Name_Counterparty", L"Phone_Counterparty", L"Email_Counterparty", L"Contact_Person", L"Terms_Of_Cooperation", L"Country", L"City", L"TypeOfCounterparty_ID" };
 
-					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId)};
+					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId) };
 
 					adminWindow->AddRecord(L"Counterparty", columnNames, values);
 
@@ -410,13 +428,13 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				case 4: {
 					std::wstring deliveryNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
 					std::wstring deliveryDate = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
-					
+
 					int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
 					if (indexWarehouse == CB_ERR) break;
 
 					int indexDeliveryNote = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
 					if (indexDeliveryNote == CB_ERR) break;
-					
+
 					int indexStatus = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
 					if (indexStatus == CB_ERR) break;
 
@@ -424,9 +442,9 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int selectedDeliveryNoteId = adminWindow->comboBoxIdMap[indexDeliveryNote];
 					int selectedStatusId = adminWindow->comboBoxIdMap[indexStatus];
 
-					std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID"};
+					std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID" };
 
-					std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId)};
+					std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId) };
 
 					adminWindow->AddRecord(L"Delivery", columnNames, values);
 
@@ -435,7 +453,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					std::wstring deliveryNoteNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditDeliveryNoteNumber);
 					std::wstring dateOfFormation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfFormation);
-					
+
 					int index = SendMessage(adminWindow->hComboBoxContract, CB_GETCURSEL, 0, 0);
 					if (index == CB_ERR) break;
 
@@ -461,7 +479,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					std::vector<std::wstring> columnNames = { L"RequisitionPosition_ID", L"Delivery_ID" };
 
-					std::vector<std::wstring> values = {std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
+					std::vector<std::wstring> values = { std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
 
 					adminWindow->AddRecord(L"DeliveryPosition", columnNames, values);
 
@@ -477,16 +495,16 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					HashAndSalt hasher;
 
 					std::string salt = hasher.CreateSalt(16);
-					std::string hash = hasher.GenerateHash(WstrToStr(password), salt);
+					std::string hash = hasher.GenerateHash(window->WstrToStr(password), salt);
 
 					int index = SendMessage(adminWindow->hComboBoxPost, CB_GETCURSEL, 0, 0);
 					if (index == CB_ERR) break;
 
 					int selectedPostId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID", L"Salt"};
+					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID", L"Salt" };
 
-					std::vector<std::wstring> values = { surname, name, patronymic, email, login, StrToWstr(hash), std::to_wstring(selectedPostId), StrToWstr(salt) };
+					std::vector<std::wstring> values = { surname, name, patronymic, email, login, window->StrToWstr(hash), std::to_wstring(selectedPostId), window->StrToWstr(salt) };
 
 					adminWindow->AddRecord(L"Employee", columnNames, values);
 
@@ -510,7 +528,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					int selectedTypeProductId = adminWindow->comboBoxIdMap[indexTypeProduct];
 
 
-					std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID"};
+					std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID" };
 
 					std::vector<std::wstring> values = { nameProduct, purchasePrice, sellingPrice, article, quantityOfProduct, dateOfReceipt, std::to_wstring(selectedCounterpartyId), std::to_wstring(selectedTypeProductId) };
 
@@ -522,7 +540,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring requestNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditRequestNumber);
 					std::wstring dateOfCreation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfCreation);
 					std::wstring editCommentary = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCommentary);
-					
+
 					int indexEmployee = SendMessage(adminWindow->hComboBoxEmployee, CB_GETCURSEL, 0, 0);
 					if (indexEmployee == CB_ERR) break;
 
@@ -591,8 +609,8 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring warehouseCapacity = adminWindow->GetWindowTextAsWstring(adminWindow->hEditWarehouseCapacity);
 					std::wstring currentWarehouseLoad = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCurrentWarehouseLoad);
 
-					
-					std::vector<std::wstring> columnNames = { L"Warehouse_Number", L"Warehouse_Address", L"Warehouse_Capacity", L"Current_Warehouse_Load"};
+
+					std::vector<std::wstring> columnNames = { L"Warehouse_Number", L"Warehouse_Address", L"Warehouse_Capacity", L"Current_Warehouse_Load" };
 
 					std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
 
@@ -613,7 +631,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring idPostStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdPost);
 					int idPost = _wtoi(idPostStr.c_str());
 					std::vector<std::wstring> values = { namePost };
-					
+
 					adminWindow->UpdateRecord(L"Post", columnNames, values, idPost);
 
 
@@ -1029,25 +1047,44 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 				}
 			}
-			
+
 			else if (controlId == AdminWindow::IDC_SEARCH) {
 				MessageBox(hwnd, L"Поиск", L"Debug", MB_OK);
 			}
 			else if (controlId == AdminWindow::IDC_FILTER) {
 				MessageBox(hwnd, L"Фильтр", L"Debug", MB_OK);
 			}
+
+			break;
+
+		}
+		case WindowTypes::WAREHOUSE_WORKER_WINDOW: {
+			//WarehouseWorkerWindow* warehouseWorker = static_cast<WarehouseWorkerWindow*>(window);
+			int controlId = LOWORD(wParam);
 		}
 		break;
+
+		}
+		
+
+		break;
+
+			
 	}
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
 		return 0;
+		break;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
+		break;
+
 	default:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		break;
+
 	}
 	return 0;
 }

@@ -47,5 +47,3 @@ void DatabaseManager::PrintTableData(const vector<vector<wstring>>& data) {
 		wcout << endl;
 	}
 }
-
-

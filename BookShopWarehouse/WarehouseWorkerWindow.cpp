@@ -26,6 +26,8 @@ WarehouseWorkerWindow::WarehouseWorkerWindow(DatabaseManager& dbManager) : dbMan
 
 WarehouseWorkerWindow::~WarehouseWorkerWindow(){}
 
+const LPCWSTR WarehouseWorkerWindow::CLASS_NAME = L"WarehouseWorkerWindowClass";
+
 void WarehouseWorkerWindow::CreateWarehouseWorkerWindow(HWND parentHWnd, LPCWSTR windowName, HINSTANCE hInstance) {
 
 	CreateBaseWindow(parentHWnd, windowName, hInstance);
@@ -43,6 +45,7 @@ void WarehouseWorkerWindow::CreateWarehouseWorkerWindow(HWND parentHWnd, LPCWSTR
 
 }
 
+WindowTypes WarehouseWorkerWindow::GetType() const { return WindowTypes::WAREHOUSE_WORKER_WINDOW; }
 
 
 void WarehouseWorkerWindow::CreateElementsView() {

@@ -5,6 +5,7 @@
 #include "AdminWindow.h"
 #include "WarehouseWorkerWindow.h"
 #include <tchar.h>
+#include "Authorization.h"
 
 
 // Идентификатор метки для статуса подключения
@@ -17,10 +18,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     static DatabaseManager* dbManager = nullptr;
     static AdminWindow* adminWindow = nullptr;
     static WarehouseWorkerWindow* warehouseWorkerWindow = nullptr;
+    static Authorization* authorization = nullptr;
 
 
     switch (uMsg) {
     case WM_CREATE: {
+
         // Создание метки для статуса подключения
         hDbStatusLabel = CreateWindow(
             _T("STATIC"),
@@ -33,33 +36,45 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             NULL
         );
 
+        
+
+
+       
+
         break;
     }
 
     case WM_LBUTTONDOWN: {
-        if (!dbConn) {
-            dbConn = new DatabaseConnection(hDbStatusLabel);
-            dbConn->ConnectToDatabase(hDbStatusLabel);
-        }
         
-        if (!dbManager && dbConn) {
-            dbManager = new DatabaseManager(*dbConn);
-        }
 
-        if (!adminWindow && dbManager) {
-            
-            adminWindow = new AdminWindow(*dbManager);
-            adminWindow->CreateAdminWindow(hwnd, L"Окно администратора", GetModuleHandle(NULL));
-           
-            
-        }
+        //if (!adminWindow && dbManager) {
+        //    
+        //    adminWindow = new AdminWindow(*dbManager);
+        //    adminWindow->CreateAdminWindow(hwnd, L"Окно администратора", GetModuleHandle(NULL));
+        //   
+        //    
+        //}
 
         /*if (!warehouseWorkerWindow && dbManager) {
             warehouseWorkerWindow = new WarehouseWorkerWindow(*dbManager);
             warehouseWorkerWindow->CreateWarehouseWorkerWindow(hwnd, L"Окно сотрудника склада", GetModuleHandle(NULL));
 
         }*/
+        if (!dbConn) {
+            dbConn = new DatabaseConnection(hDbStatusLabel);
+            dbConn->ConnectToDatabase(hDbStatusLabel);
+        }
 
+        if (!dbManager && dbConn) {
+            dbManager = new DatabaseManager(*dbConn);
+        }
+
+        if (!authorization && dbManager) {
+            authorization = new Authorization(*dbManager);
+            authorization->CreateAuthorizationWindow(hwnd, L"Авторизация", GetModuleHandle(NULL));
+
+
+        }
         
 
         break;

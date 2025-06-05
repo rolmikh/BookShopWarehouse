@@ -265,3 +265,4 @@ values
 (4, 2),
 (5, 3)
 
+select Login_Employee, Password_Employee, Salt, Name_Post from Employee inner join Post on Post_ID = Post.ID_Post where Login_Employee = 'roolmikh'

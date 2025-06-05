@@ -58,6 +58,9 @@ private:
 
 public:
 
+	static const LPCWSTR CLASS_NAME;
+
+
 	static const int IDC_TAB_POST = 1001;
 	static const int IDC_TAB_TYPE_OF_COUNTERPARTY = 1002;
 	static const int IDC_TAB_CONTRACT = 1003;
@@ -114,6 +117,9 @@ public:
 	int selectedItemId = -1;
 
 	HWND GetHandleListView() const { return hWndListView; }
+
+
+	WindowTypes GetType() const override;
 
 
 	HWND hBtnTabViewContract;

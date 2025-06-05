@@ -14,12 +14,15 @@ private:
 
 
 public:
+	static const LPCWSTR CLASS_NAME;
+
 
 	static const int IDC_BTN_SHOW_ALL_DELIVERY = 1051;
 	static const int IDC_BTN_SHOW_REJECTED_DELIVERY = 1052;
 	static const int IDC_BTN_SHOW_DELIVERY_POSITION = 1053;
 	static const int IDC_BTN_CONFIRM_DELIVERY = 1054;
 
+	WindowTypes GetType() const override;
 
 
 

@@ -179,6 +179,7 @@
     <ClInclude Include="TypeOfProduct.h" />
     <ClInclude Include="Warehouse.h" />
     <ClInclude Include="WarehouseWorkerWindow.h" />
+    <ClInclude Include="WindowTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,6 +13,7 @@ public:
 	std::vector<std::vector<std::wstring>> ExecuteQuery(const std::wstring& query);
 	void PrintTableData(const std::vector<std::vector<std::wstring>>& data);
 
+
 private:
 	DatabaseConnection& dbConnection;
 

@@ -1,0 +1,9 @@
+#pragma once
+
+enum class WindowTypes {
+	BASE_WINDOW,
+	ADMIN_WINDOW,
+	AUTHORIZATION_WINDOW,
+	WAREHOUSE_WORKER_WINDOW,
+	MANAGER_WINDOW
+};

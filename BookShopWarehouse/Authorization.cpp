@@ -91,13 +91,13 @@ void Authorization::CreateElementsView() {
 
 	DestroyElementsView();
 
-	labelWindow = CreateBaseTitleLabel(hWnd, hInstance, L"Авторизация");
+	labelWindow = CreateMainTitleLabel(hWnd, hInstance, screenWidth / 4, screenHeight / 2 - 100, L"Книжная страна");
 
 
-	hEditLogin = CreateBaseEdit(hWnd, hInstance, 0, screenHeight / 2, screenWidth / 2,  60);
-	hPBPassword = CreateBaseEdit(hWnd, hInstance, 0, screenHeight / 2 + 100, screenWidth / 2, 60);
+	hEditLogin = CreateBaseEdit(hWnd, hInstance, screenWidth / 4, screenHeight / 2, screenWidth / 2,  60);
+	hPBPassword = CreateBaseEdit(hWnd, hInstance, screenWidth / 4, screenHeight / 2 + 100, screenWidth / 2, 60);
 
-	hBtnAuthorization = CreateBaseButton(hWnd,L"Авторизация", hInstance, 0, screenHeight / 2 + 200, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_BTN_AUTHORIZATION));
+	hBtnAuthorization = CreateBaseButton(hWnd,L"Авторизация", hInstance, screenWidth / 4, screenHeight / 2 + 200, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_BTN_AUTHORIZATION));
 
 
 }

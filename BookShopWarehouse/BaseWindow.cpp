@@ -250,6 +250,29 @@ HWND BaseWindow::CreateBaseTitleLabel(HWND parentHWnd, HINSTANCE hInstance, LPCW
 
 }
 
+HWND BaseWindow::CreateMainTitleLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text) {
+	HWND hLabel = CreateWindow(
+		L"STATIC",
+		text,
+		WS_CHILD | WS_VISIBLE | SS_CENTER | SS_CENTERIMAGE,
+		x, y, screenWidth, 60,
+		parentHWnd,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	LOGFONT lf;
+	GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
+	lf.lfHeight = 30;
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	SendMessage(hLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+	return hLabel;
+
+}
+
 std::string BaseWindow::WstrToStr(const std::wstring& wstr) {
 	if (wstr.empty()) return "";
 	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), nullptr, 0, nullptr, nullptr);

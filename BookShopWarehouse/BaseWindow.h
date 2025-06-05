@@ -32,6 +32,7 @@ public:
 	virtual HWND CreateBaseDatePicker(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height, HMENU id);
 	virtual HWND CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
 	virtual HWND CreateBaseLabelMin(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
+	virtual HWND CreateMainTitleLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
 
 	virtual HWND CreateBaseTitleLabel(HWND parentHWnd, HINSTANCE hInstance, LPCWSTR text);
 

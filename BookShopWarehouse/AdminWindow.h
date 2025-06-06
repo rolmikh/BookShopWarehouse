@@ -109,7 +109,7 @@ public:
 
 	void CreateTabButton();
 
-	std::wstring GetWindowTextAsWstring(HWND hWndEdit);
+	std::wstring GetWindowTextAsWstring(HWND hWndEdit) override;
 	std::wstring GetDateFromDatePicker(HWND hDatePicker);
 
 	std::unordered_map<int, std::wstring> comboBoxIndexToIdMap;

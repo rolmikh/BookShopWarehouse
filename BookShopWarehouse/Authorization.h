@@ -37,7 +37,7 @@ public:
 
 	void hWndForDestroy(HWND& hWndElement);
 
-	std::wstring GetWindowTextAsWstring(HWND hWndEdit);
+	std::wstring GetWindowTextAsWstring(HWND hWndEdit) override;
 
 	void DrawTable(HWND tableListView, const QueryDescriptor& descriptor) override;
 

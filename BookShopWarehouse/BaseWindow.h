@@ -45,6 +45,8 @@ public:
 	virtual void CreateElementsView() = 0;
 	virtual void DestroyElementsView() = 0;
 
+	virtual std::wstring GetWindowTextAsWstring(HWND hWndEdit) = 0;
+
 	bool IsSpaceString(std::wstring value);
 
 	HWND labelWindow;

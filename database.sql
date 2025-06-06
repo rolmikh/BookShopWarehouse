@@ -77,11 +77,10 @@ CREATE TABLE Employee (
 	Email NVARCHAR(100) NOT NULL,
 	Login_Employee NVARCHAR(50) NOT NULL,
 	Password_Employee NVARCHAR(100) NOT NULL,
-	Post_ID INTEGER NOT NULL,
+	Post_ID INTEGER NULL,
 	Salt NVARCHAR(50) NOT NULL,
 	FOREIGN KEY (Post_ID) REFERENCES Post (ID_Post)
 );
-
 
 
 CREATE TABLE Counterparty (
@@ -147,7 +146,6 @@ CREATE TABLE DeliveryPosition (
 	FOREIGN KEY (RequisitionPosition_ID) REFERENCES RequisitionPosition (ID_RequisitionPosition),
 	FOREIGN KEY (Delivery_ID) REFERENCES Delivery (ID_Delivery)
 );
-
 
 select ID_DeliveryNote, DeliveryNote_Number, Date_Of_Formation, Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms, Name_Status from DeliveryNote inner join Contract_ on Contract_ID = Contract_.ID_Contract inner join Status_ on Status_ID = Status_.ID_Status
 

@@ -1,6 +1,7 @@
 #include "BaseWindow.h"
 #include "AdminWindow.h"
 #include "Authorization.h"
+#include "WarehouseWorkerWindow.h"
 #include "DatabaseManager.h"
 #pragma comment(lib, "comctl32.lib")
 #include <cctype>
@@ -1308,8 +1309,22 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		}
 		case WindowTypes::WAREHOUSE_WORKER_WINDOW: {
-			//WarehouseWorkerWindow* warehouseWorker = static_cast<WarehouseWorkerWindow*>(window);
+			WarehouseWorkerWindow* warehouseWorker = static_cast<WarehouseWorkerWindow*>(window);
 			int controlId = LOWORD(wParam);
+
+			if (controlId == WarehouseWorkerWindow::IDC_BTN_SHOW_ALL_DELIVERY) {
+				warehouseWorker->DrawTableAllDelivery();
+			}
+			else if (controlId == WarehouseWorkerWindow::IDC_BTN_SHOW_DELIVERY_POSITION) {
+
+				int index = SendMessage(warehouseWorker->hComboBoxNumberDelivery, CB_GETCURSEL, 0, 0);
+				if (index == CB_ERR) break;
+				//int idPost = _wtoi(index.c_str());
+
+				int selectedDeliveryId = warehouseWorker->comboBoxIdMap[index];
+
+				warehouseWorker->DrawTableDeliveryPosition(selectedDeliveryId);
+			}
 		}
 		break;
 

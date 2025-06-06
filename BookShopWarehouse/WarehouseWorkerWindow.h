@@ -56,6 +56,12 @@ public:
 
 	void hWndForDestroy(HWND& hWndElement);
 
+	std::wstring GetWindowTextAsWstring(HWND hWndEdit) override;
+
+
+	void DrawTableAllDelivery();
+	void DrawTableDeliveryPosition(wstring number);
+
 
 protected:
 

@@ -2,6 +2,7 @@
 #include <commctrl.h>
 #include "BaseTable.h"
 #include <string>
+#include <iostream>
 
 
 using namespace std;
@@ -756,13 +757,16 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 		return;
 	}
 
+	cwstring formatTableName = tableName.substr(0, tableName.length() - 1);
+
+
 	wstring sql = L"update " + tableName + L" set ";
 	for (size_t i = 0; i < columnNames.size(); ++i) {
 		sql += columnNames[i] + L" = N'" + values[i] + L"'";
 		if (i != columnNames.size() - 1) sql += L", ";
 	}
 
-	sql += L" where ID_" + tableName + L" = " + to_wstring(id);
+	sql += L" where ID_" + formatTableName + L" = " + to_wstring(id);
 
 
 	if (ExecuteSQL(sql.c_str())) {
@@ -773,7 +777,6 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 
 }
 
-//не удаляются из таблицы с _ исправь
 void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 
 
@@ -782,8 +785,9 @@ void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 		MessageBox(hWnd, L"Запись не выбрана!", L"Ошибка", MB_OK | MB_ICONERROR);
 		return;
 	}
+	cwstring formatTableName = tableName.substr(0, tableName.length() - 1);
 	
-	wstring sql = L"delete from " + tableName + L" Where ID_" + tableName + L" = " + to_wstring(id);
+	wstring sql = L"delete from " + tableName + L" Where ID_" + formatTableName + L" = " + to_wstring(id);
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK);
 		UpdateCurrentTabPage(currentTab);

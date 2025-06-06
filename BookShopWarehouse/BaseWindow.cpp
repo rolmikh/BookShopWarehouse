@@ -1,7 +1,9 @@
 #include "BaseWindow.h"
 #include "AdminWindow.h"
 #include "Authorization.h"
+#include "DatabaseManager.h"
 #pragma comment(lib, "comctl32.lib")
+#include <cctype>
 
 
 LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -153,7 +155,7 @@ HWND BaseWindow::CreateBaseComboBox(HWND parentHWnd, HINSTANCE hInstance, int x,
 		nullptr
 
 	);
-	SendMessage(hComboBox, CB_SETITEMHEIGHT, static_cast<WPARAM>(-1), MAKELPARAM(40, 0));
+	SendMessage(hComboBox, CB_SETCURSEL, -1, 0);
 
 	return hComboBox;
 }
@@ -176,7 +178,7 @@ HWND BaseWindow::CreateBaseDatePicker(HWND parentHWnd, HINSTANCE hInstance, int 
 	lf.lfHeight = 25;
 	HFONT hFont = CreateFontIndirect(&lf);
 
-	SendMessage(hDatePicker, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(hDatePicker, DTM_SETSYSTEMTIME, GDT_NONE, 0);
 
 	return hDatePicker;
 }
@@ -301,6 +303,20 @@ void BaseWindow::DrawTable(HWND hWnd) {
 
 WindowTypes BaseWindow::GetType() const { return WindowTypes::BASE_WINDOW; }
 
+bool BaseWindow::IsSpaceString(std::wstring value) {
+
+	bool contains_space = false;
+
+	for (wchar_t c : value) {
+		if (std::isspace(c)) {
+			contains_space = true;
+			return contains_space;
+		}
+	}
+
+	return contains_space;
+}
+
 
 LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	BaseWindow* window = reinterpret_cast<BaseWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -392,19 +408,34 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				{
 				case 0: {
 					std::wstring namePost = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNamePost);
-					std::vector<std::wstring> columnNames = { L"Name_Post" };
-					std::vector<std::wstring> values = { namePost };
+					
+					if (!window->IsSpaceString(namePost) || namePost.empty()) {
+						std::vector<std::wstring> columnNames = { L"Name_Post" };
+						std::vector<std::wstring> values = { namePost };
 
-					adminWindow->AddRecord(L"Post", columnNames, values);
+						adminWindow->AddRecord(L"Post", columnNames, values);
+					}
+					else {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+
+					
 
 					break;
 				}
 				case 1: {
 					std::wstring nameTypeOfCounterparty = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameTypeOfCounterparty);
-					std::vector<std::wstring> columnNames = { L"Name_Type_Of_Counterparty" };
-					std::vector<std::wstring> values = { nameTypeOfCounterparty };
+					
+					if (!window->IsSpaceString(nameTypeOfCounterparty) || nameTypeOfCounterparty.empty()) {
+						std::vector<std::wstring> columnNames = { L"Name_Type_Of_Counterparty" };
+						std::vector<std::wstring> values = { nameTypeOfCounterparty };
 
-					adminWindow->AddRecord(L"TypeOfCounterparty", columnNames, values);
+						adminWindow->AddRecord(L"TypeOfCounterparty", columnNames, values);
+					}
+					else {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+
 
 					break;
 				}
@@ -415,16 +446,40 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring endDateContract = adminWindow->GetDateFromDatePicker(adminWindow->hDPEndDateContract);
 					std::wstring contractTerms = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractTerms);
 
-					int index = SendMessage(adminWindow->hComboBoxStatus, CB_GETCURSEL, 0, 0);
-					if (index == CB_ERR) break;
+					if (!window->IsSpaceString(contractNumber) || contractNumber.empty()) {
+						if (!window->IsSpaceString(startDateContract) || startDateContract.empty()) {
+							if (!window->IsSpaceString(endDateContract) || endDateContract.empty()) {
+								if (!window->IsSpaceString(contractTerms) || contractTerms.empty()) {
 
-					int selectedStatusContractId = adminWindow->comboBoxIdMap[index];
+									int index = SendMessage(adminWindow->hComboBoxStatus, CB_GETCURSEL, 0, 0);
+									if (index == CB_ERR) break;
 
-					std::vector<std::wstring> columnNames = { L"Contract_Number", L"Start_Date_Contract", L"End_Date_Contract", L"Contract_Terms", L"Status_ID" };
+									int selectedStatusContractId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
+									std::vector<std::wstring> columnNames = { L"Contract_Number", L"Start_Date_Contract", L"End_Date_Contract", L"Contract_Terms", L"Status_ID" };
 
-					adminWindow->AddRecord(L"Contract_", columnNames, values);
+									std::vector<std::wstring> values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
+
+									adminWindow->AddRecord(L"Contract_", columnNames, values);
+								}
+								else {
+									MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+								}
+							}
+							else {
+								MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+							}
+						}
+						else {
+							MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+						}
+						
+					}
+					else {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+
+					
 
 					break;
 
@@ -666,17 +721,33 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			}
 			else if (controlId == AdminWindow::IDC_EDIT) {
+				
 				switch (tab)
 				{
 				case 0: {
 					std::wstring namePost = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNamePost);
 					std::vector<std::wstring> columnNames = { L"Name_Post" };
 					std::wstring idPostStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdPost);
-					int idPost = _wtoi(idPostStr.c_str());
 					std::vector<std::wstring> values = { namePost };
 
-					adminWindow->UpdateRecord(L"Post", columnNames, values, idPost);
+					if (window->IsSpaceString(idPostStr)) {
+							MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int idPost = _wtoi(idPostStr.c_str());
+						std::wstring query = L"select Name_Post from Post where ID_Post = '" + idPostStr;
+						query += L"'";
 
+						if (namePost.empty()) {
+							
+							std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
+							namePost = result[0][0];
+							values = { namePost };
+
+						}
+						
+						adminWindow->UpdateRecord(L"Post", columnNames, values, idPost);
+					}
 
 					break;
 				}
@@ -687,10 +758,26 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { nameTypeOfCounterparty };
 
 					std::wstring idTypeCounterpartyStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdTypeOfCounterparty);
-					int id = _wtoi(idTypeCounterpartyStr.c_str());
 
-					adminWindow->UpdateRecord(L"TypeOfCounterparty", columnNames, values, id);
+					if (window->IsSpaceString(idTypeCounterpartyStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idTypeCounterpartyStr.c_str());
+						std::wstring query = L"select Name_Type_Of_Counterparty from TypeOfCounterparty where ID_Type_Of_Counterparty = '" + idTypeCounterpartyStr;
+						query += L"'";
 
+						if (nameTypeOfCounterparty.empty()) {
+
+							std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
+							nameTypeOfCounterparty = result[0][0];
+							values = { nameTypeOfCounterparty };
+
+						}
+						adminWindow->UpdateRecord(L"TypeOfCounterparty", columnNames, values, id);
+
+					}
+					
 					break;
 				}
 				case 2: {
@@ -701,7 +788,6 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring contractTerms = adminWindow->GetWindowTextAsWstring(adminWindow->hEditContractTerms);
 
 					std::wstring idContractStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdContract);
-					int id = _wtoi(idContractStr.c_str());
 
 					int index = SendMessage(adminWindow->hComboBoxStatus, CB_GETCURSEL, 0, 0);
 					if (index == CB_ERR) break;
@@ -712,8 +798,24 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 					std::vector<std::wstring> values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
 
-					adminWindow->UpdateRecord(L"Contract_", columnNames, values, id);
+					if (window->IsSpaceString(idContractStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idContractStr.c_str());
+						std::wstring query = L"select Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms, Status_ID from TypeOfCounterparty where ID_Type_Of_Counterparty = '" + idContractStr;
+						query += L"'";
 
+						if (contractNumber.empty()) {
+							
+						}
+						
+
+						adminWindow->UpdateRecord(L"Contract_", columnNames, values, id);
+
+
+					}
+					
 					break;
 
 				}
@@ -727,19 +829,25 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring city = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCity);
 
 					std::wstring idCounterpartyStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdCounterparty);
-					int id = _wtoi(idCounterpartyStr.c_str());
+					if (window->IsSpaceString(idCounterpartyStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idCounterpartyStr.c_str());
 
-					int index = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
-					if (index == CB_ERR) break;
+						int index = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+						if (index == CB_ERR) break;
 
-					int selectedTypeOfCounterpartyId = adminWindow->comboBoxIdMap[index];
+						int selectedTypeOfCounterpartyId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = { L"Name_Counterparty", L"Phone_Counterparty", L"Email_Counterparty", L"Contact_Person", L"Terms_Of_Cooperation", L"Country", L"City", L"TypeOfCounterparty_ID" };
+						std::vector<std::wstring> columnNames = { L"Name_Counterparty", L"Phone_Counterparty", L"Email_Counterparty", L"Contact_Person", L"Terms_Of_Cooperation", L"Country", L"City", L"TypeOfCounterparty_ID" };
 
-					std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId) };
+						std::vector<std::wstring> values = { nameCounterparty, phoneCounterparty, emailCounterparty, contactPerson, termsOfCooperation, country, city, std::to_wstring(selectedTypeOfCounterpartyId) };
 
-					adminWindow->UpdateRecord(L"Counterparty", columnNames, values, id);
+						adminWindow->UpdateRecord(L"Counterparty", columnNames, values, id);
 
+					}
+					
 					break;
 
 				}
@@ -748,26 +856,32 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring deliveryDate = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
 
 					std::wstring idDeliveryStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDelivery);
-					int id = _wtoi(idDeliveryStr.c_str());
+					if (window->IsSpaceString(idDeliveryStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idDeliveryStr.c_str());
 
-					int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
-					if (indexWarehouse == CB_ERR) break;
+						int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+						if (indexWarehouse == CB_ERR) break;
 
-					int indexDeliveryNote = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
-					if (indexDeliveryNote == CB_ERR) break;
+						int indexDeliveryNote = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+						if (indexDeliveryNote == CB_ERR) break;
 
-					int indexStatus = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
-					if (indexStatus == CB_ERR) break;
+						int indexStatus = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+						if (indexStatus == CB_ERR) break;
 
-					int selectedWarehouseId = adminWindow->comboBoxIdMap[indexWarehouse];
-					int selectedDeliveryNoteId = adminWindow->comboBoxIdMap[indexDeliveryNote];
-					int selectedStatusId = adminWindow->comboBoxIdMap[indexStatus];
+						int selectedWarehouseId = adminWindow->comboBoxIdMap[indexWarehouse];
+						int selectedDeliveryNoteId = adminWindow->comboBoxIdMap[indexDeliveryNote];
+						int selectedStatusId = adminWindow->comboBoxIdMap[indexStatus];
 
-					std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID" };
+						std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID" };
 
-					std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId) };
+						std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId) };
 
-					adminWindow->UpdateRecord(L"Delivery", columnNames, values, id);
+						adminWindow->UpdateRecord(L"Delivery", columnNames, values, id);
+					}
+					
 
 					break;
 
@@ -778,41 +892,53 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring dateOfFormation = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfFormation);
 
 					std::wstring idDeliveryNoteStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDeliveryNote);
-					int id = _wtoi(idDeliveryNoteStr.c_str());
+					if (window->IsSpaceString(idDeliveryNoteStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idDeliveryNoteStr.c_str());
 
-					int index = SendMessage(adminWindow->hComboBoxContract, CB_GETCURSEL, 0, 0);
-					if (index == CB_ERR) break;
+						int index = SendMessage(adminWindow->hComboBoxContract, CB_GETCURSEL, 0, 0);
+						if (index == CB_ERR) break;
 
-					int selectedContractId = adminWindow->comboBoxIdMap[index];
+						int selectedContractId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = { L"DeliveryNote_Number", L"Date_Of_Formation", L"Contract_ID" };
+						std::vector<std::wstring> columnNames = { L"DeliveryNote_Number", L"Date_Of_Formation", L"Contract_ID" };
 
-					std::vector<std::wstring> values = { deliveryNoteNumber, dateOfFormation, std::to_wstring(selectedContractId) };
+						std::vector<std::wstring> values = { deliveryNoteNumber, dateOfFormation, std::to_wstring(selectedContractId) };
 
-					adminWindow->UpdateRecord(L"DeliveryNote", columnNames, values, id);
+						adminWindow->UpdateRecord(L"DeliveryNote", columnNames, values, id);
+					}
+					
 					break;
 
 				}
 				case 6: {
 
 					std::wstring idDeliveryPositionStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDeliveryPosition);
-					int id = _wtoi(idDeliveryPositionStr.c_str());
+					if (window->IsSpaceString(idDeliveryPositionStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idDeliveryPositionStr.c_str());
 
-					int indexRequisition = SendMessage(adminWindow->hComboBoxRequisitionPosition, CB_GETCURSEL, 0, 0);
-					if (indexRequisition == CB_ERR) break;
+						int indexRequisition = SendMessage(adminWindow->hComboBoxRequisitionPosition, CB_GETCURSEL, 0, 0);
+						if (indexRequisition == CB_ERR) break;
 
-					int indexDelivery = SendMessage(adminWindow->hComboBoxDeliveryDLPosition, CB_GETCURSEL, 0, 0);
-					if (indexDelivery == CB_ERR) break;
+						int indexDelivery = SendMessage(adminWindow->hComboBoxDeliveryDLPosition, CB_GETCURSEL, 0, 0);
+						if (indexDelivery == CB_ERR) break;
 
-					int selectedRequisitionId = adminWindow->comboBoxIdMap[indexRequisition];
-					int selectedDeliveryId = adminWindow->comboBoxIdMap[indexDelivery];
+						int selectedRequisitionId = adminWindow->comboBoxIdMap[indexRequisition];
+						int selectedDeliveryId = adminWindow->comboBoxIdMap[indexDelivery];
 
-					std::vector<std::wstring> columnNames = { L"RequisitionPosition_ID", L"Delivery_ID" };
+						std::vector<std::wstring> columnNames = { L"RequisitionPosition_ID", L"Delivery_ID" };
 
-					std::vector<std::wstring> values = { std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
+						std::vector<std::wstring> values = { std::to_wstring(selectedRequisitionId), std::to_wstring(selectedDeliveryId) };
 
-					adminWindow->UpdateRecord(L"DeliveryPosition", columnNames, values, id);
+						adminWindow->UpdateRecord(L"DeliveryPosition", columnNames, values, id);
 
+					}
+					
 					break;
 
 				}
@@ -825,18 +951,24 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring password = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPassword);
 
 					std::wstring idEmployeeStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdEmployee);
-					int id = _wtoi(idEmployeeStr.c_str());
+					if (window->IsSpaceString(idEmployeeStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idEmployeeStr.c_str());
 
-					int index = SendMessage(adminWindow->hComboBoxPost, CB_GETCURSEL, 0, 0);
-					if (index == CB_ERR) break;
+						int index = SendMessage(adminWindow->hComboBoxPost, CB_GETCURSEL, 0, 0);
+						if (index == CB_ERR) break;
 
-					int selectedPostId = adminWindow->comboBoxIdMap[index];
+						int selectedPostId = adminWindow->comboBoxIdMap[index];
 
-					std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID" };
+						std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID" };
 
-					std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
+						std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
 
-					adminWindow->UpdateRecord(L"Employee", columnNames, values, id);
+						adminWindow->UpdateRecord(L"Employee", columnNames, values, id);
+					}
+					
 
 					break;
 
@@ -851,24 +983,30 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring dateOfReceipt = adminWindow->GetDateFromDatePicker(adminWindow->hDPDateOfReceipt);
 
 					std::wstring idProductStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdProduct);
-					int id = _wtoi(idProductStr.c_str());
+					if (window->IsSpaceString(idProductStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idProductStr.c_str());
 
-					int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterpartyProduct, CB_GETCURSEL, 0, 0);
-					if (indexCounterparty == CB_ERR) break;
+						int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterpartyProduct, CB_GETCURSEL, 0, 0);
+						if (indexCounterparty == CB_ERR) break;
 
-					int indexTypeProduct = SendMessage(adminWindow->hComboBoxTypeOfProduct, CB_GETCURSEL, 0, 0);
-					if (indexTypeProduct == CB_ERR) break;
+						int indexTypeProduct = SendMessage(adminWindow->hComboBoxTypeOfProduct, CB_GETCURSEL, 0, 0);
+						if (indexTypeProduct == CB_ERR) break;
 
-					int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
-					int selectedTypeProductId = adminWindow->comboBoxIdMap[indexTypeProduct];
+						int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
+						int selectedTypeProductId = adminWindow->comboBoxIdMap[indexTypeProduct];
 
 
-					std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID" };
+						std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID" };
 
-					std::vector<std::wstring> values = { nameProduct, purchasePrice, sellingPrice, article, quantityOfProduct, dateOfReceipt, std::to_wstring(selectedCounterpartyId), std::to_wstring(selectedTypeProductId) };
+						std::vector<std::wstring> values = { nameProduct, purchasePrice, sellingPrice, article, quantityOfProduct, dateOfReceipt, std::to_wstring(selectedCounterpartyId), std::to_wstring(selectedTypeProductId) };
 
-					adminWindow->UpdateRecord(L"Product", columnNames, values, id);
+						adminWindow->UpdateRecord(L"Product", columnNames, values, id);
 
+					}
+					
 					break;
 
 
@@ -879,25 +1017,31 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring editCommentary = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCommentary);
 
 					std::wstring idProductOrderRequestStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdProductOrderRequest);
-					int id = _wtoi(idProductOrderRequestStr.c_str());
+					if (window->IsSpaceString(idProductOrderRequestStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idProductOrderRequestStr.c_str());
 
-					int indexEmployee = SendMessage(adminWindow->hComboBoxEmployee, CB_GETCURSEL, 0, 0);
-					if (indexEmployee == CB_ERR) break;
+						int indexEmployee = SendMessage(adminWindow->hComboBoxEmployee, CB_GETCURSEL, 0, 0);
+						if (indexEmployee == CB_ERR) break;
 
-					int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterparty, CB_GETCURSEL, 0, 0);
-					if (indexCounterparty == CB_ERR) break;
+						int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterparty, CB_GETCURSEL, 0, 0);
+						if (indexCounterparty == CB_ERR) break;
 
-					int selectedEmployeeId = adminWindow->comboBoxIdMap[indexEmployee];
-					int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
+						int selectedEmployeeId = adminWindow->comboBoxIdMap[indexEmployee];
+						int selectedCounterpartyId = adminWindow->comboBoxIdMap[indexCounterparty];
 
 
 
-					std::vector<std::wstring> columnNames = { L"Request_Number", L"Date_Of_Creation", L"Employee_ID", L"Commentary", L"Counterparty_ID" };
+						std::vector<std::wstring> columnNames = { L"Request_Number", L"Date_Of_Creation", L"Employee_ID", L"Commentary", L"Counterparty_ID" };
 
-					std::vector<std::wstring> values = { requestNumber, dateOfCreation, std::to_wstring(selectedEmployeeId), editCommentary, std::to_wstring(selectedCounterpartyId) };
+						std::vector<std::wstring> values = { requestNumber, dateOfCreation, std::to_wstring(selectedEmployeeId), editCommentary, std::to_wstring(selectedCounterpartyId) };
 
-					adminWindow->UpdateRecord(L"ProductOrderRequest", columnNames, values, id);
+						adminWindow->UpdateRecord(L"ProductOrderRequest", columnNames, values, id);
 
+					}
+					
 					break;
 
 
@@ -908,25 +1052,31 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring unitPrice = adminWindow->GetWindowTextAsWstring(adminWindow->hEditUnitPrice);
 
 					std::wstring idRequisitionPosStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdRequisitionPosition);
-					int id = _wtoi(idRequisitionPosStr.c_str());
+					if (window->IsSpaceString(idRequisitionPosStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idRequisitionPosStr.c_str());
 
-					int indexProduct = SendMessage(adminWindow->hComboBoxProduct, CB_GETCURSEL, 0, 0);
-					if (indexProduct == CB_ERR) break;
+						int indexProduct = SendMessage(adminWindow->hComboBoxProduct, CB_GETCURSEL, 0, 0);
+						if (indexProduct == CB_ERR) break;
 
-					int indexOrderRequest = SendMessage(adminWindow->hComboBoxProductOrderRequest, CB_GETCURSEL, 0, 0);
-					if (indexOrderRequest == CB_ERR) break;
+						int indexOrderRequest = SendMessage(adminWindow->hComboBoxProductOrderRequest, CB_GETCURSEL, 0, 0);
+						if (indexOrderRequest == CB_ERR) break;
 
-					int selectedProductId = adminWindow->comboBoxIdMap[indexProduct];
-					int selectedOrderRequestId = adminWindow->comboBoxIdMap[indexOrderRequest];
+						int selectedProductId = adminWindow->comboBoxIdMap[indexProduct];
+						int selectedOrderRequestId = adminWindow->comboBoxIdMap[indexOrderRequest];
 
 
 
-					std::vector<std::wstring> columnNames = { L"Position_Number", L"Product_ID", L"ProductOrderRequest_ID", L"Quantity_Of_Product_In_Requisition", L"Unit_Price" };
+						std::vector<std::wstring> columnNames = { L"Position_Number", L"Product_ID", L"ProductOrderRequest_ID", L"Quantity_Of_Product_In_Requisition", L"Unit_Price" };
 
-					std::vector<std::wstring> values = { positionNumber, std::to_wstring(selectedProductId), std::to_wstring(selectedOrderRequestId), quantityOfProductInRequisition, unitPrice };
+						std::vector<std::wstring> values = { positionNumber, std::to_wstring(selectedProductId), std::to_wstring(selectedOrderRequestId), quantityOfProductInRequisition, unitPrice };
 
-					adminWindow->UpdateRecord(L"RequisitionPosition", columnNames, values, id);
+						adminWindow->UpdateRecord(L"RequisitionPosition", columnNames, values, id);
 
+					}
+					
 					break;
 
 
@@ -937,10 +1087,16 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { status };
 
 					std::wstring idStatusStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdStatus);
-					int id = _wtoi(idStatusStr.c_str());
+					if (window->IsSpaceString(idStatusStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idStatusStr.c_str());
 
-					adminWindow->UpdateRecord(L"Status_", columnNames, values, id);
+						adminWindow->UpdateRecord(L"Status_", columnNames, values, id);
 
+					}
+					
 					break;
 				}
 				case 12: {
@@ -949,10 +1105,16 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::vector<std::wstring> values = { nameTypeOfProduct };
 
 					std::wstring idTypeOfProductStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdTypeOfProduct);
-					int id = _wtoi(idTypeOfProductStr.c_str());
+					if (window->IsSpaceString(idTypeOfProductStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idTypeOfProductStr.c_str());
 
-					adminWindow->UpdateRecord(L"TypeOfProduct", columnNames, values, id);
+						adminWindow->UpdateRecord(L"TypeOfProduct", columnNames, values, id);
 
+					}
+					
 					break;
 				}
 				case 13: {
@@ -963,13 +1125,19 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring currentWarehouseLoad = adminWindow->GetWindowTextAsWstring(adminWindow->hEditCurrentWarehouseLoad);
 
 					std::wstring idWarehouseStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdWarehouse);
-					int id = _wtoi(idWarehouseStr.c_str());
+					if (window->IsSpaceString(idWarehouseStr)) {
+						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
+					}
+					else {
+						int id = _wtoi(idWarehouseStr.c_str());
 
-					std::vector<std::wstring> columnNames = { L"Warehouse_Number", L"Warehouse_Address", L"Warehouse_Capacity", L"Current_Warehouse_Load" };
+						std::vector<std::wstring> columnNames = { L"Warehouse_Number", L"Warehouse_Address", L"Warehouse_Capacity", L"Current_Warehouse_Load" };
 
-					std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
+						std::vector<std::wstring> values = { warehouseNumber, warehouseAddress, warehouseCapacity, currentWarehouseLoad };
 
-					adminWindow->UpdateRecord(L"Warehouse", columnNames, values, id);
+						adminWindow->UpdateRecord(L"Warehouse", columnNames, values, id);
+					}
+					
 					break;
 
 				}

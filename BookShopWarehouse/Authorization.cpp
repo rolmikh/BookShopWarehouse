@@ -91,7 +91,7 @@ void Authorization::CreateElementsView() {
 
 	DestroyElementsView();
 
-	labelWindow = CreateMainTitleLabel(hWnd, hInstance, screenWidth / 4, screenHeight / 2 - 100, L"Книжная страна");
+	labelWindow = CreateMainTitleLabel(hWnd, hInstance, 0, screenHeight / 2 - 100, L"Книжная страна");
 
 
 	hEditLogin = CreateBaseEdit(hWnd, hInstance, screenWidth / 4, screenHeight / 2, screenWidth / 2,  60);

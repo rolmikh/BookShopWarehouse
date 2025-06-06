@@ -302,6 +302,7 @@ public:
 	HWND hLabelRequisitionPosition;
 	HWND hLabelDeliveryDLPosition;
 
+	DatabaseManager& dbManager;
 
 
 protected:
@@ -323,7 +324,6 @@ protected:
 
 	HINSTANCE hInstance;
 
-	DatabaseManager& dbManager;
 
 	bool ExecuteSQL(LPCWSTR sql);
 

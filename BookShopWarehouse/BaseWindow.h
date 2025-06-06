@@ -45,12 +45,15 @@ public:
 	virtual void CreateElementsView() = 0;
 	virtual void DestroyElementsView() = 0;
 
+	bool IsSpaceString(std::wstring value);
+
 	HWND labelWindow;
 
 	std::string WstrToStr(const std::wstring& wstr);
 	std::wstring StrToWstr(const std::string& str);
 
 	virtual WindowTypes GetType() const;
+
 
 protected:
 	HWND hWnd;

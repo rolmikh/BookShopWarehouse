@@ -129,7 +129,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Authorization.cpp" />
-    <ClCompile Include="PurchasingManager.cpp" />
     <ClCompile Include="Registration.cpp" />
     <ClCompile Include="Sha256.cpp" />
     <ClCompile Include="BaseTable.cpp" />
@@ -158,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Authorization.h" />
-    <ClInclude Include="PurchasingManager.h" />
     <ClInclude Include="Registration.h" />
     <ClInclude Include="Sha256.h" />
     <ClInclude Include="BaseTable.h" />

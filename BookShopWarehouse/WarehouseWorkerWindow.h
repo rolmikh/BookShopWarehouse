@@ -60,13 +60,20 @@ public:
 
 
 	void DrawTableAllDelivery();
-	void DrawTableDeliveryPosition(wstring number);
+	void DrawTableDeliveryPosition(std::wstring number);
+
+	HWND hWndListViewDeliveryPosition;
+
+	std::wstring currentDeliveryNumberFilter;
+
+	void ConfirmDelivery(std::wstring id);
+
+	void DrawRejectedDelivery();
 
 
 protected:
 
 	HWND hWndListViewDelivery;
-	HWND hWndListViewDeliveryPosition;
 	HWND hWndListViewWarehouse;
 
 	DatabaseManager& dbManager;

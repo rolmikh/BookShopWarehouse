@@ -31,7 +31,6 @@ CREATE TABLE Warehouse (
 );
 
 
-
 CREATE TABLE Contract_ (
 	ID_Contract INTEGER PRIMARY KEY IDENTITY(1,1),
 	Contract_Number NVARCHAR(8) NOT NULL UNIQUE,
@@ -96,6 +95,7 @@ CREATE TABLE Counterparty (
 	FOREIGN KEY (TypeOfCounterparty_ID) REFERENCES TypeOfCounterparty (ID_Type_Of_Counterparty)
 );
 
+select * from Employee
 
 
 CREATE TABLE ProductOrderRequest (
@@ -124,6 +124,7 @@ CREATE TABLE Product (
 	FOREIGN KEY (TypeOfProduct_ID) REFERENCES TypeOfProduct (ID_Type_Of_Product)
 );
 
+insert into Product (Name_Product, Purchase_Price, Selling_Price, Article, Quantity_Of_Product, Date_Of_Receipt, Counterparty_ID, TypeOfProduct_ID) values (N'пупупу', N'111', N'110', N'111117', N'3', N'2025-06-08', N'1', N'3')
 
 
 CREATE TABLE RequisitionPosition (
@@ -186,6 +187,9 @@ inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_T
 inner join Delivery on Delivery_ID = Delivery.ID_Delivery inner join DeliveryNote on DeliveryNote_ID = DeliveryNote.ID_DeliveryNote 
 inner join Warehouse on Warehouse_ID = Warehouse.ID_Warehouse 
 inner join Contract_ on Contract_ID = Contract_.ID_Contract
+
+
+select ID_DeliveryPosition, Position_Number, Quantity_Of_Product_In_Requisition, Unit_Price , Request_Number, Date_Of_Creation, Name_Product, Article, Name_Type_Of_Product, Delivery_Number, Delivery_Date, Warehouse_Number from DeliveryPosition  inner join RequisitionPosition on RequisitionPosition_ID = RequisitionPosition.ID_RequisitionPosition inner join Product on Product_ID = Product.ID_Product inner join ProductOrderRequest on ProductOrderRequest_ID = ProductOrderRequest.ID_ProductOrderRequest inner join TypeOfProduct on TypeOfProduct_ID = TypeOfProduct.ID_Type_Of_Product inner join Delivery on Delivery_ID = Delivery.ID_Delivery inner join DeliveryNote on DeliveryNote_ID = DeliveryNote.ID_DeliveryNote inner join Warehouse on Warehouse_ID = Warehouse.ID_Warehouse where Delivery_ID= '2'
 
 insert into	TypeOfCounterparty (Name_Type_Of_Counterparty)
 values(N'Издательство'),(N'Производитель')

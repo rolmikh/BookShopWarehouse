@@ -103,7 +103,6 @@ public:
 
 	void hWndForDestroy(HWND& hWndElement);
 
-	std::vector<int> comboBoxIdMap;
 
 	void FillComboBox(HWND parentHWnd, const std::wstring& query, DatabaseManager& dbManager, std::vector<int>& idMap) override;
 
@@ -112,7 +111,42 @@ public:
 	std::wstring GetWindowTextAsWstring(HWND hWndEdit) override;
 	std::wstring GetDateFromDatePicker(HWND hDatePicker);
 
-	std::unordered_map<int, std::wstring> comboBoxIndexToIdMap;
+	//contract
+	std::vector<int> comboBoxIdMapStatusContract;
+
+	//delivery note
+	std::vector<int> comboBoxIdMapContractDeliveryNote;
+
+
+	//delivery
+	std::vector<int> comboBoxIdMapDeliveryWarehouse;
+	std::vector<int> comboBoxIdMapDeliveryNoteDelivery;
+	std::vector<int> comboBoxIdMapStatusDelivery;
+
+	//employee
+	std::vector<int> comboBoxIdMapPost;
+
+	//counterparty
+	std::vector<int> comboBoxIdMapTypeCounterparty;
+
+	//product order request
+	std::vector<int> comboBoxIdMapOrderRequestEmployee;
+	std::vector<int> comboBoxIdMapOrderRequestCounterparty;
+
+	//product
+	std::vector<int> comboBoxIdMapTypeProduct;
+	std::vector<int> comboBoxIdMapProductCounterparty;
+
+	//requisition position
+	std::vector<int> comboBoxIdMapProductOrderRequest;
+	std::vector<int> comboBoxIdMapProduct;
+
+
+	//delivery position
+	std::vector<int> comboBoxIdMapRequisitionPosition;
+	std::vector<int> comboBoxIdMapDeliveryPosition;
+
+
 
 	int selectedItemId = -1;
 

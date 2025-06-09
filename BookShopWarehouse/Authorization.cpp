@@ -59,6 +59,10 @@ void Authorization::ToAuthorization(wstring login, wstring password) {
 				MessageBox(hWnd, L"Авторизация прошла успешно", L"Успех", MB_OK);
 				SwitchingToWindow(namePost);
 			}
+			else {
+				MessageBox(hWnd, L"Ошибка авторизации", L"Ошибка", MB_OK | MB_ICONERROR);
+
+			}
 		
 		}
 	}
@@ -95,9 +99,10 @@ void Authorization::CreateElementsView() {
 
 
 	hEditLogin = CreateBaseEdit(hWnd, hInstance, screenWidth / 4, screenHeight / 2, screenWidth / 2,  60);
-	hPBPassword = CreateBaseEdit(hWnd, hInstance, screenWidth / 4, screenHeight / 2 + 100, screenWidth / 2, 60);
+	hPBPassword = CreateBaseEditPassword(hWnd, hInstance, screenWidth / 4, screenHeight / 2 + 100, screenWidth / 2, 60);
 
 	hBtnAuthorization = CreateBaseButton(hWnd,L"Авторизация", hInstance, screenWidth / 4, screenHeight / 2 + 200, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_BTN_AUTHORIZATION));
+	hBtnRegistration = CreateBaseButton(hWnd, L"Регистрация", hInstance, screenWidth / 4, screenHeight / 2 + 300, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_BTN_REGISTRATION));
 
 
 }

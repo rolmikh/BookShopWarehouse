@@ -23,6 +23,8 @@ public:
 	BaseWindow* nextWindow = nullptr;
 	
 	static const int IDC_BTN_AUTHORIZATION = 1111;
+	static const int IDC_BTN_REGISTRATION = 1112;
+
 
 	Authorization(DatabaseManager& dbManager);
 	~Authorization();
@@ -46,6 +48,10 @@ public:
 	WindowTypes GetType() const override;
 	HWND hEditLogin;
 	HWND hPBPassword;
+	HWND hBtnRegistration;
+
+	DatabaseManager& dbManager;
+
 
 protected:
 	HWND labelLogin;
@@ -54,7 +60,6 @@ protected:
 	HINSTANCE hInstance;
 	HWND hBtnAuthorization;
 
-	DatabaseManager& dbManager;
 
 
 

@@ -21,8 +21,6 @@ public:
 	virtual void CreateBaseWindow(HWND parentHWnd = nullptr, LPCWSTR windowName = L"", HINSTANCE hInstance = nullptr);
 	HWND GetHandle() const;
 
-	//virtual LPCWSTR GetClassName() const = 0;
-
 	virtual void DrawTable(HWND hWnd);
 
 	virtual HWND CreateBaseListView(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height);
@@ -33,7 +31,7 @@ public:
 	virtual HWND CreateBaseLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
 	virtual HWND CreateBaseLabelMin(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
 	virtual HWND CreateMainTitleLabel(HWND parentHWnd, HINSTANCE hInstance, int x, int y, LPCWSTR text);
-
+	virtual HWND CreateBaseEditPassword(HWND parentHWnd, HINSTANCE hInstance, int x, int y, int width, int height);
 	virtual HWND CreateBaseTitleLabel(HWND parentHWnd, HINSTANCE hInstance, LPCWSTR text);
 
 	virtual void UpdateCurrentTabPage(int selectedTabIndex) {};
@@ -47,7 +45,7 @@ public:
 
 	virtual std::wstring GetWindowTextAsWstring(HWND hWndEdit) = 0;
 
-	bool IsSpaceString(std::wstring value);
+	bool IsSpaceOrEmpty(const std::wstring& value);
 
 	HWND labelWindow;
 

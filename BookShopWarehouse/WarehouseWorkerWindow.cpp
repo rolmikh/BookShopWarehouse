@@ -56,7 +56,6 @@ void WarehouseWorkerWindow::CreateElementsView() {
 	
 
 	hBtnShowAllDelivery = CreateBaseButton(hWnd, L"Показать все поставки", hInstance, padding, screenHeight / 2 - 200, screenWidth / 3 - 30, 50, reinterpret_cast<HMENU>(IDC_BTN_SHOW_ALL_DELIVERY));
-	hBtnShowRejectedDelivery = CreateBaseButton(hWnd, L"Показать непринятые поставки", hInstance, screenWidth / 3 + 20, screenHeight / 2 - 200, screenWidth / 3 - 30, 50, reinterpret_cast<HMENU>(IDC_BTN_SHOW_REJECTED_DELIVERY));
 
 	hLabelNumberDelivery = CreateBaseLabelMin(hWnd, hInstance, padding, screenHeight / 2 - 140, L"Номер поставки");
 	hComboBoxNumberDelivery = CreateBaseComboBox(hWnd, hInstance, screenWidth / 3 + 20, screenHeight / 2 - 140, screenWidth / 3 - 30, 50, reinterpret_cast<HMENU>(IDC_COMBO_BOX_DELIVERY));

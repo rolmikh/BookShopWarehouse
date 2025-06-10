@@ -961,19 +961,18 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
 						break;
 					}
-
-					std::wstring query = L"select Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms from Contract_ where ID_Contract = '" + idContractStr;
-					query += L"'";
-					std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
-
-					if (startDateContract != result[0][1]) startDateContract = result[0][1];
-
-					if(endDateContract != result[0][2]) endDateContract = result[0][2];
 					else {
-						
+
+
+						std::wstring query = L"select Contract_Number, Start_Date_Contract, End_Date_Contract, Contract_Terms from Contract_ where ID_Contract = '" + idContractStr;
+						query += L"'";
+						std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
+
+
 						if (window->IsSpaceOrEmpty(contractNumber)) contractNumber = result[0][0];
 						if(window->IsSpaceOrEmpty(contractTerms)) contractTerms = result[0][3];
-
+						startDateContract = result[0][1];
+						endDateContract = result[0][2];
 						values = { contractNumber, startDateContract, endDateContract, contractTerms, std::to_wstring(selectedStatusContractId) };
 						adminWindow->UpdateRecord(L"Contract_", columnNames, values, id);
 
@@ -1044,13 +1043,13 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						break;
 					}
 
-					std::wstring query = L"select Delivery_Number, Delivery_Date from Delivery where ID_Delivery = '" + idDeliveryStr;
-					query += L"'";
-					std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
-
-					if (deliveryDate != result[0][1]) deliveryDate = result[0][1];
-
 					else {
+
+
+						std::wstring query = L"select Delivery_Number, Delivery_Date from Delivery where ID_Delivery = '" + idDeliveryStr;
+						query += L"'";
+						std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
+
 
 						int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
 						if (indexWarehouse == CB_ERR) break;
@@ -1067,7 +1066,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 						
 						if (window->IsSpaceOrEmpty(deliveryNumber)) deliveryNumber = result[0][0];
-
+						deliveryDate = result[0][1];
 						std::vector<std::wstring> columnNames = { L"Delivery_Number", L"Delivery_Date", L"Warehouse_ID", L"DeliveryNote_ID", L"Status_ID" };
 
 						std::vector<std::wstring> values = { deliveryNumber, deliveryDate, std::to_wstring(selectedWarehouseId), std::to_wstring(selectedDeliveryNoteId), std::to_wstring(selectedStatusId) };
@@ -1092,15 +1091,13 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
 						break;
 					}
-
-					std::wstring query = L"select DeliveryNote_Number, Date_Of_Formation from DeliveryNote where ID_DeliveryNote = '" + idDeliveryNoteStr;
-					query += L"'";
-					std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
-
-					if (dateOfFormation != result[0][1]) dateOfFormation = result[0][1];
-
 					else {
 						int id = _wtoi(idDeliveryNoteStr.c_str());
+
+
+						std::wstring query = L"select DeliveryNote_Number, Date_Of_Formation from DeliveryNote where ID_DeliveryNote = '" + idDeliveryNoteStr;
+						query += L"'";
+						std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
 
 						int index = SendMessage(adminWindow->hComboBoxContract, CB_GETCURSEL, 0, 0);
 						if (index == CB_ERR) break;
@@ -1108,7 +1105,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						int selectedContractId = adminWindow->comboBoxIdMapContractDeliveryNote[index];
 
 						if (window->IsSpaceOrEmpty(deliveryNoteNumber)) deliveryNoteNumber = result[0][0];
-
+						dateOfFormation = result[0][1];
 
 						std::vector<std::wstring> columnNames = { L"DeliveryNote_Number", L"Date_Of_Formation", L"Contract_ID" };
 
@@ -1214,16 +1211,12 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
 						break;
 					}
-
-					std::wstring query = L"select Name_Product, Purchase_Price, Selling_Price, Article, Quantity_Of_Product, Date_Of_Receipt from Product where ID_Product = '" + idProductStr;
-					query += L"'";
-					std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
-
-
-					if (dateOfReceipt != result[0][5]) dateOfReceipt = result[0][5];
-
 					else {
 						int id = _wtoi(idProductStr.c_str());
+
+						std::wstring query = L"select Name_Product, Purchase_Price, Selling_Price, Article, Quantity_Of_Product, Date_Of_Receipt from Product where ID_Product = '" + idProductStr;
+						query += L"'";
+						std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
 
 						int indexCounterparty = SendMessage(adminWindow->hComboBoxCounterpartyProduct, CB_GETCURSEL, 0, 0);
 						if (indexCounterparty == CB_ERR) break;
@@ -1241,7 +1234,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						if (window->IsSpaceOrEmpty(sellingPrice)) sellingPrice = result[0][2];
 						if (window->IsSpaceOrEmpty(article)) article = result[0][3];
 						if (window->IsSpaceOrEmpty(quantityOfProduct)) quantityOfProduct = result[0][4];
-
+						dateOfReceipt = result[0][5];
 
 
 						std::vector<std::wstring> columnNames = { L"Name_Product", L"Purchase_Price", L"Selling_Price", L"Article", L"Quantity_Of_Product", L"Date_Of_Receipt", L"Counterparty_ID", L"TypeOfProduct_ID" };
@@ -1266,16 +1259,12 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						MessageBox(hwnd, L"Поле не должно быть пустым или состоять из пробелов!", L"Ошибка", MB_OK | MB_ICONERROR);
 						break;
 					}
-
-					std::wstring query = L"select Request_Number, Date_Of_Creation, Commentary from ProductOrderRequest where ID_ProductOrderRequest = '" + idProductOrderRequestStr;
-					query += L"'";
-					std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
-
-
-					if (dateOfCreation != result[0][1]) dateOfCreation = result[0][1];
-
 					else {
 						int id = _wtoi(idProductOrderRequestStr.c_str());
+						std::wstring query = L"select Request_Number, Date_Of_Creation, Commentary from ProductOrderRequest where ID_ProductOrderRequest = '" + idProductOrderRequestStr;
+						query += L"'";
+						std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
+
 
 						int indexEmployee = SendMessage(adminWindow->hComboBoxEmployee, CB_GETCURSEL, 0, 0);
 						if (indexEmployee == CB_ERR) break;
@@ -1288,7 +1277,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 						if (window->IsSpaceOrEmpty(requestNumber)) requestNumber = result[0][0];
 						if (window->IsSpaceOrEmpty(editCommentary)) editCommentary = result[0][2];
-
+						dateOfCreation = result[0][1];
 
 						std::vector<std::wstring> columnNames = { L"Request_Number", L"Date_Of_Creation", L"Employee_ID", L"Commentary", L"Counterparty_ID" };
 

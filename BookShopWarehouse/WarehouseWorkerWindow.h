@@ -21,6 +21,8 @@ public:
 	static const int IDC_BTN_SHOW_REJECTED_DELIVERY = 1052;
 	static const int IDC_BTN_SHOW_DELIVERY_POSITION = 1053;
 	static const int IDC_BTN_CONFIRM_DELIVERY = 1054;
+	static const int IDC_EXIT_WORKER = 1018;
+
 
 	WindowTypes GetType() const override;
 
@@ -47,6 +49,8 @@ public:
 
 	HWND hComboBoxWarehouse;
 
+	HWND hBtnExit;
+
 	std::vector<int> comboBoxIdMap;
 
 
@@ -69,6 +73,8 @@ public:
 	void ConfirmDelivery(std::wstring id);
 
 	void DrawRejectedDelivery();
+	DatabaseManager& dbManager;
+
 
 
 protected:
@@ -76,7 +82,6 @@ protected:
 	HWND hWndListViewDelivery;
 	HWND hWndListViewWarehouse;
 
-	DatabaseManager& dbManager;
 	HINSTANCE hInstance;
 
 	bool ExecuteSQL(LPCWSTR sql);

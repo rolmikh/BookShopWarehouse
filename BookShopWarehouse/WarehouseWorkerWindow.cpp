@@ -52,6 +52,7 @@ WindowTypes WarehouseWorkerWindow::GetType() const { return WindowTypes::WAREHOU
 void WarehouseWorkerWindow::CreateElementsView() {
 
 	labelWindow = CreateBaseTitleLabel(hWnd, hInstance, L"Окно сотрудника склада");
+	hBtnExit = CreateBaseButton(hWnd, L"Выход", hInstance, screenWidth - 200, 5, 100, 50, reinterpret_cast<HMENU>(IDC_EXIT_WORKER));
 
 	
 

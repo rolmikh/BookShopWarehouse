@@ -17,7 +17,7 @@ const std::vector<QueryDescriptor> Queries = {
 		L"Contract_"
 	},
 	{
-		{L"Код контрагента", L"Название контрагента", L"Телефон", L"Электронная почта", L"Контакты", L"Условия сотрудничества", L"Страна", L"Город", L"Название типа контрагента", },
+		{L"Код контрагента", L"Название контрагента", L"Телефон", L"Электронная почта", L"Контактное лицо", L"Условия сотрудничества", L"Страна", L"Город", L"Название типа контрагента", },
 		L"select ID_Counterparty, Name_Counterparty, Phone_Counterparty, Email_Counterparty, Contact_Person, Terms_Of_Cooperation, Country, City, Name_Type_Of_Counterparty from Counterparty inner join TypeOfCounterparty on TypeOfCounterparty_ID = TypeOfCounterparty.ID_Type_Of_Counterparty",
 		L"Counterparty"
 	},

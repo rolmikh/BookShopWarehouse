@@ -79,8 +79,7 @@ public:
 	static const int IDC_ADD = 1014;
 	static const int IDC_EDIT = 1015;
 	static const int IDC_DELETE = 1016;
-	static const int IDC_FILTER = 1017;
-	static const int IDC_SEARCH = 1018;
+	static const int IDC_EXIT_ADMIN = 1017;
 
 	AdminWindow(DatabaseManager& dbManager);
 	~AdminWindow();
@@ -335,6 +334,8 @@ public:
 	HWND hLabelIdDeliveryPosition;
 	HWND hLabelRequisitionPosition;
 	HWND hLabelDeliveryDLPosition;
+
+	HWND hBtnExit;
 
 	DatabaseManager& dbManager;
 

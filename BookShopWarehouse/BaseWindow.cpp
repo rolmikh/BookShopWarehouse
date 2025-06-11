@@ -479,6 +479,12 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			else if (controlId == AdminWindow::IDC_TAB_WAREHOUSE) {
 				adminWindow->UpdateCurrentTabPage(13);
 			}
+			else if (controlId == AdminWindow::IDC_EXIT_ADMIN) {
+				Authorization* authorization = new Authorization(adminWindow->dbManager);
+				adminWindow->DestroyElementsView();
+				window = authorization;
+				authorization->CreateAuthorizationWindow(hwnd, L"Окно авторизации", GetModuleHandle(NULL));
+			}
 
 
 			else if (controlId == AdminWindow::IDC_ADD) {
@@ -1652,8 +1658,16 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 				warehouseWorker->ConfirmDelivery(warehouseWorker->currentDeliveryNumberFilter);
 			}
+
+			else if (controlId == WarehouseWorkerWindow::IDC_EXIT_WORKER) {
+				Authorization* authorization = new Authorization(warehouseWorker->dbManager);
+				warehouseWorker->DestroyElementsView();
+				window = authorization;
+				authorization->CreateAuthorizationWindow(hwnd, L"Окно авторизации", GetModuleHandle(NULL));
+			}
 		}
-												 break;
+			
+			break;
 
 		}
 

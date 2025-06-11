@@ -244,6 +244,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 	DestroyElementsView();
 
 	labelWindow = CreateBaseTitleLabel(hWnd, hInstance, L"Окно администратора");
+	hBtnExit = CreateBaseButton(hWnd, L"Выход", hInstance, screenWidth - 200, 5, 100, 50, reinterpret_cast<HMENU>(IDC_EXIT_ADMIN));
 
 	RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 	

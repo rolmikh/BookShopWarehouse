@@ -10,12 +10,21 @@ class ProductOrderRequest
 private:
 	int idProductOrderRequest;
 	wstring requestNumber;
-	chrono::system_clock::time_point dateOfCreation;
+	wstring dateOfCreation;
 	int employeeId;
 	wstring commentary;
 	int counterpartyId;
 
 public:
-	ProductOrderRequest(int idProductOrderRequest, wstring requestNumber, chrono::system_clock::time_point dateOfCreation, int employeeId, wstring commentary, int counterpartyId);
+	ProductOrderRequest(int idProductOrderRequest, wstring requestNumber, wstring dateOfCreation, int employeeId, wstring commentary, int counterpartyId);
+
+
+	int getIdProductOrderRequest() const;
+	wstring getRequestNumber() const;
+	wstring getDateOfCreation() const;
+	int getEmployeeId() const;
+	wstring getCommentary() const;
+	int getCounterpartyId() const;
+
 };
 

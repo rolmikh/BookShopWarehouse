@@ -12,5 +12,9 @@ private:
 public:
 	Post(int idPost, wstring namePost);
 
+
+	int getIdPost() const;
+	wstring getNamePost() const;
+
 };
 

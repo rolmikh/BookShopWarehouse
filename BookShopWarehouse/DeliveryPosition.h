@@ -11,5 +11,10 @@ private:
 
 public:
 	DeliveryPosition(int idDeliveryPosition, int requisitionPositionId, int deliveryId);
+
+	int getIdDeliveryPosition() const;
+	int getRequisitionPositionId() const;
+	int getDeliveryId() const;
+
 };
 

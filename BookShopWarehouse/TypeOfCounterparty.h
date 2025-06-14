@@ -11,5 +11,9 @@ private:
 
 public:
 	TypeOfCounterparty(int idTypeOfCounterparty, wstring nameTypeOfCounterparty);
+
+	int getIdTypeOfCounterparty() const;
+	wstring getNameTypeOfCounterparty() const;
+
 };
 

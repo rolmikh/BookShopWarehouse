@@ -9,10 +9,17 @@ class DeliveryNote
 private:
 	int idDeliveryNote;
 	wstring deliveryNoteNumber;
-	chrono::system_clock::time_point dateOfFormation;
+	wstring dateOfFormation;
 	int contractId;
 
 public:
-	DeliveryNote(int idDeliveryNote, wstring deliveryNoteNumber, chrono::system_clock::time_point dateOfFormation, int contractId);
+	DeliveryNote(int idDeliveryNote, wstring deliveryNoteNumber, wstring dateOfFormation, int contractId);
+
+
+	int getIdDeliveryNote() const;
+	wstring getDeliveryNoteNumber() const;
+	wstring getDateOfFormation() const;
+	int getContractId() const;
+
 };
 

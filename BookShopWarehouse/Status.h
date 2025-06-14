@@ -11,7 +11,8 @@ private:
 
 public:
 	Status(int idStatus, wstring nameStatus);
-	
+	int getIdStatus() const;
+	wstring getNameStatus() const;
 
 };
 

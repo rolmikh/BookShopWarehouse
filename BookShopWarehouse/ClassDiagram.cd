@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Contract">
+    <Position X="7" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACABAACAAAAAAAAAAAAAAAAAAAAQAIAAgIAAA=</HashCode>
+      <FileName>Contract.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Counterparty">
+    <Position X="4.75" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAAABAAAAAEAEgAAAEACAAAAAAAAAACAEAAAAAQAAA=</HashCode>
+      <FileName>Counterparty.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Delivery">
+    <Position X="11.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAQCBAAAAAAEAEAAAAAAAAg=</HashCode>
+      <FileName>Delivery.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseWindow">
+    <Position X="21" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AoBhCAJAAEFACAAAAAAAJARAIAACCAFAkAIAQAhQgAI=</HashCode>
+      <FileName>BaseWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdminWindow">
+    <Position X="25.75" Y="0.5" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>+fr6ztqaWf+lz8xN+YtnHat9/yB5dztrsO9hxeX2lxg=</HashCode>
+      <FileName>AdminWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Authorization">
+    <Position X="12.75" Y="9.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AABAGAohAAAAAQAAIBAAECRAIABCAAFAgEIAAQAAgAA=</HashCode>
+      <FileName>Authorization.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseTable">
+    <Position X="2.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAABAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>BaseTable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Registration">
+    <Position X="16.5" Y="9.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AIhgGUoAQgAAQQACAgIgAAAAICAAgAFIAAIAAAiEwgA=</HashCode>
+      <FileName>Registration.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarehouseWorkerWindow">
+    <Position X="22" Y="8.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>IFBACAoQCAEQAQEBAAAABwADIAglAANEAAICAQACwgA=</HashCode>
+      <FileName>WarehouseWorkerWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HashAndSalt">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>HashAndSalt.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SHA256">
+    <Position X="7" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sha256.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DatabaseConnection">
+    <Position X="11.75" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAACgAAAAAAAAAAAACAACCAAAAAAAAggAA=</HashCode>
+      <FileName>DatabaseConnection.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DatabaseManager">
+    <Position X="2.25" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAIAAAAAAAAAAAEAAACCAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DatabaseManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Warehouse">
+    <Position X="9.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAACABAAAAAAABCAAAAAAACAA=</HashCode>
+      <FileName>Warehouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TypeOfProduct">
+    <Position X="4.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>TypeOfProduct.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TypeOfCounterparty">
+    <Position X="4.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAgAAEAAAA=</HashCode>
+      <FileName>TypeOfCounterparty.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Status">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Status.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RequisitionPosition">
+    <Position X="2.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAABAAAAAAAAAAAAAAAABAAAAAAAAAADAAACACAAA=</HashCode>
+      <FileName>RequisitionPosition.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProductOrderRequest">
+    <Position X="7" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAAAAQAAAAAAAAAAAACAAAAQAAAABAAAABIAAAAAAAA=</HashCode>
+      <FileName>ProductOrderRequest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Product">
+    <Position X="9.25" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAUCAAAIAAAAEEAAAATAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Product.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Post">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAgAAAAIAAAAAA=</HashCode>
+      <FileName>Post.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Employee">
+    <Position X="14" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAQAAAAAAgAAAFAAAgCAAEAAAAAAAAAgAAEAA=</HashCode>
+      <FileName>Employee.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeliveryPosition">
+    <Position X="14" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAgAAAAAAAAAAAAAAAAAAAIAEAAAAAAA=</HashCode>
+      <FileName>DeliveryPosition.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeliveryNote">
+    <Position X="11.75" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAACQAAAAAAAAAQAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>DeliveryNote.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="QueryDescriptor">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAEAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>QueryDescriptor.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="WindowTypes">
+    <Position X="9.25" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>WindowTypes.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

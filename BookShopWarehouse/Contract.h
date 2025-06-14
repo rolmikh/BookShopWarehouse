@@ -9,13 +9,20 @@ class Contract
 private:
 	int idContract;
 	wstring contractNumber;
-	chrono::system_clock::time_point startDateContract;
-	chrono::system_clock::time_point endDateContract;
+	wstring startDateContract;
+	wstring endDateContract;
 	wstring contractTerms;
 	int statusId;
 
 public:
-	Contract(int idContract, wstring contractNumber, chrono::system_clock::time_point startDateContract, chrono::system_clock::time_point endDateContract, wstring contractTerms, int statusId);
+	Contract(int idContract, wstring contractNumber, wstring startDateContract, wstring endDateContract, wstring contractTerms, int statusId);
+
+	int getIdContract() const;
+	wstring getContractNumber() const;
+	wstring getStartDataContract() const;
+	wstring getEndDateContract() const;
+	wstring getContractTerms() const;
+	int getStatusId() const;
 
 };
 

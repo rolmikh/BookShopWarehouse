@@ -1030,7 +1030,7 @@ void AdminWindow::CreateTabButton() {
 
 	hBtnTabPost = CreateBaseButton(hWnd, L"Должность", hInstance, buttonWidth * 0, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_POST));
 	hBtnTabTypeOfCounterparty = CreateBaseButton(hWnd, L"Тип контрагента", hInstance, buttonWidth * 1, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_TYPE_OF_COUNTERPARTY));
-	hBtnTabViewContract = CreateBaseButton(hWnd, L"Контракт", hInstance, buttonWidth * 2, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
+	hBtnTabViewContract = CreateBaseButton(hWnd, L"Договор", hInstance, buttonWidth * 2, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_CONTRACT));
 	hBtnTabViewCounterparty = CreateBaseButton(hWnd, L"Контрагент", hInstance, buttonWidth * 3, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_COUNTERPARTY));
 	hBtnTabViewDelivery = CreateBaseButton(hWnd, L"Поставка", hInstance, buttonWidth * 4, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY));
 	hBtnTabViewDeliveryNote = CreateBaseButton(hWnd, L"Накладная", hInstance, buttonWidth * 5, topOffset1 + 50, buttonWidth, 50, reinterpret_cast<HMENU>(IDC_TAB_DELIVERY_NOTE));

@@ -73,7 +73,7 @@ void Registration::CreateElementsView() {
 	FillComboBox(hComboBoxPostRegistration, L"select ID_Post, Name_Post from Post", dbManager, comboBoxIdMapPostReg);
 
 	hBtnRegistrationP = CreateBaseButton(hWnd, L"Регистрация", hInstance, screenWidth / 4, screenHeight / 2 + 260, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_REGISTRATION));
-	hBtnAuthorizationP = CreateBaseButton(hWnd, L"Авторизация", hInstance, screenWidth / 4, screenHeight / 2 + 330, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_REGISTRATION));
+	hBtnAuthorizationP = CreateBaseButton(hWnd, L"Авторизация", hInstance, screenWidth / 4, screenHeight / 2 + 330, screenWidth / 2, 60, reinterpret_cast<HMENU>(IDC_AUTHORIZATION));
 
 
 }

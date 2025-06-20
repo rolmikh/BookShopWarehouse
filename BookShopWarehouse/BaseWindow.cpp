@@ -417,7 +417,6 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 				if (window->IsSpaceOrEmpty(surname) ||
 					window->IsSpaceOrEmpty(name) ||
-					window->IsSpaceOrEmpty(patronymic) ||
 					window->IsSpaceOrEmpty(email) ||
 					window->IsSpaceOrEmpty(login) ||
 					window->IsSpaceOrEmpty(password))
@@ -1104,19 +1103,19 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 				}
 				case 4: {
-					std::wstring deliveryNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditNameCounterparty);
-					std::wstring deliveryDate = adminWindow->GetDateFromDatePicker(adminWindow->hDPStartDateContract);
+					std::wstring deliveryNumber = adminWindow->GetWindowTextAsWstring(adminWindow->hEditDeliveryNumber);
+					std::wstring deliveryDate = adminWindow->GetDateFromDatePicker(adminWindow->hDPDeliveryDate);
 
 					std::wstring idDeliveryStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdDelivery);
 					int id = _wtoi(idDeliveryStr.c_str());
 
-					int indexWarehouse = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					int indexWarehouse = SendMessage(adminWindow->hComboBoxWarehouse, CB_GETCURSEL, 0, 0);
 					if (indexWarehouse == CB_ERR) break;
 
-					int indexDeliveryNote = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					int indexDeliveryNote = SendMessage(adminWindow->hComboBoxDeliveryNote, CB_GETCURSEL, 0, 0);
 					if (indexDeliveryNote == CB_ERR) break;
 
-					int indexStatus = SendMessage(adminWindow->hComboBoxTypeOfCounterparty, CB_GETCURSEL, 0, 0);
+					int indexStatus = SendMessage(adminWindow->hComboBoxStatusDelivery, CB_GETCURSEL, 0, 0);
 					if (indexStatus == CB_ERR) break;
 
 					int selectedWarehouseId = adminWindow->comboBoxIdMapDeliveryWarehouse[indexWarehouse];
@@ -1236,6 +1235,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					std::wstring email = adminWindow->GetWindowTextAsWstring(adminWindow->hEditEmail);
 					std::wstring login = adminWindow->GetWindowTextAsWstring(adminWindow->hEditLogin);
 					std::wstring password = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPassword);
+					std::wstring salt = adminWindow->GetWindowTextAsWstring(adminWindow->hEditPassword);
 
 					std::wstring idEmployeeStr = adminWindow->GetWindowTextAsWstring(adminWindow->hEditIdEmployee);
 
@@ -1254,7 +1254,7 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					}
 					else {
 						
-						std::wstring query = L"select Surname, Name, Patronymic, Email, Login_Employee, Password_Employee from Employee where ID_Employee = '" + idEmployeeStr;
+						std::wstring query = L"select Surname, Name, Patronymic, Email, Login_Employee, Password_Employee, Salt from Employee where ID_Employee = '" + idEmployeeStr;
 						query += L"'";
 						std::vector<std::vector<std::wstring>> result = adminWindow->dbManager.ExecuteQuery(query);
 
@@ -1265,12 +1265,19 @@ LRESULT CALLBACK BaseWindowWnd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 						if (window->IsSpaceOrEmpty(email)) email = result[0][3];
 						if (window->IsSpaceOrEmpty(login)) login = result[0][4];
 						if (window->IsSpaceOrEmpty(password)) password = result[0][5];
+						else {
+							HashAndSalt hasher;
 
+							std::string salt = hasher.CreateSalt(16);
+							std::string hash = hasher.GenerateHash(window->WstrToStr(password), salt);
+							password = window->StrToWstr(hash);
+							
+						}
+						if (window->IsSpaceOrEmpty(salt)) salt = result[0][6];
+						
+						std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID", L"Salt"};
 
-
-						std::vector<std::wstring> columnNames = { L"Surname", L"Name", L"Patronymic", L"Email", L"Login_Employee", L"Password_Employee", L"Post_ID" };
-
-						std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId) };
+						std::vector<std::wstring> values = { surname, name, patronymic, email, login, password, std::to_wstring(selectedPostId), salt };
 
 						adminWindow->UpdateRecord(L"Employee", columnNames, values, id);
 					}

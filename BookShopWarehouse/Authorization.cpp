@@ -65,6 +65,10 @@ void Authorization::ToAuthorization(wstring login, wstring password) {
 			}
 		
 		}
+		else {
+			MessageBox(hWnd, L"Ошибка авторизации", L"Ошибка", MB_OK | MB_ICONERROR);
+
+		}
 	}
 
 }

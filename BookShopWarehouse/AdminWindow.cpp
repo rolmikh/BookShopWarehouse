@@ -443,7 +443,7 @@ void AdminWindow::UpdateCurrentTabPage(int selected) {
 		hLabelDeliveryDLPosition = CreateBaseLabel(hWnd, hInstance, padding, screenHeight / 2 + 120, L"Код поставки");
 
 
-		FillComboBox(hComboBoxRequisitionPosition, L"select ID_RequisitionPosition, Position_Number from RequisitionPosition", dbManager, comboBoxIdMapRequisitionPosition);
+		FillComboBox(hComboBoxRequisitionPosition, L"select ID_RequisitionPosition, concat(Position_Number, ' ', Name_Product) from RequisitionPosition inner join Product on Product_ID = Product.ID_Product", dbManager, comboBoxIdMapRequisitionPosition);
 		FillComboBox(hComboBoxDeliveryDLPosition, L"select ID_Delivery, Delivery_Number from Delivery", dbManager, comboBoxIdMapDeliveryPosition);
 
 
@@ -759,8 +759,10 @@ void AdminWindow::UpdateRecord(cwstring tableName, const vector<wstring>& column
 		return;
 	}
 
-	cwstring formatTableName = tableName.substr(0, tableName.length() - 1);
-
+	wstring formatTableName = tableName;
+	if (!formatTableName.empty() && formatTableName.back() == L'_') {
+		formatTableName.pop_back();
+	}
 
 	wstring sql = L"update " + tableName + L" set ";
 	for (size_t i = 0; i < columnNames.size(); ++i) {
@@ -787,8 +789,11 @@ void AdminWindow::DeleteRecord(cwstring tableName, int id) {
 		MessageBox(hWnd, L"Запись не выбрана!", L"Ошибка", MB_OK | MB_ICONERROR);
 		return;
 	}
-	cwstring formatTableName = tableName.substr(0, tableName.length() - 1);
-	
+
+	wstring formatTableName = tableName;
+	if (!formatTableName.empty() && formatTableName.back() == L'_') {
+		formatTableName.pop_back();
+	}
 	wstring sql = L"delete from " + tableName + L" Where ID_" + formatTableName + L" = " + to_wstring(id);
 	if (ExecuteSQL(sql.c_str())) {
 		MessageBox(hWnd, L"Запись успешно удалена", L"Успех", MB_OK);
